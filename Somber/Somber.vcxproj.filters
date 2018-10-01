@@ -13,9 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\EngineX">
+      <UniqueIdentifier>{3855ff2c-d168-41f2-9c92-38ec5d00fa44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineX">
+      <UniqueIdentifier>{281a8f21-7c18-4e05-a449-72defd73e5a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\Engine.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\Scene.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
+    <ClInclude Include="test1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,43 +38,14 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HelloSFML.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="openal32.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-audio-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-audio-d-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-graphics-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-graphics-d-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-network-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-network-d-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-system-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-system-d-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-window-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sfml-window-d-2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClCompile Include="EngineX\Engine.cpp">
+      <Filter>Source Files\EngineX</Filter>
+    </ClCompile>
+    <ClCompile Include="test1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
