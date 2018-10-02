@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "test1.h"
 
 using namespace sf;

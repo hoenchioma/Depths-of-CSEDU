@@ -1,6 +1,6 @@
-#include "pch.h"
 #include "Engine.h"
 #include "Scene.h"
+#include <iostream>
 
 Engine::Engine(sf::RenderWindow * app)
 {

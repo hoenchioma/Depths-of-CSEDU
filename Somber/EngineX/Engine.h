@@ -1,6 +1,9 @@
 #pragma once
 
-#include "../pch.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <stack>
+#include <queue>
 
 class Scene;
 

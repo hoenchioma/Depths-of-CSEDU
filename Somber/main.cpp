@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "EngineX/Engine.h"
 #include "test1.h"
 
@@ -6,7 +5,7 @@ using namespace sf;
 
 int main()
 {
-	RenderWindow app(VideoMode(800, 700), "Depths of CSEDU");
+	RenderWindow app(VideoMode(1000, 700), "Depths of CSEDU");
 	Event event;
 	Clock clock;
 	double dt;
