@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="boss1.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\Engine.h" />
     <ClInclude Include="EngineX\Scene.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="mainChar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="boss1.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />
     <ClCompile Include="main.cpp" />

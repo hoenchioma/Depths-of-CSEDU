@@ -42,6 +42,9 @@
     <ClInclude Include="floor1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="boss1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="floor1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boss1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
