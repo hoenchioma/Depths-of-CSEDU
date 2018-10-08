@@ -12,7 +12,6 @@ double centreDis(float X1, float Y1, float X2, float Y2)
 	return distance;
 }
 
-
 void boss1::Init(Engine* game)
 {
 	fuse[1].X = rand() % 1880 + 40;
@@ -29,11 +28,12 @@ void boss1::Init(Engine* game)
 	spotlight1.setRadius(radiusSpotlight);
 	spotlight2.setRadius(radiusSpotlight);
 	spotlight3.setRadius(radiusSpotlight);
-	fuse1.setPosition(Vector2f(fuseWidth, fuseHeight));
-	fuse2.setPosition(Vector2f(fuseHeight,fuseWidth));
-	fuse3.setPosition(Vector2f(fuseWidth, fuseHeight));
-	fuse4.setPosition(Vector2f(fuseHeight,fuseWidth));
-	fuse5.setPosition(Vector2f(fuseWidth, fuseHeight));
+	sprite.setRadius(spriteSize);
+	fuse1.setSize(Vector2f(fuseWidth, fuseHeight));
+	fuse2.setSize(Vector2f(fuseHeight,fuseWidth));
+	fuse3.setSize(Vector2f(fuseWidth, fuseHeight));
+	fuse4.setSize(Vector2f(fuseHeight,fuseWidth));
+	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));
 
 	// Initialize variables here
 }
