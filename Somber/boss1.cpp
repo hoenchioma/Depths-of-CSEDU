@@ -95,23 +95,25 @@ void boss1::HandleEvents(Engine * game, Event * event)
 
 void boss1::Update(Engine * game, double dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && spriteX >= speed) spriteX -= speed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && spriteX <= windowWidth - spriteSize * 2 - speed)	spriteX += speed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && spriteY <= windowHeight - spriteSize * 2 - speed) spriteY += speed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && spriteY >= speed) spriteY -= speed;
-	if (spotlight1X > windowWidth)		spotlight1DirX = LEFT;
-	else if (spotlight1X < (-1)*(diameterSpotlight + 50))			spotlight1DirX = RIGHT;
-	if (spotlight1Y > windowHeight)	spotlight1DirY = UP;
-	else if (spotlight1Y < (-1)*(diameterSpotlight + 50))			spotlight1DirY = DOWN;
-	if (spotlight2X > windowWidth)	spotlight2DirX = LEFT;
-	else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT;
-	if (spotlight2Y > windowHeight)	spotlight2DirY = UP;
-	else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN;
-	if (spotlight3X > windowWidth)	spotlight3DirX = LEFT;
-	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
-	if (spotlight3Y > windowHeight)	spotlight3DirY = UP;
-	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
-	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange))	spriteHealth -= lightDamage;
+	dt = clock.restart().asSeconds();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && spriteX >= speed) spriteX -= speed*dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && spriteX <= windowWidth - spriteSize * 2 - speed)	spriteX += speed * dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && spriteY <= windowHeight - spriteSize * 2 - speed) spriteY += speed * dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && spriteY >= speed) spriteY -= speed * dt*dtMul;
+	if (spotlight1X > windowWidth)								spotlight1DirX = LEFT * dt*dtMul;
+	else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT * dt*dtMul;
+	if (spotlight1Y > windowHeight)								spotlight1DirY = UP * dt*dtMul;
+	else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN * dt*dtMul;
+	if (spotlight2X > windowWidth)								spotlight2DirX = LEFT * dt*dtMul;
+	else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT * dt*dtMul;
+	if (spotlight2Y > windowHeight)								spotlight2DirY = UP * dt*dtMul;
+	else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN * dt*dtMul;
+	if (spotlight3X > windowWidth)								spotlight3DirX = LEFT * dt*dtMul;
+	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT * dt*dtMul;
+	if (spotlight3Y > windowHeight)								spotlight3DirY = UP * dt*dtMul;
+	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN * dt*dtMul;
+	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange))	
+		spriteHealth -= lightDamage * dt*dtMul;
 	if (spriteHealth < 0) gameOver = 1;							//GAME OVER FLAG
 	healthBarSprite.setSize(sf::Vector2f(spriteHealth, 20));
 	spotlight1X += speedSpotlight * spotlight1DirX;
@@ -144,7 +146,7 @@ void boss1::Draw(RenderWindow * app)
 		{
 			if (fuse[1].Health > 0)
 			{
-				fuse[1].Health -= damageFuse;
+				fuse[1].Health -= damageFuse ;
 			}
 		}
 	}
@@ -155,7 +157,7 @@ void boss1::Draw(RenderWindow * app)
 		{
 			if (fuse[2].Health > 0)
 			{
-				fuse[2].Health -= damageFuse;
+				fuse[2].Health -= damageFuse ;
 			}
 		}
 	}
@@ -166,7 +168,7 @@ void boss1::Draw(RenderWindow * app)
 		{
 			if (fuse[3].Health > 0)
 			{
-				fuse[3].Health -= damageFuse;
+				fuse[3].Health -= damageFuse ;
 			}
 		}
 	}
@@ -177,7 +179,7 @@ void boss1::Draw(RenderWindow * app)
 		{
 			if (fuse[4].Health > 0)
 			{
-				fuse[4].Health -= damageFuse;
+				fuse[4].Health -= damageFuse ;
 			}
 		}
 	}
@@ -188,7 +190,7 @@ void boss1::Draw(RenderWindow * app)
 		{
 			if (fuse[5].Health > 0)
 			{
-				fuse[5].Health -= damageFuse;
+				fuse[5].Health -= damageFuse ;
 			}
 		}
 	}

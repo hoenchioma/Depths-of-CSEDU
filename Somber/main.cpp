@@ -18,7 +18,7 @@ int main()
 
 	game.pushScene(boss1::getInstance());
 
-	app.setFramerateLimit(50);
+	//app.setFramerateLimit(10);
 
 	while (app.isOpen())
 	{

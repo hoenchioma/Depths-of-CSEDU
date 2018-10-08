@@ -59,7 +59,7 @@ private:
 	float spotlight2DirY = UP;
 	float spotlight3DirX = LEFT;
 	float spotlight3DirY = UP;
-	float speedSpotlight = 1;
+	float speedSpotlight = 2.5;
 	float spriteX = windowWidth / 2;
 	float fuseHealth = 100;
 	float spriteY = windowHeight / 2;
@@ -74,7 +74,10 @@ private:
 	float lightDamage = .5;
 	float healthBar = 10;
 	float barDis = 5;
+	float dt = 0.f;
+	float dtMul = 50;
 	fuseInfo fuse[10];
+	sf::Clock clock;
 	sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;
