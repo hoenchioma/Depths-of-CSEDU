@@ -32,12 +32,15 @@ private:
 	void operator= (boss1 const&) = delete;
 	bool pause = false;
 
-	// Declare variables here
-
-	int windowWidth;
-	int windowHeight;
+	struct fuseInfo {
+		float Health = 100;
+		float X;
+		float Y;
+	};
+	int windowWidth = 1280;
+	int windowHeight = 720;
 	int gameOver = 0;
-	float radiusSpotlight = 150;
+	float radiusSpotlight = 125;
 	float diameterSpotlight = 2 * radiusSpotlight;
 	float spriteSize = 20;
 	float spotlight1X = 0;
@@ -56,29 +59,22 @@ private:
 	float spotlight2DirY = UP;
 	float spotlight3DirX = LEFT;
 	float spotlight3DirY = UP;
-	float speedSpotlight = 7;
-	float spriteX = 1000;
+	float speedSpotlight = 1;
+	float spriteX = windowWidth / 2;
 	float fuseHealth = 100;
-	float spriteY = 500;
+	float spriteY = windowHeight / 2;
 	float speed = 5;
-	float damageFuse = .2;
+	float damageFuse = .5;
 	float fuseDis = 40;
-	float range = 15;
+	float range = 25;
 	float fuseWidth = 30;
 	float fuseHeight = 15;
 	float spotlightDamageRange = radiusSpotlight + spriteSize - 5;
 	float spriteHealth = 100;
-	float lightDamage = 1;
+	float lightDamage = .5;
 	float healthBar = 10;
 	float barDis = 5;
-
-	struct fuseInfo {
-		float Health = 100;
-		float X;
-		float Y;
-	};
 	fuseInfo fuse[10];
-
 	sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;
@@ -94,11 +90,6 @@ private:
 	sf::RectangleShape fuse4Bar;
 	sf::RectangleShape fuse5Bar;
 	sf::RectangleShape healthBarSprite;
-
-	double centreDis(float X1, float Y1, float X2, float Y2)
-	{
-		double  distance = sqrt(pow((X1 - X2), 2) + pow((Y1 - Y2), 2));
-		return distance;
-	}
+	// Declare variables here
 };
 
