@@ -1,5 +1,6 @@
 #include "EngineX/Engine.h"
 #include "floor1.h"
+#include "boss1.h"
 #include <ctime>
 
 using namespace sf;
@@ -8,16 +9,16 @@ int main()
 {
 	srand(time(0));
 	
-	RenderWindow app(VideoMode(1280, 720), "Depths of CSEDU", );
+	RenderWindow app(VideoMode(1920, 1080), "Depths of CSEDU" );
 	Event event;
 	Clock clock;
 	double dt;
 
 	Engine game(&app);
 
-	game.pushScene(floor1::getInstance());
+	game.pushScene(boss1::getInstance());
 
-	//app.setFramerateLimit(30);
+	app.setFramerateLimit(50);
 
 	while (app.isOpen())
 	{
