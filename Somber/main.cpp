@@ -1,20 +1,23 @@
 #include "EngineX/Engine.h"
-#include "test1.h"
+#include "floor1.h"
+#include <ctime>
 
 using namespace sf;
 
 int main()
 {
-	RenderWindow app(VideoMode(1000, 700), "Depths of CSEDU");
+	srand(time(0));
+	
+	RenderWindow app(VideoMode(1280, 720), "Depths of CSEDU", );
 	Event event;
 	Clock clock;
 	double dt;
 
 	Engine game(&app);
 
-	game.pushScene(test1::getInstance());
+	game.pushScene(floor1::getInstance());
 
-	//app.setFramerateLimit(120);
+	//app.setFramerateLimit(30);
 
 	while (app.isOpen())
 	{

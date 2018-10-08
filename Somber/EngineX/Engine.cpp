@@ -1,6 +1,6 @@
+#include <iostream>
 #include "Engine.h"
 #include "Scene.h"
-#include <iostream>
 
 Engine::Engine(sf::RenderWindow * app)
 {

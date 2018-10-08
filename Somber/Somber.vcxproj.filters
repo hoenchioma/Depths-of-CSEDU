@@ -14,15 +14,18 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\EngineX">
-      <UniqueIdentifier>{3855ff2c-d168-41f2-9c92-38ec5d00fa44}</UniqueIdentifier>
+      <UniqueIdentifier>{8e0ad878-b3d1-48c7-a077-450d8b8c903b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\EngineX">
-      <UniqueIdentifier>{281a8f21-7c18-4e05-a449-72defd73e5a7}</UniqueIdentifier>
+      <UniqueIdentifier>{6e593c4f-efca-40e2-b213-f1e459d21ac9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\AniSprite.h">
+      <Filter>Header Files\EngineX</Filter>
     </ClInclude>
     <ClInclude Include="EngineX\Engine.h">
       <Filter>Header Files\EngineX</Filter>
@@ -30,7 +33,13 @@
     <ClInclude Include="EngineX\Scene.h">
       <Filter>Header Files\EngineX</Filter>
     </ClInclude>
-    <ClInclude Include="test1.h">
+    <ClInclude Include="EngineX\Utility.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
+    <ClInclude Include="mainChar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="floor1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,10 +50,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EngineX\AniSprite.cpp">
+      <Filter>Source Files\EngineX</Filter>
+    </ClCompile>
     <ClCompile Include="EngineX\Engine.cpp">
       <Filter>Source Files\EngineX</Filter>
     </ClCompile>
-    <ClCompile Include="test1.cpp">
+    <ClCompile Include="mainChar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="floor1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

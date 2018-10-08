@@ -159,12 +159,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\Engine.h" />
     <ClInclude Include="EngineX\Scene.h" />
+    <ClInclude Include="EngineX\Utility.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="test1.h" />
+    <ClInclude Include="floor1.h" />
+    <ClInclude Include="mainChar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -173,7 +177,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="test1.cpp" />
+    <ClCompile Include="floor1.cpp" />
+    <ClCompile Include="mainChar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
