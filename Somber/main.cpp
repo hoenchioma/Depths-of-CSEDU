@@ -9,7 +9,7 @@ int main()
 {
 	srand(time(0));
 	
-	RenderWindow app(VideoMode(1920, 1080), "Depths of CSEDU" );
+	RenderWindow app(VideoMode(1280, 720), "Depths of CSEDU");
 	Event event;
 	Clock clock;
 	double dt;

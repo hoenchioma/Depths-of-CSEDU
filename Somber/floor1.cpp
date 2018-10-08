@@ -12,8 +12,8 @@ void floor1::Init(Engine* game)
 	{
 		cout << "can't load texture" << endl;
 	}
-	cool.Init(tex, 0.1, 300);
-	cool.setScale(1.25, 1.25);
+	MainChar.Init(tex, 0.1, 300);
+	MainChar.setScale(1.25, 1.25);
 }
 
 void floor1::Cleanup()
@@ -22,7 +22,7 @@ void floor1::Cleanup()
 
 void floor1::Pause()
 {
-	cool.running = false;
+	MainChar.running = false;
 	pause = true;
 }
 
@@ -46,7 +46,7 @@ void floor1::HandleEvents(Engine * game, Event * event)
 		{
 			if (event->key.code == i)
 			{
-				cool.moveOff();
+				MainChar.moveOff();
 			}
 		}
 	}
@@ -73,15 +73,15 @@ void floor1::Update(Engine * game, double dt)
 		{
 			if (Keyboard::isKeyPressed(i))
 			{
-				cool.moveOn(KeyMap.at(i));
+				MainChar.moveOn(KeyMap.at(i));
 			}
 		}
 	
-		cool.update(dt);
+		MainChar.update(dt);
 	}
 }
 
 void floor1::Draw(RenderWindow * app)
 {
-	cool.drawTo(app);
+	MainChar.drawTo(app);
 }

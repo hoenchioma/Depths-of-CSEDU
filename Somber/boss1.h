@@ -32,13 +32,10 @@ private:
 	void operator= (boss1 const&) = delete;
 	bool pause = false;
 
-	struct fuseInfo {
-		float Health = 100;
-		float X;
-		float Y;
-	};
-	int windowWidth = 1920;
-	int windowHeight = 1080;
+	// Declare variables here
+
+	int windowWidth;
+	int windowHeight;
 	int gameOver = 0;
 	float radiusSpotlight = 150;
 	float diameterSpotlight = 2 * radiusSpotlight;
@@ -74,7 +71,14 @@ private:
 	float lightDamage = 1;
 	float healthBar = 10;
 	float barDis = 5;
+
+	struct fuseInfo {
+		float Health = 100;
+		float X;
+		float Y;
+	};
 	fuseInfo fuse[10];
+
 	sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;
@@ -84,6 +88,17 @@ private:
 	sf::RectangleShape fuse3;
 	sf::RectangleShape fuse4;
 	sf::RectangleShape fuse5;
-	// Declare variables here
+	sf::RectangleShape fuse1Bar;
+	sf::RectangleShape fuse2Bar;
+	sf::RectangleShape fuse3Bar;
+	sf::RectangleShape fuse4Bar;
+	sf::RectangleShape fuse5Bar;
+	sf::RectangleShape healthBarSprite;
+
+	double centreDis(float X1, float Y1, float X2, float Y2)
+	{
+		double  distance = sqrt(pow((X1 - X2), 2) + pow((Y1 - Y2), 2));
+		return distance;
+	}
 };
 

@@ -33,6 +33,5 @@ private:
 	bool pause = false;
 
 	sf::Texture tex;
-	mainChar cool;
+	mainChar MainChar;
 };
-
