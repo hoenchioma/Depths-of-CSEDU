@@ -27,9 +27,11 @@ public:
 	void pause() { play = false; }
 	void resume() { play = true; }
 
+	sf::Vector2f getSize() const;  // returns the actual size (considering all transformations)
+
 	//overloads for normal sprite methods
-	sf::Vector2f getSize() const;
 	sf::FloatRect getGlobalBounds() const;
+	sf::IntRect getTextureRect() const;
 	sf::Vector2f getPosition() const { return _obj.getPosition(); }
 	void setScale(float x, float y) { _obj.setScale(x, y); }
 	void setScale(sf::Vector2f vec) { _obj.setScale(vec); }
