@@ -61,9 +61,9 @@ private:
 	float spotlight3DirX = LEFT;
 	float spotlight3DirY = UP;
 	float speedSpotlight = 2.5*dtMul;
-	float spriteX = windowWidth / 2;
+	//float spriteX = windowWidth / 2;
 	float fuseHealth = 100;
-	float spriteY = windowHeight / 2;
+	//float spriteY = windowHeight / 2;
 	float speed = 5;
 	float damageFuse;// = .5*dtMul;
 	float fuseDis = 40;

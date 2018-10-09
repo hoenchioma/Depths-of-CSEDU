@@ -114,10 +114,10 @@ void boss1::HandleEvents(Engine * game, Event * event)
 
 void boss1::Update(Engine * game, double dt)
 {
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && spriteX >= speed) spriteX -= speed*dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && spriteX <= windowWidth - spriteSize * 2 - speed)	spriteX += speed * dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && spriteY <= windowHeight - spriteSize * 2 - speed) spriteY += speed * dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && spriteY >= speed) spriteY -= speed * dt*dtMul;*/
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && position.x >= speed) position.x -= speed*dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && position.x <= windowWidth - spriteSize * 2 - speed)	position.x += speed * dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && position.y <= windowHeight - spriteSize * 2 - speed) position.y += speed * dt*dtMul;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y >= speed) position.y -= speed * dt*dtMul;*/
 
 	if (!pause)
 	{
@@ -132,8 +132,6 @@ void boss1::Update(Engine * game, double dt)
 
 		Sprite.update(dt);
 	}
-	spriteX = position.x;
-	spriteY = position.y;
 	position = Sprite.getPosition();
 
 	if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
@@ -148,7 +146,7 @@ void boss1::Update(Engine * game, double dt)
 	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
 	if (spotlight3Y > windowHeight)								spotlight3DirY = UP;
 	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
-	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange))
+	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
 		spriteHealth -= lightDamage * dt;
 	if (spriteHealth < 0) gameOver = 1;							//GAME OVER FLAG
 	healthBarSprite.setSize(sf::Vector2f(spriteHealth, 20));
@@ -161,7 +159,7 @@ void boss1::Update(Engine * game, double dt)
 	spotlight1.setPosition(spotlight1X, spotlight1Y);
 	spotlight2.setPosition(spotlight2X, spotlight2Y);
 	spotlight3.setPosition(spotlight3X, spotlight3Y);
-	//sprite.setPosition(spriteX, spriteY);
+	//sprite.setPosition(position.x, position.y);
 	fuse1Bar.setSize(sf::Vector2f(fuse[1].Health, healthBar));
 	fuse2Bar.setSize(sf::Vector2f(fuse[2].Health, healthBar));
 	fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
@@ -176,7 +174,7 @@ void boss1::Update(Engine * game, double dt)
 void boss1::Draw(RenderWindow * app)
 {
 
-	if (centreDis(spriteX + spriteSize, spriteY + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
+	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
 		app->draw(fuse1Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -187,7 +185,7 @@ void boss1::Draw(RenderWindow * app)
 			}
 		}
 	}
-	else if (centreDis(spriteX + spriteSize, spriteY + spriteSize, windowWidth - fuseDis + fuseHeight / 2, fuse[2].Y + fuseWidth / 2) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseHeight / 2, fuse[2].Y + fuseWidth / 2) < range)
 	{
 		app->draw(fuse2Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -198,7 +196,7 @@ void boss1::Draw(RenderWindow * app)
 			}
 		}
 	}
-	else if (centreDis(spriteX + spriteSize, spriteY + spriteSize, fuse[3].X + fuseWidth / 2, windowHeight - fuseDis) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[3].X + fuseWidth / 2, windowHeight - fuseDis) < range)
 	{
 		app->draw(fuse3Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -209,7 +207,7 @@ void boss1::Draw(RenderWindow * app)
 			}
 		}
 	}
-	else if (centreDis(spriteX + spriteSize, spriteY + spriteSize, fuseDis + fuseHeight / 2, fuse[4].Y + fuseWidth / 2) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuseDis + fuseHeight / 2, fuse[4].Y + fuseWidth / 2) < range)
 	{
 		app->draw(fuse4Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -220,7 +218,7 @@ void boss1::Draw(RenderWindow * app)
 			}
 		}
 	}
-	else if (centreDis(spriteX + spriteSize, spriteY + spriteSize, fuse[5].X + fuseWidth / 2, fuse[5].Y + fuseWidth / 2) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[5].X + fuseWidth / 2, fuse[5].Y + fuseWidth / 2) < range)
 	{
 		app->draw(fuse5Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
