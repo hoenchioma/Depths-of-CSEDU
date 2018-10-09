@@ -240,7 +240,7 @@ void boss1::Update(Engine * game, double dt)
 	if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
 	{
 		exit.setTexture(&exitLit);
-		if (position.x <= 110 && position.y >= (windowWidth = 60))
+		if (position.x <= 110 && position.y >= (windowHeight - 60))
 		{
 			popScene(game);
 		}
