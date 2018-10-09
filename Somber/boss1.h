@@ -76,11 +76,12 @@ private:
 	float healthBar = 10;
 	float barDis = 5;
 	fuseInfo fuse[10];
-	sf::Clock clock;
+	sf::Texture tex;
+	mainChar Sprite;
 	sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;
-	sf::CircleShape sprite;
+	//sf::CircleShape sprite;
 	sf::RectangleShape fuse1;
 	sf::RectangleShape fuse2;
 	sf::RectangleShape fuse3;
@@ -92,6 +93,7 @@ private:
 	sf::RectangleShape fuse4Bar;
 	sf::RectangleShape fuse5Bar;
 	sf::RectangleShape healthBarSprite;
+	sf::Vector2f position = Sprite.getPosition();
 	// Declare variables here
 };
 

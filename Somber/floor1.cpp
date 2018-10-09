@@ -1,5 +1,4 @@
 #include "floor1.h"
-
 #include "EngineX/Utility.h"
 
 using namespace sf;
