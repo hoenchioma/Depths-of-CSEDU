@@ -95,33 +95,32 @@ void boss1::HandleEvents(Engine * game, Event * event)
 
 void boss1::Update(Engine * game, double dt)
 {
-	dt = clock.restart().asSeconds();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && spriteX >= speed) spriteX -= speed*dt*dtMul;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && spriteX <= windowWidth - spriteSize * 2 - speed)	spriteX += speed * dt*dtMul;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && spriteY <= windowHeight - spriteSize * 2 - speed) spriteY += speed * dt*dtMul;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && spriteY >= speed) spriteY -= speed * dt*dtMul;
-	if (spotlight1X > windowWidth)								spotlight1DirX = LEFT * dt*dtMul;
-	else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT * dt*dtMul;
-	if (spotlight1Y > windowHeight)								spotlight1DirY = UP * dt*dtMul;
-	else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN * dt*dtMul;
-	if (spotlight2X > windowWidth)								spotlight2DirX = LEFT * dt*dtMul;
-	else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT * dt*dtMul;
-	if (spotlight2Y > windowHeight)								spotlight2DirY = UP * dt*dtMul;
-	else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN * dt*dtMul;
-	if (spotlight3X > windowWidth)								spotlight3DirX = LEFT * dt*dtMul;
-	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT * dt*dtMul;
-	if (spotlight3Y > windowHeight)								spotlight3DirY = UP * dt*dtMul;
-	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN * dt*dtMul;
+	if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
+	else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT;
+	if (spotlight1Y > windowHeight)								spotlight1DirY = UP;
+	else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN;
+	if (spotlight2X > windowWidth)								spotlight2DirX = LEFT;
+	else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT;
+	if (spotlight2Y > windowHeight)								spotlight2DirY = UP;
+	else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN;
+	if (spotlight3X > windowWidth)								spotlight3DirX = LEFT;
+	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
+	if (spotlight3Y > windowHeight)								spotlight3DirY = UP;
+	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
 	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, spriteX + spriteSize, spriteY + spriteSize) < spotlightDamageRange))	
-		spriteHealth -= lightDamage * dt*dtMul;
+		spriteHealth -= lightDamage * dt;
 	if (spriteHealth < 0) gameOver = 1;							//GAME OVER FLAG
 	healthBarSprite.setSize(sf::Vector2f(spriteHealth, 20));
-	spotlight1X += speedSpotlight * spotlight1DirX;
-	spotlight1Y += speedSpotlight * spotlight1DirY;
-	spotlight2X += speedSpotlight * spotlight2DirX;
-	spotlight2Y += speedSpotlight * spotlight2DirY;
-	spotlight3X += speedSpotlight * spotlight3DirX;
-	spotlight3Y += speedSpotlight * spotlight3DirY;
+	spotlight1X += speedSpotlight * spotlight1DirX *dt;
+	spotlight1Y += speedSpotlight * spotlight1DirY *dt;
+	spotlight2X += speedSpotlight * spotlight2DirX *dt;
+	spotlight2Y += speedSpotlight * spotlight2DirY *dt;
+	spotlight3X += speedSpotlight * spotlight3DirX *dt;
+	spotlight3Y += speedSpotlight * spotlight3DirY *dt;
 	spotlight1.setPosition(spotlight1X, spotlight1Y);
 	spotlight2.setPosition(spotlight2X, spotlight2Y);
 	spotlight3.setPosition(spotlight3X, spotlight3Y);
@@ -131,6 +130,7 @@ void boss1::Update(Engine * game, double dt)
 	fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
 	fuse4Bar.setSize(sf::Vector2f(fuse[4].Health, healthBar));
 	fuse5Bar.setSize(sf::Vector2f(fuse[5].Health, healthBar));
+	damageFuse = .5*dtMul*dt;
 	// handle collision and other logic
 	// update the sprites
 	// use dt (interval between two frames) for framerate independent movement
