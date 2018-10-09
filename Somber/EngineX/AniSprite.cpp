@@ -46,6 +46,11 @@ sf::FloatRect AniSprite::getGlobalBounds() const
 	return _obj.getGlobalBounds();
 }
 
+sf::IntRect AniSprite::getTextureRect() const
+{
+	return _obj.getTextureRect();
+}
+
 void AniSprite::drawTo(sf::RenderWindow * app)
 {
 	if (play)
