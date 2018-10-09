@@ -28,49 +28,88 @@ void boss1::Init(Engine* game)
 	{
 		cout << "can't load texture fuseOpened" << endl;
 	}
+	if (!heartFull.loadFromFile("res/heart_full.png"))
+	{
+		cout << "can't load full heart" << endl;
+	}
+	if (!heartHalf.loadFromFile("res/heart_half.png"))
+	{
+		cout << "can't load half heart" << endl;
+	}
+	if (!heartEmpty.loadFromFile("res/heart_empty.png"))
+	{
+		cout << "can't load empty heart" << endl;
+	}
+	if (!exitDim.loadFromFile("res/exitDim.png"))
+	{
+		cout << "can't load dim exit" << endl;
+	}
+	if (!exitLit.loadFromFile("res/exitLit.png"))
+	{
+		cout << "can't load lit exit" << endl;
+	}
 	Sprite.Init(tex, 0.1, 300);
 	Sprite.setScale(1.25, 1.25);
-	fuse[1].X = rand() % (windowWidth - 40) + 40;
-	fuse[2].Y = rand() % (windowHeight - 40) + 40;
-	fuse[3].X = rand() % (windowWidth - 40) + 40;
-	fuse[4].Y = rand() % (windowHeight - 40) + 40;
+	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
+	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
+	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;
+	fuse[4].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[5].X = (windowWidth - fuseWidth) / 2;
 	fuse[5].Y = (windowHeight - fuseHeight) / 2;
-	//sprite.setPointCount(4);
 	spotlight1.setPointCount(50);
 	spotlight2.setPointCount(50);
 	spotlight3.setPointCount(50);
 	spotlight1.setRadius(radiusSpotlight);
 	spotlight2.setRadius(radiusSpotlight);
 	spotlight3.setRadius(radiusSpotlight);
-	//sprite.setFillColor(sf::Color(0, 0, 255));
-	//sprite.setRadius(spriteSize);
 	fuse1.setPosition(fuse[1].X, fuseDis);
 	fuse2.setPosition(windowWidth - fuseDis, fuse[2].Y);
-	fuse3.setPosition(fuse[3].X, windowHeight - fuseDis);
+	fuse3.setPosition(fuse[3].X, windowHeight - fuseDis-fuseHeight);
 	fuse4.setPosition(fuseDis, fuse[4].Y);
 	fuse5.setPosition(fuse[5].X, fuse[5].Y);
-	fuse1Bar.setPosition(fuse[1].X, fuseDis + fuseHeight / 2);
-	fuse2Bar.setPosition(windowWidth - barDis - fuseHealth, fuse[2].Y);
-	fuse3Bar.setPosition(fuse[3].X, windowHeight - fuseDis + barDis);
-	fuse4Bar.setPosition(fuseDis - barDis, fuse[4].Y);
-	fuse5Bar.setPosition(fuse[5].X, fuse[5].Y + barDis);
-	healthBarSprite.setFillColor(sf::Color(255, 0, 0));
+	fuse1Bar.setPosition(fuse[1].X-barDis, fuseDis + fuseHeight +10);
+	fuse2Bar.setPosition(windowWidth-fuseDis-barDis, fuse[2].Y+fuseHeight +10 );
+	fuse3Bar.setPosition(fuse[3].X-barDis, windowHeight - fuseDis +10);
+	fuse4Bar.setPosition(fuseDis - barDis, fuse[4].Y+fuseHeight+10);
+	fuse5Bar.setPosition(fuse[5].X-barDis, fuse[5].Y + fuseHeight+10);
 	fuse1.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse2.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse3.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse4.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));
+	heart1.setSize(Vector2f(heartDim, heartDim));
+	heart2.setSize(Vector2f(heartDim, heartDim));
+	heart3.setSize(Vector2f(heartDim, heartDim));
+	heart4.setSize(Vector2f(heartDim, heartDim));
+	heart5.setSize(Vector2f(heartDim, heartDim));
+	exit.setSize(Vector2f(110, 60));
 	fuse1.setOutlineColor(sf::Color::Transparent);
 	fuse2.setOutlineColor(sf::Color::Transparent);
 	fuse3.setOutlineColor(sf::Color::Transparent);
 	fuse4.setOutlineColor(sf::Color::Transparent);
 	fuse5.setOutlineColor(sf::Color::Transparent);
+	heart1.setOutlineColor(sf::Color::Transparent);
+	heart2.setOutlineColor(sf::Color::Transparent);
+	heart3.setOutlineColor(sf::Color::Transparent);
+	heart4.setOutlineColor(sf::Color::Transparent);
+	heart5.setOutlineColor(sf::Color::Transparent);
+	heart5.setPosition(5, 5);
+	heart4.setPosition(heartDim+7, 5);
+	heart3.setPosition(2*heartDim+9, 5);
+	heart2.setPosition(3*heartDim+11, 5);
+	heart1.setPosition(4*heartDim+13, 5);
+	exit.setPosition(0, windowHeight - 60);
+	heart1.setTexture(&heartFull);
+	heart2.setTexture(&heartFull);
+	heart3.setTexture(&heartFull);
+	heart4.setTexture(&heartFull);
+	heart5.setTexture(&heartFull);
 	fuse1.setTexture(&fuseClosed);
 	fuse2.setTexture(&fuseClosed);
 	fuse3.setTexture(&fuseClosed);
 	fuse4.setTexture(&fuseClosed);
 	fuse5.setTexture(&fuseClosed);
+	exit.setTexture(&exitDim);
 
 	// Initialize variables here
 }
@@ -133,11 +172,6 @@ void boss1::HandleEvents(Engine * game, Event * event)
 
 void boss1::Update(Engine * game, double dt)
 {
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && position.x >= speed) position.x -= speed*dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && position.x <= windowWidth - spriteSize * 2 - speed)	position.x += speed * dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && position.y <= windowHeight - spriteSize * 2 - speed) position.y += speed * dt*dtMul;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y >= speed) position.y -= speed * dt*dtMul;*/
-
 	if (!pause)
 	{
 		// Key press handle
@@ -167,8 +201,27 @@ void boss1::Update(Engine * game, double dt)
 	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
 	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
 		spriteHealth -= lightDamage * dt;
-	if (spriteHealth < 0) gameOver = 1;							//GAME OVER FLAG
-	healthBarSprite.setSize(sf::Vector2f(spriteHealth, 20));
+	if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
+	else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
+	else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
+	else if (spriteHealth <= 110 && spriteHealth > 100) heart2.setTexture(&heartHalf);
+	else if (spriteHealth <= 100 && spriteHealth > 90) heart2.setTexture(&heartEmpty);
+	else if (spriteHealth <= 90 && spriteHealth > 80) heart2.setPosition(-500, 0);
+	else if (spriteHealth <= 80 && spriteHealth > 70) heart3.setTexture(&heartHalf);
+	else if (spriteHealth <= 70 && spriteHealth > 60) heart3.setTexture(&heartEmpty);
+	else if (spriteHealth <= 60 && spriteHealth > 50) heart3.setPosition(-500, 0);
+	else if (spriteHealth <= 50 && spriteHealth > 40) heart4.setTexture(&heartHalf);
+	else if (spriteHealth <= 40 && spriteHealth > 30) heart4.setTexture(&heartEmpty);
+	else if (spriteHealth <= 30 && spriteHealth > 20) heart4.setPosition(-500, 0);
+	else if (spriteHealth <= 20 && spriteHealth > 10) heart5.setTexture(&heartHalf);
+	else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
+	else if (spriteHealth <= 0)
+	{
+		heart5.setPosition(-500, 0);
+		spriteHealth = 150;
+		game->popScene();
+		game->pushScene(boss1::getInstance());
+	}																		//GAME OVER FLAG
 	spotlight1X += speedSpotlight * spotlight1DirX *dt;
 	spotlight1Y += speedSpotlight * spotlight1DirY *dt;
 	spotlight2X += speedSpotlight * spotlight2DirX *dt;
@@ -184,6 +237,14 @@ void boss1::Update(Engine * game, double dt)
 	fuse4Bar.setSize(sf::Vector2f(fuse[4].Health, healthBar));
 	fuse5Bar.setSize(sf::Vector2f(fuse[5].Health, healthBar));
 	damageFuse = .5*dtMul*dt;
+	if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
+	{
+		exit.setTexture(&exitLit);
+		if (position.x <= 110 && position.y >= (windowWidth = 60))
+		{
+			popScene(game);
+		}
+	}
 	// handle collision and other logic
 	// update the sprites
 	// use dt (interval between two frames) for framerate independent movement
@@ -194,7 +255,7 @@ void boss1::Draw(RenderWindow * app)
 
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
-		//app->draw(fuse1Bar);
+		app->draw(fuse1Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[1].Health > 0)
@@ -210,7 +271,7 @@ void boss1::Draw(RenderWindow * app)
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseWidth / 2, fuse[2].Y + fuseHeight / 2) < range)
 	{
-		//app->draw(fuse2Bar);
+		app->draw(fuse2Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[2].Health > 0)
@@ -226,7 +287,7 @@ void boss1::Draw(RenderWindow * app)
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[3].X + fuseWidth / 2, windowHeight - fuseDis) < range)
 	{
-		//app->draw(fuse3Bar);
+		app->draw(fuse3Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[3].Health > 0)
@@ -242,7 +303,7 @@ void boss1::Draw(RenderWindow * app)
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuseDis + fuseWidth / 2, fuse[4].Y + fuseHeight / 2) < range)
 	{
-		//app->draw(fuse4Bar);
+		app->draw(fuse4Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[4].Health > 0)
@@ -258,7 +319,7 @@ void boss1::Draw(RenderWindow * app)
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[5].X + fuseWidth / 2, fuse[5].Y + fuseWidth / 2) < range)
 	{
-		//app->draw(fuse5Bar);
+		app->draw(fuse5Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[5].Health > 0)
@@ -275,13 +336,18 @@ void boss1::Draw(RenderWindow * app)
 	app->draw(spotlight1);
 	app->draw(spotlight2);
 	app->draw(spotlight3);
-	app->draw(healthBarSprite);
 	app->draw(fuse1);
 	app->draw(fuse2);
 	app->draw(fuse3);
 	app->draw(fuse4);
 	app->draw(fuse5);
 	Sprite.drawTo(app);
+	app->draw(heart1);
+	app->draw(heart2);
+	app->draw(heart3);
+	app->draw(heart4);
+	app->draw(heart5);
+	app->draw(exit);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }
