@@ -30,6 +30,7 @@ public:
 	//overloads for normal sprite methods
 	sf::Vector2f getSize() const;
 	sf::FloatRect getGlobalBounds() const;
+	sf::Vector2f getPosition() const { _obj.getPosition(); }
 	void setScale(float x, float y) { _obj.setScale(x, y); }
 	void setScale(sf::Vector2f vec) { _obj.setScale(vec); }
 	void move(float x, float y) { _obj.move(x, y); }

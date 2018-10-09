@@ -17,6 +17,10 @@ public:
 	void setScale(float x, float y);
 	void setScale(sf::Vector2f);
 
+	sf::Vector2f getPosition() const;
+	void setPosition(sf::Vector2f vec);
+	void setPosition(float x, float y);
+
 	void moveOn(Direction direc);
 	void moveOff();
 

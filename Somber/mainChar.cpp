@@ -45,6 +45,21 @@ void mainChar::setScale(sf::Vector2f vec)
 	}
 }
 
+sf::Vector2f mainChar::getPosition() const
+{
+	return ani[0].getPosition();
+}
+
+void mainChar::setPosition(sf::Vector2f vec)
+{
+	for (auto& i : ani) i.setPosition(vec);
+}
+
+void mainChar::setPosition(float x, float y)
+{
+	for (auto& i : ani) i.setPosition(x, y);
+}
+
 void mainChar::moveOn(Direction direc)
 {
 	running = true;
