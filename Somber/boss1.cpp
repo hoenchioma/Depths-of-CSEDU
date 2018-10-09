@@ -18,7 +18,15 @@ void boss1::Init(Engine* game)
 	cout << "scene created" << endl;
 	if (!tex.loadFromFile("res/running_1.png"))
 	{
-		cout << "can't load texture" << endl;
+		cout << "can't load Sprite" << endl;
+	}
+	if (!fuseClosed.loadFromFile("res/fuseClosed.png"))
+	{
+		cout << "can't load texture fuseClosed" << endl;
+	}
+	if (!fuseOpened.loadFromFile("res/fuseOpened.png"))
+	{
+		cout << "can't load texture fuseOpened" << endl;
 	}
 	Sprite.Init(tex, 0.1, 300);
 	Sprite.setScale(1.25, 1.25);
@@ -49,10 +57,21 @@ void boss1::Init(Engine* game)
 	fuse5Bar.setPosition(fuse[5].X, fuse[5].Y + barDis);
 	healthBarSprite.setFillColor(sf::Color(255, 0, 0));
 	fuse1.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse2.setSize(Vector2f(fuseHeight, fuseWidth));
+	fuse2.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse3.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse4.setSize(Vector2f(fuseHeight, fuseWidth));
+	fuse4.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));
+	fuse1.setOutlineColor(sf::Color::Transparent);
+	fuse2.setOutlineColor(sf::Color::Transparent);
+	fuse3.setOutlineColor(sf::Color::Transparent);
+	fuse4.setOutlineColor(sf::Color::Transparent);
+	fuse5.setOutlineColor(sf::Color::Transparent);
+	fuse1.setTexture(&fuseClosed);
+	fuse2.setTexture(&fuseClosed);
+	fuse3.setTexture(&fuseClosed);
+	fuse4.setTexture(&fuseClosed);
+	fuse5.setTexture(&fuseClosed);
+
 	// Initialize variables here
 }
 
@@ -159,7 +178,6 @@ void boss1::Update(Engine * game, double dt)
 	spotlight1.setPosition(spotlight1X, spotlight1Y);
 	spotlight2.setPosition(spotlight2X, spotlight2Y);
 	spotlight3.setPosition(spotlight3X, spotlight3Y);
-	//sprite.setPosition(position.x, position.y);
 	fuse1Bar.setSize(sf::Vector2f(fuse[1].Health, healthBar));
 	fuse2Bar.setSize(sf::Vector2f(fuse[2].Health, healthBar));
 	fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
@@ -176,69 +194,93 @@ void boss1::Draw(RenderWindow * app)
 
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
-		app->draw(fuse1Bar);
+		//app->draw(fuse1Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[1].Health > 0)
 			{
 				fuse[1].Health -= damageFuse;
 			}
+			if (fuse[1].Health <= 0)
+			{
+				fuse1.setTexture(&fuseOpened);
+				fuse1.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+			}
 		}
 	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseHeight / 2, fuse[2].Y + fuseWidth / 2) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseWidth / 2, fuse[2].Y + fuseHeight / 2) < range)
 	{
-		app->draw(fuse2Bar);
+		//app->draw(fuse2Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[2].Health > 0)
 			{
 				fuse[2].Health -= damageFuse;
 			}
+			if (fuse[2].Health <= 0)
+			{
+				fuse2.setTexture(&fuseOpened);
+				fuse2.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+			}
 		}
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[3].X + fuseWidth / 2, windowHeight - fuseDis) < range)
 	{
-		app->draw(fuse3Bar);
+		//app->draw(fuse3Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[3].Health > 0)
 			{
 				fuse[3].Health -= damageFuse;
 			}
+			if (fuse[3].Health <= 0)
+			{
+				fuse3.setTexture(&fuseOpened);
+				fuse3.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+			}
 		}
 	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuseDis + fuseHeight / 2, fuse[4].Y + fuseWidth / 2) < range)
+	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuseDis + fuseWidth / 2, fuse[4].Y + fuseHeight / 2) < range)
 	{
-		app->draw(fuse4Bar);
+		//app->draw(fuse4Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[4].Health > 0)
 			{
 				fuse[4].Health -= damageFuse;
 			}
+			if (fuse[4].Health <= 0)
+			{
+				fuse4.setTexture(&fuseOpened);
+				fuse4.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+			}
 		}
 	}
 	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[5].X + fuseWidth / 2, fuse[5].Y + fuseWidth / 2) < range)
 	{
-		app->draw(fuse5Bar);
+		//app->draw(fuse5Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
 			if (fuse[5].Health > 0)
 			{
 				fuse[5].Health -= damageFuse;
 			}
+			if (fuse[5].Health <= 0)
+			{
+				fuse5.setTexture(&fuseOpened);
+				fuse5.setSize(Vector2f(fuseWidth+20, fuseHeight+30));
+			}
 		}
 	}
+	app->draw(spotlight1);
+	app->draw(spotlight2);
+	app->draw(spotlight3);
+	app->draw(healthBarSprite);
 	app->draw(fuse1);
 	app->draw(fuse2);
 	app->draw(fuse3);
 	app->draw(fuse4);
 	app->draw(fuse5);
-	//app->draw(sprite);
-	app->draw(spotlight1);
-	app->draw(spotlight2);
-	app->draw(spotlight3);
-	app->draw(healthBarSprite);
 	Sprite.drawTo(app);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
