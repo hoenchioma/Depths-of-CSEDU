@@ -51,7 +51,7 @@ void boss1::Init(Engine* game)
 	}
 	Sprite.Init(tex, 0.1, 300);
 	Sprite.setScale(1.25, 1.25);
-	Sprite.setPosition(30, 40);
+	Sprite.setPosition(30, game->height - 130);
 	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
 	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;
@@ -223,6 +223,7 @@ void boss1::Update(Engine * game, double dt)
 	else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
 	else if (spriteHealth <= 0)
 	{
+		//////// restarts level ///////////
 		heart5.setPosition(-500, 0);
 		spriteHealth = 150;
 		game->popScene();
@@ -248,6 +249,7 @@ void boss1::Update(Engine * game, double dt)
 		exit.setTexture(&exitLit);
 		if (position.x <= 110 && position.y >= (windowHeight - 60))
 		{
+			//////// return to previous scene /////////
 			popScene(game);
 		}
 	}
@@ -314,7 +316,6 @@ void boss1::Update(Engine * game, double dt)
 
 void boss1::Draw(RenderWindow * app)
 {
-
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
 		app->draw(fuse1Bar);

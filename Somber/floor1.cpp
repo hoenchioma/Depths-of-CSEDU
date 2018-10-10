@@ -178,6 +178,7 @@ void floor1::Update(Engine * game, double dt)
 				///////// scene change /////////////
 				MainChar.moveOn(Direction::DOWN);
 				MainChar.moveOff();
+				MainChar.setPosition(MainChar.getPosition().x, offSetY + 60);
 				pushScene(game, boss1::getInstance());
 			}
 		}

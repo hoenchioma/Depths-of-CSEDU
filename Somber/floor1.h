@@ -45,6 +45,6 @@ private:
 	door Door;
 
 	sf::Texture coinSpriteSheet;
-	AniSprite coins[100];
+	AniSprite coins[20];
 	int coinCollected = 0;
 };
