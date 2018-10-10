@@ -12,29 +12,22 @@ void floor1::Init(Engine* game)
 {
 	cout << "scene created" << endl;
 
-	/*cout << game->width << " " << game->height << endl;*/
-
-	// views
+	///////////////// views //////////////////////////
 	view.setCenter(game->width / 2, game->height / 2);
 	view.setSize(game->width, game->height);
 	
-	// main character
+	////////////// main character ////////////////////
 	if (!spriteSheet.loadFromFile("res/running_1.png"))
 	{
 		cerr << "can't load texture 1" << endl;
 	}
 	MainChar.Init(spriteSheet, 0.1f, 300.f);
 	MainChar.setScale(1.4f, 1.4f);
-
-	/*cout << MainChar.getTextureRect().width << " " << MainChar.getTextureRect().height << endl;
-	cout << MainChar.getSize().x << " " << MainChar.getSize().y << endl;
-	cout << MainChar.getPosition().x << " " << MainChar.getPosition().y << endl;*/
-
 	MainChar.setOrigin(MainChar.getTextureRect().width / 2.0, MainChar.getTextureRect().height / 2.0);
 	MainChar.setPosition(game->width / 2.0, game->height / 2.0);
-	//MainChar.setPosition(0, 0);
+	///MainChar.setPosition(0, 0);
 
-	// background
+	////////////////// background ///////////////////////
 	if (!backgroundImage.loadFromFile("res/floor1_back_2.png"))
 	{
 		cerr << "can't load texture 2" << endl;
@@ -52,7 +45,7 @@ void floor1::Init(Engine* game)
 	Door.setScale(0.85, 0.85);
 	Door.setPosition(offSetX + 23, 5);
 
-	// coins
+	/////////////////// coins //////////////////////
 	if (!coinSpriteSheet.loadFromFile("res/coin_gold.png"))
 	{
 		cerr << "can't load texture 3" << endl;
@@ -66,14 +59,15 @@ void floor1::Init(Engine* game)
 			offSetX + 25 + rand() % (int) (background.getGlobalBounds().width - offSetX + 25 - 200),
 			offSetY + 60 + rand() % (int) (background.getGlobalBounds().height - offSetY + 60 - 200)
 		);
+		coin.setScale(1.25, 1.25);
 	}
 
-	// dark effect
-	Uint8 light = 150;
+	/////////////// dark effect /////////////////////////
+	Uint8 light = 150; // the lower this value the more darker
 	Door.setColor(Color(light, light, light));
 	MainChar.setColor(Color(light, light, light));
 	background.setColor(Color(light, light, light));
-	//for (auto& coin : coins) coin.setColor(Color(light, light, light));
+	///for (auto& coin : coins) coin.setColor(Color(light, light, light));
 }
 
 void floor1::Cleanup()
@@ -135,7 +129,7 @@ void floor1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		// Key press handle
+		// Key press handle, character movement
 		for (auto& i : KeyArr)
 		{
 			if (Keyboard::isKeyPressed(i))
@@ -146,12 +140,17 @@ void floor1::Update(Engine * game, double dt)
 
 		bool intersection = MainChar.getGlobalBounds().intersects(Door.getGlobalBounds());
 
-		/*cerr << MainChar.getPosition().x << " " << MainChar.getPosition().y << " "
-			<< Door.getPosition().x << " " << Door.getPosition().y << endl;
-		*/
 		// so that the character sprite cannot go out of bounds
+		// when the player tries to go out of bounds setPosition s to the boundary point
 		if (MainChar.getPosition().x < 25 + offSetX) MainChar.setPosition(25 + offSetX, MainChar.getPosition().y);
-		// character can only enter door region if door open
+		if (MainChar.getPosition().x > background.getGlobalBounds().width + offSetX - 20)
+			MainChar.setPosition(background.getGlobalBounds().width + offSetX - 20, MainChar.getPosition().y);
+		if (MainChar.getPosition().y > background.getGlobalBounds().height + offSetY - 20)
+			MainChar.setPosition(MainChar.getPosition().x, background.getGlobalBounds().height + offSetY - 20);
+
+		////////////////// Door Logic /////////////////////
+		// special case logic for door
+		// character can only enter door region if door is open
 		// character cannot enter wall region
 		if (Door.doorState == door::state::CLOSED)
 		{
@@ -166,46 +165,46 @@ void floor1::Update(Engine * game, double dt)
 					MainChar.setPosition(MainChar.getPosition().x, 60 + offSetY);
 			}
 		}
-		if (MainChar.getPosition().x > background.getGlobalBounds().width + offSetX - 20) 
-			MainChar.setPosition(background.getGlobalBounds().width + offSetX - 20, MainChar.getPosition().y);
-		if (MainChar.getPosition().y > background.getGlobalBounds().height + offSetY - 20) 
-			MainChar.setPosition(MainChar.getPosition().x, background.getGlobalBounds().height + offSetY - 20);
 
 		if (intersection)
 		{
 			if (MainChar.getPosition().y < offSetX + 50)
 			{
 				///////// scene change /////////////
-				MainChar.moveOn(Direction::DOWN);
+				//changes the direction downward for when the player returns to scene
+				MainChar.moveOn(Direction::DOWN); 
 				MainChar.moveOff();
+				//sets position outside door to prevent instant re-entry
 				MainChar.setPosition(MainChar.getPosition().x, offSetY + 60);
 				pushScene(game, boss1::getInstance());
 			}
 		}
-	
+
 		MainChar.update(dt);
-	}
 
-	// so that camera doesn't go out of bounds
-	if (MainChar.getPosition().x >= game->width / 2 
-	and MainChar.getPosition().x + game->width /2 <= background.getGlobalBounds().width)
-	{
-		view.setCenter(MainChar.getPosition().x, view.getCenter().y);
-	}
-	if (MainChar.getPosition().y >= game->height / 2
-	and MainChar.getPosition().y + game->height / 2 <= background.getGlobalBounds().height)
-	{
-		view.setCenter(view.getCenter().x, MainChar.getPosition().y);
-	}
-	game->app->setView(view);
-
-	// coin logic
-	for (auto& coin : coins)
-	{
-		if (coin.getGlobalBounds().intersects(MainChar.getGlobalBounds()))
+		///////////////// View Logic /////////////////////
+		// so that camera/view doesn't go out of bounds
+		if (MainChar.getPosition().x >= game->width / 2
+			and MainChar.getPosition().x + game->width / 2 <= background.getGlobalBounds().width)
 		{
-			coinCollected++;
-			coin.setPosition((int) 1e7, (int) 1e7);
+			view.setCenter(MainChar.getPosition().x, view.getCenter().y);
+		}
+		if (MainChar.getPosition().y >= game->height / 2
+			and MainChar.getPosition().y + game->height / 2 <= background.getGlobalBounds().height)
+		{
+			view.setCenter(view.getCenter().x, MainChar.getPosition().y);
+		}
+		game->app->setView(view);
+
+		////////////// Coin Logic //////////////////////
+		for (auto& coin : coins)
+		{
+			if (coin.getGlobalBounds().intersects(MainChar.getGlobalBounds()))
+			{
+				coinCollected++;
+				coin.setPosition((int) 1e7, (int) 1e7);
+				// sets the coins way outside the screen
+			}
 		}
 	}
 }
@@ -216,6 +215,5 @@ void floor1::Draw(RenderWindow * app)
 
 	Door.drawTo(app);
 	MainChar.drawTo(app);
-
 	for (auto& coin : coins) coin.drawTo(app);
 }
