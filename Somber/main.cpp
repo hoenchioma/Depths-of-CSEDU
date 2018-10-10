@@ -16,8 +16,8 @@ int main()
 
 	Engine game(&app);
 
-	//game.pushScene(floor1::getInstance());
-	game.pushScene(boss1::getInstance());
+	game.pushScene(floor1::getInstance());
+	//game.pushScene(boss1::getInstance());
 
 	//app.setFramerateLimit(10);
 

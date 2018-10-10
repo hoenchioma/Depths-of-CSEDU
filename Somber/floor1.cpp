@@ -12,7 +12,7 @@ void floor1::Init(Engine* game)
 {
 	cout << "scene created" << endl;
 
-	cout << game->width << " " << game->height << endl;
+	/*cout << game->width << " " << game->height << endl;*/
 
 	// views
 	view.setCenter(game->width / 2, game->height / 2);
@@ -26,9 +26,9 @@ void floor1::Init(Engine* game)
 	MainChar.Init(spriteSheet, 0.1f, 300.f);
 	MainChar.setScale(1.4f, 1.4f);
 
-	cout << MainChar.getTextureRect().width << " " << MainChar.getTextureRect().height << endl;
+	/*cout << MainChar.getTextureRect().width << " " << MainChar.getTextureRect().height << endl;
 	cout << MainChar.getSize().x << " " << MainChar.getSize().y << endl;
-	cout << MainChar.getPosition().x << " " << MainChar.getPosition().y << endl;
+	cout << MainChar.getPosition().x << " " << MainChar.getPosition().y << endl;*/
 
 	MainChar.setOrigin(MainChar.getTextureRect().width / 2.0, MainChar.getTextureRect().height / 2.0);
 	MainChar.setPosition(game->width / 2.0, game->height / 2.0);
@@ -52,11 +52,28 @@ void floor1::Init(Engine* game)
 	Door.setScale(0.85, 0.85);
 	Door.setPosition(offSetX + 23, 5);
 
+	// coins
+	if (!coinSpriteSheet.loadFromFile("res/coin_gold.png"))
+	{
+		cerr << "can't load texture 3" << endl;
+	}
+	for (auto& coin : coins)
+	{
+		coin.setSpriteSheet(coinSpriteSheet);
+		coin.addSheet(AniSprite::dir::horizontal, coinSpriteSheet.getSize().x / 8, coinSpriteSheet.getSize().y);
+		coin.setDelay(0.1);
+		coin.setPosition(
+			offSetX + 25 + rand() % (int) (background.getGlobalBounds().width - offSetX + 25 - 200),
+			offSetY + 60 + rand() % (int) (background.getGlobalBounds().height - offSetY + 60 - 200)
+		);
+	}
+
 	// dark effect
 	Uint8 light = 150;
 	Door.setColor(Color(light, light, light));
 	MainChar.setColor(Color(light, light, light));
 	background.setColor(Color(light, light, light));
+	//for (auto& coin : coins) coin.setColor(Color(light, light, light));
 }
 
 void floor1::Cleanup()
@@ -180,6 +197,16 @@ void floor1::Update(Engine * game, double dt)
 		view.setCenter(view.getCenter().x, MainChar.getPosition().y);
 	}
 	game->app->setView(view);
+
+	// coin logic
+	for (auto& coin : coins)
+	{
+		if (coin.getGlobalBounds().intersects(MainChar.getGlobalBounds()))
+		{
+			coinCollected++;
+			coin.setPosition((int) 1e7, (int) 1e7);
+		}
+	}
 }
 
 void floor1::Draw(RenderWindow * app)
@@ -188,4 +215,6 @@ void floor1::Draw(RenderWindow * app)
 
 	Door.drawTo(app);
 	MainChar.drawTo(app);
+
+	for (auto& coin : coins) coin.drawTo(app);
 }

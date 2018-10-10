@@ -121,8 +121,6 @@ void boss1::Init(Engine* game)
 	fuse3.setFillColor(Color(light, light, light));
 	fuse4.setFillColor(Color(light, light, light));
 	fuse5.setFillColor(Color(light, light, light));
-
-	// Initialize variables here
 }
 
 void boss1::Cleanup()
@@ -134,7 +132,6 @@ void boss1::Pause()
 	Sprite.running = false;
 	pause = true;
 
-	// handle what happens when the game is paused
 	// this function is going to be called when the game is paused
 }
 
@@ -142,7 +139,6 @@ void boss1::Resume()
 {
 	pause = false;
 
-	// handle what happens when the game is resumed
 	// this function is going to be called when the game is resumed
 }
 
@@ -155,7 +151,6 @@ void boss1::togglePause()
 void boss1::HandleEvents(Engine * game, Event * event)
 {
 	// handle events here (keyboard/ mouse)
-	// see main.cpp for clarification of location of call
 
 	if (event->type == Event::EventType::KeyReleased)
 	{
@@ -415,6 +410,7 @@ void boss1::Draw(RenderWindow * app)
 	app->draw(heart4);
 	app->draw(heart5);
 	app->draw(exit);
+
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }
