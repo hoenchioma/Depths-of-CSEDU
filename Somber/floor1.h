@@ -3,6 +3,7 @@
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
 #include "mainChar.h"
+#include "door.h"
 
 class floor1: public Scene
 {
@@ -32,6 +33,14 @@ private:
 	void operator= (floor1 const&) = delete;
 	bool pause = false;
 
-	sf::Texture tex;
+	sf::View view;
+
+	sf::Texture spriteSheet;
 	mainChar MainChar;
+
+	sf::Texture backgroundImage;
+	sf::Sprite background;
+
+	sf::Texture doorImage;
+	door Door;
 };

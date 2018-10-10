@@ -18,8 +18,14 @@ public:
 	void setScale(sf::Vector2f);
 
 	sf::Vector2f getPosition() const;
+	sf::Vector2f getSize() const;
+	sf::IntRect getTextureRect() const;
+	sf::FloatRect getGlobalBounds() const;
 	void setPosition(sf::Vector2f vec);
 	void setPosition(float x, float y);
+	void setOrigin(sf::Vector2f vec);
+	void setOrigin(float x, float y);
+	void setColor(const sf::Color& color);
 
 	void moveOn(Direction direc);
 	void moveOff();

@@ -50,6 +50,21 @@ sf::Vector2f mainChar::getPosition() const
 	return ani[0].getPosition();
 }
 
+sf::Vector2f mainChar::getSize() const
+{
+	return ani[0].getSize();
+}
+
+sf::IntRect mainChar::getTextureRect() const
+{
+	return ani[0].getTextureRect();
+}
+
+sf::FloatRect mainChar::getGlobalBounds() const
+{
+	return ani[0].getGlobalBounds();;
+}
+
 void mainChar::setPosition(sf::Vector2f vec)
 {
 	for (auto& i : ani) i.setPosition(vec);
@@ -58,6 +73,21 @@ void mainChar::setPosition(sf::Vector2f vec)
 void mainChar::setPosition(float x, float y)
 {
 	for (auto& i : ani) i.setPosition(x, y);
+}
+
+void mainChar::setOrigin(sf::Vector2f vec)
+{
+	for (auto& i : ani) i.setOrigin(vec);
+}
+
+void mainChar::setOrigin(float x, float y)
+{
+	for (auto& i : ani) i.setOrigin(x, y);
+}
+
+void mainChar::setColor(const sf::Color& color)
+{
+	for (auto& i : ani) i.setColor(color);
 }
 
 void mainChar::moveOn(Direction direc)
