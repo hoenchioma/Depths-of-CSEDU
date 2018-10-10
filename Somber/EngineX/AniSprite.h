@@ -33,6 +33,7 @@ public:
 	sf::FloatRect getGlobalBounds() const;
 	sf::IntRect getTextureRect() const;
 	sf::Vector2f getPosition() const { return _obj.getPosition(); }
+	void setColor(const sf::Color& color) { _obj.setColor(color); }
 	void setScale(float x, float y) { _obj.setScale(x, y); }
 	void setScale(sf::Vector2f vec) { _obj.setScale(vec); }
 	void move(float x, float y) { _obj.move(x, y); }
