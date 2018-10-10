@@ -105,6 +105,11 @@ private:
 	sf::RectangleShape heart5;
 	sf::RectangleShape exit;
 	sf::Vector2f position = Sprite.getPosition();
+
+	sf::RectangleShape* fuseArray[5] = { &fuse1, &fuse2, &fuse3, &fuse4, &fuse5 };
+	sf::CircleShape* spotlightArray[3] = { &spotlight1, &spotlight2, &spotlight3 };
+
+	sf::Uint8 light;
 	// Declare variables here
 };
 

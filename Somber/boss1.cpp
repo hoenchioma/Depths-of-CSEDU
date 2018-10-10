@@ -16,6 +16,7 @@ double centreDis(float X1, float Y1, float X2, float Y2)
 void boss1::Init(Engine* game)
 {
 	cout << "scene created" << endl;
+
 	if (!tex.loadFromFile("res/running_1.png"))
 	{
 		cout << "can't load Sprite" << endl;
@@ -50,6 +51,7 @@ void boss1::Init(Engine* game)
 	}
 	Sprite.Init(tex, 0.1, 300);
 	Sprite.setScale(1.25, 1.25);
+	Sprite.setPosition(30, 40);
 	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
 	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;
@@ -110,6 +112,15 @@ void boss1::Init(Engine* game)
 	fuse4.setTexture(&fuseClosed);
 	fuse5.setTexture(&fuseClosed);
 	exit.setTexture(&exitDim);
+
+	// for dark effect
+	light = 100;
+	Sprite.setColor(Color(light, light, light));
+	fuse1.setFillColor(Color(light, light, light));
+	fuse2.setFillColor(Color(light, light, light));
+	fuse3.setFillColor(Color(light, light, light));
+	fuse4.setFillColor(Color(light, light, light));
+	fuse5.setFillColor(Color(light, light, light));
 
 	// Initialize variables here
 }
@@ -245,6 +256,62 @@ void boss1::Update(Engine * game, double dt)
 			popScene(game);
 		}
 	}
+
+	// controlling light and dark with respect to spotlight
+
+	int i = 0;
+	/*cout << centreDis(
+		spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+		spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+		Sprite.getPosition().x,
+		Sprite.getPosition().y
+	) << " " << spotlightArray[i]->getRadius() << endl;*/
+
+	bool LitFuse;
+	bool LitSprite;
+
+	for (int j = 0; j < 5; j++)
+	{
+		LitFuse = false;
+		for (int i = 0; i < 3; i++)
+		{
+			/*cout << centreDis(
+				spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+				spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+				fuseArray[j]->getPosition().x,
+				fuseArray[j]->getPosition().y
+			) << " " << spotlightArray[i]->getRadius() << endl;*/
+			if (centreDis(
+					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+					fuseArray[j]->getPosition().x,
+					fuseArray[j]->getPosition().y
+				) < spotlightArray[i]->getRadius())
+			{
+				LitFuse = true;
+				fuseArray[j]->setFillColor(Color(255, 255, 255));
+			}
+		}
+		if (!LitFuse)
+			fuseArray[j]->setFillColor(Color(light, light, light));
+	}
+	LitSprite = false;
+	for (int i = 0; i < 3; i++)
+	{
+		if (centreDis(
+				spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+				spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+				Sprite.getPosition().x,
+				Sprite.getPosition().y
+			) < spotlightArray[i]->getRadius())
+		{
+			LitSprite = true;
+			Sprite.setColor(Color(255, 255, 255));
+		}
+	}
+	if (!LitSprite)
+		Sprite.setColor(Color(light, light, light));
+
 	// handle collision and other logic
 	// update the sprites
 	// use dt (interval between two frames) for framerate independent movement
