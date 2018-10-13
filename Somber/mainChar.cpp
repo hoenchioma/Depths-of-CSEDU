@@ -62,7 +62,7 @@ sf::IntRect mainChar::getTextureRect() const
 
 sf::FloatRect mainChar::getGlobalBounds() const
 {
-	return ani[0].getGlobalBounds();;
+	return ani[0].getGlobalBounds();
 }
 
 void mainChar::setPosition(sf::Vector2f vec)

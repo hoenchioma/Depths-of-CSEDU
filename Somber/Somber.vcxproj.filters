@@ -75,4 +75,56 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\coin_gold.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\door.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\door_skewed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\exitDim.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\exitLit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\floor1_back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\floor1_back_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fuseClosed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fuseOpened.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\heart_empty.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\heart_full.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\heart_half.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\running_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\floor_back.pdn">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Floor_tile.pdn">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\template.pdn">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

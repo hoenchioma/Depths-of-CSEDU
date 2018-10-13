@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-static enum Direction { LEFT, RIGHT, UP, DOWN };
+enum Direction { LEFT, RIGHT, UP, DOWN };
 
 const Direction DirectionArr[4] = { LEFT, RIGHT, UP, DOWN };
 

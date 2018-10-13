@@ -2,6 +2,8 @@
 
 #include "EngineX/Utility.h"
 
+#include <iostream>
+
 using namespace sf;
 using namespace std;
 
@@ -49,7 +51,7 @@ void boss1::Init(Engine* game)
 	{
 		cout << "can't load lit exit" << endl;
 	}
-	Sprite.Init(tex, 0.1, 300);
+	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
 	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
@@ -256,8 +258,8 @@ void boss1::Update(Engine * game, double dt)
 
 	// controlling light and dark with respect to spotlight
 
-	int i = 0;
-	/*cout << centreDis(
+	/*int i = 0;
+	cout << centreDis(
 		spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
 		spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
 		Sprite.getPosition().x,

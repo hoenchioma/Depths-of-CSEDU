@@ -192,6 +192,26 @@
     <ClCompile Include="floor1.cpp" />
     <ClCompile Include="mainChar.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\coin_gold.png" />
+    <Image Include="res\door.png" />
+    <Image Include="res\door_skewed.png" />
+    <Image Include="res\exitDim.png" />
+    <Image Include="res\exitLit.png" />
+    <Image Include="res\floor1_back.png" />
+    <Image Include="res\floor1_back_2.png" />
+    <Image Include="res\fuseClosed.png" />
+    <Image Include="res\fuseOpened.png" />
+    <Image Include="res\heart_empty.png" />
+    <Image Include="res\heart_full.png" />
+    <Image Include="res\heart_half.png" />
+    <Image Include="res\running_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\floor_back.pdn" />
+    <None Include="res\Floor_tile.pdn" />
+    <None Include="res\template.pdn" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

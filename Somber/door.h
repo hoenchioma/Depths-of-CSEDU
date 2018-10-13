@@ -9,7 +9,7 @@ public:
 	door();
 	~door();
 
-	static enum state { OPEN, CLOSED };
+	enum state { OPEN, CLOSED };
 
 	state doorState = CLOSED;
 
