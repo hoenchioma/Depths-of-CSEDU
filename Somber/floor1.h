@@ -47,4 +47,6 @@ private:
 	sf::Texture coinSpriteSheet;
 	AniSprite coins[20];
 	int coinCollected = 0;
+
+	bool enteringDoor = false;
 };
