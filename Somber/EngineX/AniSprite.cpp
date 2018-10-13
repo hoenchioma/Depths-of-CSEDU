@@ -8,6 +8,9 @@ void AniSprite::setSpriteSheet(const sf::Texture & tex)
 void AniSprite::addFrame(sf::IntRect rect)
 {
 	_frames.push_back(rect);
+
+	if (_defaultSet) _obj.setTextureRect(_default); 
+	else _obj.setTextureRect(_frames[_currentIndex]);
 	//std::cerr << _frames.size() << std::endl;
 }
 
