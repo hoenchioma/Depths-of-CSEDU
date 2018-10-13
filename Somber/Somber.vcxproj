@@ -167,19 +167,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="boss1.h" />
-    <ClInclude Include="door.h" />
+    <ClInclude Include="Boss1.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
+    <ClInclude Include="EngineX\eClock.h" />
     <ClInclude Include="EngineX\Engine.h" />
     <ClInclude Include="EngineX\Scene.h" />
     <ClInclude Include="EngineX\Utility.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="floor1.h" />
-    <ClInclude Include="mainChar.h" />
+    <ClInclude Include="Floor1.h" />
+    <ClInclude Include="MainChar.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="boss1.cpp" />
-    <ClCompile Include="door.cpp" />
+    <ClCompile Include="Boss1.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -189,8 +190,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="floor1.cpp" />
-    <ClCompile Include="mainChar.cpp" />
+    <ClCompile Include="Floor1.cpp" />
+    <ClCompile Include="MainChar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\coin_gold.png" />

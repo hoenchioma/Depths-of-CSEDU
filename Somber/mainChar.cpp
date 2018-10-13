@@ -1,9 +1,9 @@
-#include "mainChar.h"
+#include "MainChar.h"
 
 using namespace sf;
 using namespace std;
 
-void mainChar::Init(sf::Texture& tex, float delay, float vel)
+void MainChar::Init(sf::Texture& tex, float delay, float vel)
 {
 	this->vel = vel;
 	
@@ -29,7 +29,7 @@ void mainChar::Init(sf::Texture& tex, float delay, float vel)
 	ani[3].setDefault(IntRect(bitx, 0, bitx, bity));
 }
 
-void mainChar::setScale(float x, float y)
+void MainChar::setScale(float x, float y)
 {
 	for (auto& i : ani)
 	{
@@ -37,7 +37,7 @@ void mainChar::setScale(float x, float y)
 	}
 }
 
-void mainChar::setScale(sf::Vector2f vec)
+void MainChar::setScale(sf::Vector2f vec)
 {
 	for (auto& i : ani)
 	{
@@ -45,65 +45,65 @@ void mainChar::setScale(sf::Vector2f vec)
 	}
 }
 
-sf::Vector2f mainChar::getPosition() const
+sf::Vector2f MainChar::getPosition() const
 {
 	return ani[0].getPosition();
 }
 
-sf::Vector2f mainChar::getSize() const
+sf::Vector2f MainChar::getSize() const
 {
 	return ani[0].getSize();
 }
 
-sf::IntRect mainChar::getTextureRect() const
+sf::IntRect MainChar::getTextureRect() const
 {
 	return ani[0].getTextureRect();
 }
 
-sf::FloatRect mainChar::getGlobalBounds() const
+sf::FloatRect MainChar::getGlobalBounds() const
 {
 	return ani[0].getGlobalBounds();
 }
 
-void mainChar::setPosition(sf::Vector2f vec)
+void MainChar::setPosition(sf::Vector2f vec)
 {
 	for (auto& i : ani) i.setPosition(vec);
 }
 
-void mainChar::setPosition(float x, float y)
+void MainChar::setPosition(float x, float y)
 {
 	for (auto& i : ani) i.setPosition(x, y);
 }
 
-void mainChar::setOrigin(sf::Vector2f vec)
+void MainChar::setOrigin(sf::Vector2f vec)
 {
 	for (auto& i : ani) i.setOrigin(vec);
 }
 
-void mainChar::setOrigin(float x, float y)
+void MainChar::setOrigin(float x, float y)
 {
 	for (auto& i : ani) i.setOrigin(x, y);
 }
 
-void mainChar::setColor(const sf::Color& color)
+void MainChar::setColor(const sf::Color& color)
 {
 	for (auto& i : ani) i.setColor(color);
 }
 
-void mainChar::moveOn(Direction direc)
+void MainChar::moveOn(Direction direc)
 {
 	running = true;
 	state = direc;
 	ani[state].resume();
 }
 
-void mainChar::moveOff()
+void MainChar::moveOff()
 {
 	running = false;
 	ani[state].pause();
 }
 
-void mainChar::update(float dt)
+void MainChar::update(float dt)
 {
 	if (running)
 	{
@@ -112,7 +112,7 @@ void mainChar::update(float dt)
 	}
 }
 
-void mainChar::drawTo(sf::RenderWindow* app)
+void MainChar::drawTo(sf::RenderWindow* app)
 {
 	ani[state].drawTo(app);
 }

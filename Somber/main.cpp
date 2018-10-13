@@ -1,6 +1,6 @@
 #include "EngineX/Engine.h"
-#include "floor1.h"
-#include "boss1.h"
+#include "Floor1.h"
+#include "Boss1.h"
 #include <ctime>
 
 using namespace sf;
@@ -16,8 +16,8 @@ int main()
 
 	Engine game(&app);
 
-	game.pushScene(floor1::getInstance());
-	//game.pushScene(boss1::getInstance());
+	game.pushScene(Floor1::getInstance());
+	//game.pushScene(Boss1::getInstance());
 
 	//app.setFramerateLimit(10);
 

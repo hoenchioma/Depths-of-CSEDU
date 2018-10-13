@@ -1,35 +1,35 @@
 #include "pch.h"
-#include "door.h"
+#include "Door.h"
 
 using namespace sf;
 
-door::door()
+Door::Door()
 {
 }
 
 
-door::~door()
+Door::~Door()
 {
 }
 
-void door::Init(sf::Texture& tex)
+void Door::Init(sf::Texture& tex)
 {
 	obj.setTexture(tex);
 }
 
-void door::open()
+void Door::open()
 {
-	doorState = OPEN;
+	DoorState = OPEN;
 }
 
-void door::close()
+void Door::close()
 {
-	doorState = CLOSED;
+	DoorState = CLOSED;
 }
 
-void door::drawTo(sf::RenderWindow * app)
+void Door::drawTo(sf::RenderWindow * app)
 {
-	if (doorState == CLOSED)
+	if (DoorState == CLOSED)
 	{
 		obj.setTextureRect(
 			IntRect(0, 0, obj.getTexture()->getSize().x / 2, obj.getTexture()->getSize().y)

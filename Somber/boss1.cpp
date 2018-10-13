@@ -1,4 +1,4 @@
-#include "boss1.h"
+#include "Boss1.h"
 
 #include "EngineX/Utility.h"
 
@@ -15,7 +15,7 @@ double centreDis(float X1, float Y1, float X2, float Y2)
 }
 
 
-void boss1::Init(Engine* game)
+void Boss1::Init(Engine* game)
 {
 	cout << "scene created" << endl;
 
@@ -125,11 +125,11 @@ void boss1::Init(Engine* game)
 	fuse5.setFillColor(Color(light, light, light));
 }
 
-void boss1::Cleanup()
+void Boss1::Cleanup()
 {
 }
 
-void boss1::Pause()
+void Boss1::Pause()
 {
 	Sprite.running = false;
 	pause = true;
@@ -137,20 +137,20 @@ void boss1::Pause()
 	// this function is going to be called when the game is paused
 }
 
-void boss1::Resume()
+void Boss1::Resume()
 {
 	pause = false;
 
 	// this function is going to be called when the game is resumed
 }
 
-void boss1::togglePause()
+void Boss1::togglePause()
 {
 	if (this->pause) Resume();
 	else Pause();
 }
 
-void boss1::HandleEvents(Engine * game, Event * event)
+void Boss1::HandleEvents(Engine * game, Event * event)
 {
 	// handle events here (keyboard/ mouse)
 
@@ -178,7 +178,7 @@ void boss1::HandleEvents(Engine * game, Event * event)
 	}
 }
 
-void boss1::Update(Engine * game, double dt)
+void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
@@ -229,7 +229,7 @@ void boss1::Update(Engine * game, double dt)
 		heart5.setPosition(-500, 0);
 		spriteHealth = 150;
 		game->popScene();
-		game->pushScene(boss1::getInstance());
+		game->pushScene(Boss1::getInstance());
 	}																		//GAME OVER FLAG
 	spotlight1X += speedSpotlight * spotlight1DirX *dt;
 	spotlight1Y += speedSpotlight * spotlight1DirY *dt;
@@ -316,7 +316,7 @@ void boss1::Update(Engine * game, double dt)
 	// use dt (interval between two frames) for framerate independent movement
 }
 
-void boss1::Draw(RenderWindow * app)
+void Boss1::Draw(RenderWindow * app)
 {
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{

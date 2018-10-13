@@ -36,16 +36,19 @@
     <ClInclude Include="EngineX\Utility.h">
       <Filter>Header Files\EngineX</Filter>
     </ClInclude>
-    <ClInclude Include="mainChar.h">
+    <ClInclude Include="EngineX\eClock.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="floor1.h">
+    <ClInclude Include="Boss1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="boss1.h">
+    <ClInclude Include="Floor1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="door.h">
+    <ClInclude Include="MainChar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,16 +65,16 @@
     <ClCompile Include="EngineX\Engine.cpp">
       <Filter>Source Files\EngineX</Filter>
     </ClCompile>
-    <ClCompile Include="mainChar.cpp">
+    <ClCompile Include="Door.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="floor1.cpp">
+    <ClCompile Include="Boss1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boss1.cpp">
+    <ClCompile Include="Floor1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="door.cpp">
+    <ClCompile Include="MainChar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

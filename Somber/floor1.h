@@ -2,13 +2,13 @@
 
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
-#include "mainChar.h"
-#include "door.h"
+#include "MainChar.h"
+#include "Door.h"
 
-class floor1: public Scene
+class Floor1: public Scene
 {
 public:
-	~floor1() { this->Cleanup(); }
+	~Floor1() { this->Cleanup(); }
 
 	void Init(Engine* game);
 	void Cleanup();
@@ -21,32 +21,32 @@ public:
 	void Update(Engine* game, double dt);
 	void Draw(sf::RenderWindow* app);
 
-	static floor1* getInstance()
+	static Floor1* getInstance()
 	{
-		static floor1 inst;
+		static Floor1 inst;
 		return &inst;
 	}
 
 private:
-	floor1() {}
-	floor1(floor1 const&) = delete;
-	void operator= (floor1 const&) = delete;
+	Floor1() {}
+	Floor1(Floor1 const&) = delete;
+	void operator= (Floor1 const&) = delete;
 	bool pause = false;
 
 	sf::View view;
 
 	sf::Texture spriteSheet;
-	mainChar MainChar;
+	MainChar mainChar;
 
 	sf::Texture backgroundImage;
 	sf::Sprite background;
 
-	sf::Texture doorImage;
-	door Door;
+	sf::Texture DoorImage;
+	Door door;
 
 	sf::Texture coinSpriteSheet;
 	AniSprite coins[20];
 	int coinCollected = 0;
 
-	bool enteringDoor = false;
+	bool enteringdoor = false;
 };

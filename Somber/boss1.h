@@ -2,12 +2,12 @@
 
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
-#include "mainChar.h"
+#include "MainChar.h"
 
-class boss1 : public Scene
+class Boss1 : public Scene
 {
 public:
-	~boss1() { this->Cleanup(); }
+	~Boss1() { this->Cleanup(); }
 
 	void Init(Engine* game);
 	void Cleanup();
@@ -20,16 +20,16 @@ public:
 	void Update(Engine* game, double dt);
 	void Draw(sf::RenderWindow* app);
 
-	static boss1* getInstance()
+	static Boss1* getInstance()
 	{
-		static boss1 inst;
+		static Boss1 inst;
 		return &inst;
 	}
 
 private:
-	boss1() {}
-	boss1(boss1 const&) = delete;
-	void operator= (boss1 const&) = delete;
+	Boss1() {}
+	Boss1(Boss1 const&) = delete;
+	void operator= (Boss1 const&) = delete;
 	bool pause = false;
 
 	struct fuseInfo {
@@ -84,7 +84,7 @@ private:
 	sf::Texture heartEmpty;
 	sf::Texture exitDim;
 	sf::Texture exitLit;
-	mainChar Sprite;
+	MainChar Sprite;
 	sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;

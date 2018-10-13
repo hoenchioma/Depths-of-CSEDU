@@ -3,15 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-class door
+class Door
 {
 public:
-	door();
-	~door();
+	Door();
+	~Door();
 
 	enum state { OPEN, CLOSED };
 
-	state doorState = CLOSED;
+	state DoorState = CLOSED;
 
 	void Init(sf::Texture& tex);
 

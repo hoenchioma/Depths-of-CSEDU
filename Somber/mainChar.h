@@ -3,12 +3,12 @@
 #include "EngineX/AniSprite.h"
 #include "EngineX/Utility.h"
 
-class mainChar
+class MainChar
 {
 public:
-	mainChar() {};
-	mainChar(sf::Texture& tex, float delay, float vel) { Init(tex, delay, vel); }
-	~mainChar() {};
+	MainChar() {};
+	MainChar(sf::Texture& tex, float delay, float vel) { Init(tex, delay, vel); }
+	~MainChar() {};
 
 	void Init(sf::Texture& tex, float delay, float vel);
 
