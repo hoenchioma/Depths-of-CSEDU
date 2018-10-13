@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Boss1.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\eClock.h" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss1.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />

@@ -1,9 +1,14 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
 #include "MainChar.h"
 #include "Door.h"
+#include "Coin.h"
 
 class Floor1: public Scene
 {
@@ -45,7 +50,8 @@ private:
 	Door door;
 
 	sf::Texture coinSpriteSheet;
-	AniSprite coins[20];
+	sf::SoundBuffer sound;
+	Coin coins[20];
 	int coinCollected = 0;
 
 	bool enteringdoor = false;

@@ -29,6 +29,7 @@ public:
 
 	void moveOn(Direction direc);
 	void moveOff();
+	void setDirec(Direction direc) { state = direc; }
 
 	void update(float dt);
 

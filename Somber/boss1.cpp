@@ -54,6 +54,7 @@ void Boss1::Init(Engine* game)
 	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
+	Sprite.setDirec(Direction::UP);
 	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
 	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;

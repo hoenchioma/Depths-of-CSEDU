@@ -24,7 +24,7 @@ void Floor1::Init(Engine* game)
 	////////////// main character ////////////////////
 	if (!spriteSheet.loadFromFile("res/running_1.png"))
 	{
-		cerr << "can't load texture 1" << endl;
+		cerr << "can't load main character sprite texture" << endl;
 	}
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
@@ -35,7 +35,7 @@ void Floor1::Init(Engine* game)
 	////////////////// background ///////////////////////
 	if (!backgroundImage.loadFromFile("res/Floor1_back_2.png"))
 	{
-		cerr << "can't load texture 2" << endl;
+		cerr << "can't load background texture" << endl;
 	}
 	background.setTexture(backgroundImage);
 	background.setScale(1.35, 1.35);
@@ -44,7 +44,7 @@ void Floor1::Init(Engine* game)
 
 	if (!DoorImage.loadFromFile("res/Door.png"))
 	{
-		cerr << "can't load texture 3" << endl;
+		cerr << "can't load door texture" << endl;
 	}
 	door.Init(DoorImage);
 	door.setScale(0.85, 0.85);
@@ -53,7 +53,11 @@ void Floor1::Init(Engine* game)
 	/////////////////// coins //////////////////////
 	if (!coinSpriteSheet.loadFromFile("res/coin_gold.png"))
 	{
-		cerr << "can't load texture 3" << endl;
+		cerr << "can't load coin texture" << endl;
+	}
+	if (!sound.loadFromFile("res/Sounds/coins.wav"))
+	{
+		cerr << "can't load coin sound" << endl;
 	}
 	for (auto& coin : coins)
 	{
@@ -66,6 +70,8 @@ void Floor1::Init(Engine* game)
 			wallOffSetX + rand() % (int) (background.getGlobalBounds().width - wallOffSetX - revOffSetX - coin.getSize().x),
 			wallOffSetY + rand() % (int) (background.getGlobalBounds().height - wallOffSetY - revOffSetY - coin.getSize().y)
 		);
+		coin.setSound(sound);
+		coin.getSound().setVolume(30);
 	}
 
 	/////////////// dark effect /////////////////////////
@@ -188,8 +194,7 @@ void Floor1::Update(Engine * game, double dt)
 				//sets position outside Door to prevent instant re-entry
 				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY);
 				//changes the direction downward for when the player returns to scene
-				mainChar.moveOn(Direction::DOWN); 
-				mainChar.moveOff();
+				mainChar.setDirec(Direction::DOWN);
 			}
 		}
 
@@ -212,10 +217,9 @@ void Floor1::Update(Engine * game, double dt)
 		////////////// Coin Logic //////////////////////
 		for (auto& coin : coins)
 		{
-			if (coin.getGlobalBounds().intersects(mainChar.getGlobalBounds()))
+			if (coin.collected(mainChar))
 			{
 				coinCollected++;
-				coin.setPosition((int) 1e7, (int) 1e7);
 				// sets the coins way outside the screen
 			}
 		}
