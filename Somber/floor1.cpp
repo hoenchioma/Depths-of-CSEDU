@@ -13,44 +13,16 @@ const float wallOffSetY = 66;
 const float revOffSetX = 11;
 const float revOffSetY = 10;
 
-void Floor1::Init(Engine* game)
+void Floor1::LoadRes()
 {
-	cout << "scene created" << endl;
-
-	///////////////// views //////////////////////////
-	view.setCenter(game->width / 2, game->height / 2);
-	view.setSize(game->width, game->height);
-	
-	////////////// main character ////////////////////
 	if (!spriteSheet.loadFromFile("res/running_1.png"))
 	{
 		cerr << "can't load main character sprite texture" << endl;
 	}
-	mainChar.Init(spriteSheet, 0.1f, 300.f);
-	mainChar.setScale(1.4f, 1.4f);
-	mainChar.setOrigin(mainChar.getTextureRect().width / 2.0, mainChar.getTextureRect().height / 2.0);
-	mainChar.setPosition(game->width / 2.0, game->height / 2.0);
-	///mainChar.setPosition(0, 0);
-
-	////////////////// background ///////////////////////
 	if (!backgroundImage.loadFromFile("res/Floor1_back_2.png"))
 	{
 		cerr << "can't load background texture" << endl;
 	}
-	background.setTexture(backgroundImage);
-	background.setScale(1.35, 1.35);
-	background.setOrigin(0, 0);
-	background.setPosition(0, 0);
-
-	if (!DoorImage.loadFromFile("res/Door.png"))
-	{
-		cerr << "can't load door texture" << endl;
-	}
-	door.Init(DoorImage);
-	door.setScale(0.85, 0.85);
-	door.setPosition(110, 5);
-
-	/////////////////// coins //////////////////////
 	if (!coinSpriteSheet.loadFromFile("res/coin_gold.png"))
 	{
 		cerr << "can't load coin texture" << endl;
@@ -59,6 +31,38 @@ void Floor1::Init(Engine* game)
 	{
 		cerr << "can't load coin sound" << endl;
 	}
+	if (!DoorImage.loadFromFile("res/Door.png"))
+	{
+		cerr << "can't load door texture" << endl;
+	}
+}
+
+void Floor1::Init(Engine* game)
+{
+	cout << "floor1 scene initialized" << endl;
+
+	///////////////// views //////////////////////////
+	view.setCenter(game->width / 2, game->height / 2);
+	view.setSize(game->width, game->height);
+	
+	////////////// main character ////////////////////
+	mainChar.Init(spriteSheet, 0.1f, 300.f);
+	mainChar.setScale(1.4f, 1.4f);
+	mainChar.setOrigin(mainChar.getTextureRect().width / 2.0, mainChar.getTextureRect().height / 2.0);
+	mainChar.setPosition(game->width / 2.0, game->height / 2.0);
+	///mainChar.setPosition(0, 0);
+
+	////////////////// background ///////////////////////
+	background.setTexture(backgroundImage);
+	background.setScale(1.35, 1.35);
+	background.setOrigin(0, 0);
+	background.setPosition(0, 0);
+
+	door.Init(DoorImage);
+	door.setScale(0.85, 0.85);
+	door.setPosition(110, 5);
+
+	/////////////////// coins //////////////////////
 	for (auto& coin : coins)
 	{
 		coin.setSpriteSheet(coinSpriteSheet);
@@ -105,18 +109,6 @@ void Floor1::togglePause()
 
 void Floor1::HandleEvents(Engine * game, Event * event)
 {
-	// Key release handle
-	if (event->type == Event::EventType::KeyReleased)
-	{
-		for (auto& i : KeyArr)
-		{
-			if (event->key.code == i)
-			{
-				mainChar.moveOff();
-			}
-		}
-	}
-
 	if (event->type == Event::EventType::KeyPressed)
 	{
 		switch (event->key.code)
@@ -144,14 +136,8 @@ void Floor1::Update(Engine * game, double dt)
 
 	if (!pause)
 	{
-		// Key press handle, character movement
-		for (auto& i : KeyArr)
-		{
-			if (Keyboard::isKeyPressed(i))
-			{
-				mainChar.moveOn(KeyMap.at(i));
-			}
-		}
+		// Key press & release handle, character movement
+		mainChar.keyHandle();
 
 		bool intersection = mainChar.getGlobalBounds().intersects(door.getGlobalBounds());
 
@@ -197,7 +183,8 @@ void Floor1::Update(Engine * game, double dt)
 				mainChar.setDirec(Direction::DOWN);
 			}
 		}
-
+		
+		// Update the main character (movement & animation)
 		mainChar.update(dt);
 
 		///////////////// View Logic /////////////////////

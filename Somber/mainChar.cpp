@@ -103,12 +103,64 @@ void MainChar::moveOff()
 	ani[state].pause();
 }
 
+void MainChar::keyHandle()
+{
+	bool isOneKeyPressed = false;
+	for (const auto& i : KeyArr)
+	{
+		if (Keyboard::isKeyPressed(i))
+		{
+			this->moveOn(KeyMap.at(i));
+			diagOn = false; 
+			// sets to false so that it can be set to true if diagonal movement takes place
+			isOneKeyPressed = true;
+			break;
+		}
+	}
+	
+	if (!isOneKeyPressed) this->moveOff(); // if no key is pressed stop moving
+	else
+	{
+		// handle diagonal movement cases
+		for (const auto& i : DiagArr)
+		{
+			if (Keyboard::isKeyPressed(revKeyMap.at(i.first)) && Keyboard::isKeyPressed(revKeyMap.at(i.second)))
+			{
+				diagOn = true;
+				state_diag = i;
+				state = i.first; // animation only shows left or right
+				break;
+			}
+		}
+	}
+}
+
 void MainChar::update(float dt)
 {
 	if (running)
 	{
-		for (auto& i: ani)
-			i.move(dt * vel * dirAr[state][0], dt * vel * dirAr[state][1]);
+		if (diagOn)
+		{
+			for (auto& i : ani)
+			{
+				i.move(
+					dt * vel * invSqrtTwo * dirAr[state_diag.first][0], 
+					dt * vel * invSqrtTwo * dirAr[state_diag.first][1]
+				);
+				i.move(
+					dt * vel * invSqrtTwo * dirAr[state_diag.second][0], 
+					dt * vel * invSqrtTwo * dirAr[state_diag.second][1]
+				);
+
+				// vx = vel cos 45 = vel * 1/sqrt(2)
+				// vy = vel sin 45 = vel * 1/sqrt(2)
+			}
+		}
+		else
+		{
+			for (auto& i : ani)
+				i.move(dt * vel * dirAr[state][0], dt * vel * dirAr[state][1]);
+		}
 	}
 }
 

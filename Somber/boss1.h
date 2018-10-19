@@ -9,6 +9,7 @@ class Boss1 : public Scene
 public:
 	~Boss1() { this->Cleanup(); }
 
+	void LoadRes();
 	void Init(Engine* game);
 	void Cleanup();
 

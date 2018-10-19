@@ -30,6 +30,7 @@ public:
 	void moveOn(Direction direc);
 	void moveOff();
 	void setDirec(Direction direc) { state = direc; }
+	void keyHandle();
 
 	void update(float dt);
 
@@ -47,5 +48,7 @@ private:
 	AniSprite ani[4];
 	float vel = 500;
 	Direction state = DOWN;
+	bool diagOn = false;
+	std::pair <Direction, Direction> state_diag;
 };
 

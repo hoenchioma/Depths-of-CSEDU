@@ -15,10 +15,8 @@ double centreDis(float X1, float Y1, float X2, float Y2)
 }
 
 
-void Boss1::Init(Engine* game)
+void Boss1::LoadRes()
 {
-	cout << "scene created" << endl;
-
 	if (!tex.loadFromFile("res/running_1.png"))
 	{
 		cout << "can't load Sprite" << endl;
@@ -51,6 +49,12 @@ void Boss1::Init(Engine* game)
 	{
 		cout << "can't load lit exit" << endl;
 	}
+}
+
+void Boss1::Init(Engine* game)
+{
+	cout << "boss1 scene initialized" << endl;
+
 	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
@@ -124,6 +128,41 @@ void Boss1::Init(Engine* game)
 	fuse3.setFillColor(Color(light, light, light));
 	fuse4.setFillColor(Color(light, light, light));
 	fuse5.setFillColor(Color(light, light, light));
+
+	// reinitialization of variables if boss1 is played a second time
+	windowWidth = game->width;
+	windowHeight = game->height;
+	dtMul = 50;
+	radiusSpotlight = 125;
+	diameterSpotlight = 2 * radiusSpotlight;
+	spriteSize = 20;
+	spotlight1X = 0;
+	spotlight1Y = 0;
+	spotlight2X = windowWidth / 2;
+	spotlight2Y = windowHeight;
+	spotlight3X = windowWidth;
+	spotlight3Y = windowHeight / 5;
+	spotlight1DirX = RIGHT;
+	spotlight1DirY = DOWN;
+	spotlight2DirX = LEFT;
+	spotlight2DirY = UP;
+	spotlight3DirX = LEFT;
+	spotlight3DirY = UP;
+	speedSpotlight = 2.5*dtMul;
+	fuseHealth = 100;
+	speed = 5;
+	fuseDis = 70;
+	range = 25;
+	fuseWidth = 30;
+	fuseHeight = 45;
+	spotlightDamageRange = radiusSpotlight + spriteSize - 5;
+	spriteHealth = 150;
+	lightDamage = .5*dtMul;
+	healthBar = 10;
+	heartDim = 16;
+	barDis = 50 - fuseWidth / 2;
+	randLimitW = fuseWidth + 200;
+	randLimitH = fuseHeight + 200;
 }
 
 void Boss1::Cleanup()
@@ -155,17 +194,6 @@ void Boss1::HandleEvents(Engine * game, Event * event)
 {
 	// handle events here (keyboard/ mouse)
 
-	if (event->type == Event::EventType::KeyReleased)
-	{
-		for (auto& i : KeyArr)
-		{
-			if (event->key.code == i)
-			{
-				Sprite.moveOff();
-			}
-		}
-	}
-
 	if (event->type == Event::EventType::KeyPressed)
 	{
 		switch (event->key.code)
@@ -183,134 +211,130 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		// Key press handle
-		for (auto& i : KeyArr)
+		// Key press & release handle
+		Sprite.keyHandle();
+
+		Sprite.update(dt);
+
+		position = Sprite.getPosition();
+
+		if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
+		else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT;
+		if (spotlight1Y > windowHeight)								spotlight1DirY = UP;
+		else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN;
+		if (spotlight2X > windowWidth)								spotlight2DirX = LEFT;
+		else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT;
+		if (spotlight2Y > windowHeight)								spotlight2DirY = UP;
+		else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN;
+		if (spotlight3X > windowWidth)								spotlight3DirX = LEFT;
+		else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
+		if (spotlight3Y > windowHeight)								spotlight3DirY = UP;
+		else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
+		if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
+			spriteHealth -= lightDamage * dt;
+		if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
+		else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
+		else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
+		else if (spriteHealth <= 110 && spriteHealth > 100) heart2.setTexture(&heartHalf);
+		else if (spriteHealth <= 100 && spriteHealth > 90) heart2.setTexture(&heartEmpty);
+		else if (spriteHealth <= 90 && spriteHealth > 80) heart2.setPosition(-500, 0);
+		else if (spriteHealth <= 80 && spriteHealth > 70) heart3.setTexture(&heartHalf);
+		else if (spriteHealth <= 70 && spriteHealth > 60) heart3.setTexture(&heartEmpty);
+		else if (spriteHealth <= 60 && spriteHealth > 50) heart3.setPosition(-500, 0);
+		else if (spriteHealth <= 50 && spriteHealth > 40) heart4.setTexture(&heartHalf);
+		else if (spriteHealth <= 40 && spriteHealth > 30) heart4.setTexture(&heartEmpty);
+		else if (spriteHealth <= 30 && spriteHealth > 20) heart4.setPosition(-500, 0);
+		else if (spriteHealth <= 20 && spriteHealth > 10) heart5.setTexture(&heartHalf);
+		else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
+		else if (spriteHealth <= 0)
 		{
-			if (Keyboard::isKeyPressed(i))
+			//////// restarts level ///////////
+			heart5.setPosition(-500, 0);
+			spriteHealth = 150;
+			game->popScene();
+			game->pushScene(Boss1::getInstance());
+		}																		//GAME OVER FLAG
+		spotlight1X += speedSpotlight * spotlight1DirX *dt;
+		spotlight1Y += speedSpotlight * spotlight1DirY *dt;
+		spotlight2X += speedSpotlight * spotlight2DirX *dt;
+		spotlight2Y += speedSpotlight * spotlight2DirY *dt;
+		spotlight3X += speedSpotlight * spotlight3DirX *dt;
+		spotlight3Y += speedSpotlight * spotlight3DirY *dt;
+		spotlight1.setPosition(spotlight1X, spotlight1Y);
+		spotlight2.setPosition(spotlight2X, spotlight2Y);
+		spotlight3.setPosition(spotlight3X, spotlight3Y);
+		fuse1Bar.setSize(sf::Vector2f(fuse[1].Health, healthBar));
+		fuse2Bar.setSize(sf::Vector2f(fuse[2].Health, healthBar));
+		fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
+		fuse4Bar.setSize(sf::Vector2f(fuse[4].Health, healthBar));
+		fuse5Bar.setSize(sf::Vector2f(fuse[5].Health, healthBar));
+		damageFuse = .5*dtMul*dt;
+		if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
+		{
+			exit.setTexture(&exitLit);
+			if (position.x <= 110 && position.y >= (windowHeight - 60))
 			{
-				Sprite.moveOn(KeyMap.at(i));
+				//////// return to previous scene /////////
+				popScene(game);
 			}
 		}
 
-		Sprite.update(dt);
-	}
-	position = Sprite.getPosition();
+		// controlling light and dark with respect to spotlight
 
-	if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
-	else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT;
-	if (spotlight1Y > windowHeight)								spotlight1DirY = UP;
-	else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN;
-	if (spotlight2X > windowWidth)								spotlight2DirX = LEFT;
-	else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT;
-	if (spotlight2Y > windowHeight)								spotlight2DirY = UP;
-	else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN;
-	if (spotlight3X > windowWidth)								spotlight3DirX = LEFT;
-	else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
-	if (spotlight3Y > windowHeight)								spotlight3DirY = UP;
-	else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
-	if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
-		spriteHealth -= lightDamage * dt;
-	if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
-	else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
-	else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
-	else if (spriteHealth <= 110 && spriteHealth > 100) heart2.setTexture(&heartHalf);
-	else if (spriteHealth <= 100 && spriteHealth > 90) heart2.setTexture(&heartEmpty);
-	else if (spriteHealth <= 90 && spriteHealth > 80) heart2.setPosition(-500, 0);
-	else if (spriteHealth <= 80 && spriteHealth > 70) heart3.setTexture(&heartHalf);
-	else if (spriteHealth <= 70 && spriteHealth > 60) heart3.setTexture(&heartEmpty);
-	else if (spriteHealth <= 60 && spriteHealth > 50) heart3.setPosition(-500, 0);
-	else if (spriteHealth <= 50 && spriteHealth > 40) heart4.setTexture(&heartHalf);
-	else if (spriteHealth <= 40 && spriteHealth > 30) heart4.setTexture(&heartEmpty);
-	else if (spriteHealth <= 30 && spriteHealth > 20) heart4.setPosition(-500, 0);
-	else if (spriteHealth <= 20 && spriteHealth > 10) heart5.setTexture(&heartHalf);
-	else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
-	else if (spriteHealth <= 0)
-	{
-		//////// restarts level ///////////
-		heart5.setPosition(-500, 0);
-		spriteHealth = 150;
-		game->popScene();
-		game->pushScene(Boss1::getInstance());
-	}																		//GAME OVER FLAG
-	spotlight1X += speedSpotlight * spotlight1DirX *dt;
-	spotlight1Y += speedSpotlight * spotlight1DirY *dt;
-	spotlight2X += speedSpotlight * spotlight2DirX *dt;
-	spotlight2Y += speedSpotlight * spotlight2DirY *dt;
-	spotlight3X += speedSpotlight * spotlight3DirX *dt;
-	spotlight3Y += speedSpotlight * spotlight3DirY *dt;
-	spotlight1.setPosition(spotlight1X, spotlight1Y);
-	spotlight2.setPosition(spotlight2X, spotlight2Y);
-	spotlight3.setPosition(spotlight3X, spotlight3Y);
-	fuse1Bar.setSize(sf::Vector2f(fuse[1].Health, healthBar));
-	fuse2Bar.setSize(sf::Vector2f(fuse[2].Health, healthBar));
-	fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
-	fuse4Bar.setSize(sf::Vector2f(fuse[4].Health, healthBar));
-	fuse5Bar.setSize(sf::Vector2f(fuse[5].Health, healthBar));
-	damageFuse = .5*dtMul*dt;
-	if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
-	{
-		exit.setTexture(&exitLit);
-		if (position.x <= 110 && position.y >= (windowHeight - 60))
+		/*int i = 0;
+		cout << centreDis(
+			spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+			spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+			Sprite.getPosition().x,
+			Sprite.getPosition().y
+		) << " " << spotlightArray[i]->getRadius() << endl;*/
+
+		bool LitFuse;
+		bool LitSprite;
+
+		for (int j = 0; j < 5; j++)
 		{
-			//////// return to previous scene /////////
-			popScene(game);
-		}
-	}
-
-	// controlling light and dark with respect to spotlight
-
-	/*int i = 0;
-	cout << centreDis(
-		spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-		spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-		Sprite.getPosition().x,
-		Sprite.getPosition().y
-	) << " " << spotlightArray[i]->getRadius() << endl;*/
-
-	bool LitFuse;
-	bool LitSprite;
-
-	for (int j = 0; j < 5; j++)
-	{
-		LitFuse = false;
-		for (int i = 0; i < 3; i++)
-		{
-			/*cout << centreDis(
-				spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-				spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-				fuseArray[j]->getPosition().x,
-				fuseArray[j]->getPosition().y
-			) << " " << spotlightArray[i]->getRadius() << endl;*/
-			if (centreDis(
+			LitFuse = false;
+			for (int i = 0; i < 3; i++)
+			{
+				/*cout << centreDis(
+					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
+					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
+					fuseArray[j]->getPosition().x,
+					fuseArray[j]->getPosition().y
+				) << " " << spotlightArray[i]->getRadius() << endl;*/
+				if (centreDis(
 					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
 					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
 					fuseArray[j]->getPosition().x,
 					fuseArray[j]->getPosition().y
 				) < spotlightArray[i]->getRadius())
-			{
-				LitFuse = true;
-				fuseArray[j]->setFillColor(Color(255, 255, 255));
+				{
+					LitFuse = true;
+					fuseArray[j]->setFillColor(Color(255, 255, 255));
+				}
 			}
+			if (!LitFuse)
+				fuseArray[j]->setFillColor(Color(light, light, light));
 		}
-		if (!LitFuse)
-			fuseArray[j]->setFillColor(Color(light, light, light));
-	}
-	LitSprite = false;
-	for (int i = 0; i < 3; i++)
-	{
-		if (centreDis(
+		LitSprite = false;
+		for (int i = 0; i < 3; i++)
+		{
+			if (centreDis(
 				spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
 				spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
 				Sprite.getPosition().x,
 				Sprite.getPosition().y
 			) < spotlightArray[i]->getRadius())
-		{
-			LitSprite = true;
-			Sprite.setColor(Color(255, 255, 255));
+			{
+				LitSprite = true;
+				Sprite.setColor(Color(255, 255, 255));
+			}
 		}
+		if (!LitSprite)
+			Sprite.setColor(Color(light, light, light));
+
 	}
-	if (!LitSprite)
-		Sprite.setColor(Color(light, light, light));
 
 	// handle collision and other logic
 	// update the sprites

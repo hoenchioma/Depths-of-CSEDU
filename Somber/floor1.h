@@ -15,6 +15,9 @@ class Floor1: public Scene
 public:
 	~Floor1() { this->Cleanup(); }
 
+	bool immortal = true;
+	
+	void LoadRes();
 	void Init(Engine* game);
 	void Cleanup();
 
