@@ -4,66 +4,82 @@
 
 Engine::Engine(sf::RenderWindow * app)
 {
-	this->Init(app);
+	Init(app);
 }
 
 Engine::~Engine()
 {
-	this->Cleanup();
+	Cleanup();
 }
 
 void Engine::Init(sf::RenderWindow * app)
 {
-	this->app = app;
+	this->app = app; // do not remove "this->"
 	this->width = app->getSize().x;
 	this->height = app->getSize().y;
 }
 
 void Engine::Cleanup()
 {
-	while (!this->_scenes.empty())
+	while (!_scenes.empty())
 	{
-		this->_popScene();
+		_popScene();
 	}
 }
 
 void Engine::Pause()
 {
-	this->_scenes.top()->Pause();
+	_scenes.top()->Pause();
 }
 
 void Engine::Resume()
 {
-	this->_scenes.top()->Resume();
+	_scenes.top()->Resume();
 }
 
 void Engine::HandleEvents(sf::Event* event)
 {
 	if (!_scenes.empty())
-		this->_scenes.top()->HandleEvents(this, event);
+		_scenes.top()->HandleEvents(this, event);
 }
 
 void Engine::Update(double dt)
 {
 	if (!_scenes.empty())
-		this->_scenes.top()->Update(this, dt);
+		_scenes.top()->Update(this, dt);
 }
 
 void Engine::Draw()
 {
 	if (!_scenes.empty())
-		this->_scenes.top()->Draw(this->app);
+		_scenes.top()->Draw(app);
 }
 
 void Engine::_changeScene(Scene * newScene)
 {
-	if (!this->_scenes.empty())
+	if (!_scenes.empty())
 	{
-		this->_scenes.top()->Cleanup();
-		this->_scenes.pop();
+		_scenes.top()->Cleanup();
+		_scenes.pop();
 	}
-	this->_scenes.push(newScene);
-	this->_scenes.top()->Init(this);
+	_scenes.push(newScene);
+
+	// load resources only if it is the first time
+	if (!_scenes.top()->resourceLoaded)
+	{
+		_scenes.top()->LoadRes();
+		_scenes.top()->resourceLoaded = true;
+	}
+
+	// initializes the scene
+	if (_scenes.top()->immortal)
+	{
+		if (!_scenes.top()->loadedOnce)
+			_scenes.top()->Init(this);
+	}
+	else _scenes.top()->Init(this);
+
+	_scenes.top()->loadedOnce = true;
 
 #ifdef _DEBUG
 	std::cerr << "changed state" << std::endl;
@@ -72,12 +88,26 @@ void Engine::_changeScene(Scene * newScene)
 
 void Engine::_pushScene(Scene * newScene)
 {
-	if (!this->_scenes.empty())
+	if (!_scenes.empty())
 	{
-		this->_scenes.top()->Pause();
+		_scenes.top()->Pause();
 	}
-	this->_scenes.push(newScene);
-	this->_scenes.top()->Init(this);
+	_scenes.push(newScene);
+	// load resources only if it is the first time
+	if (!_scenes.top()->resourceLoaded)
+	{
+		_scenes.top()->LoadRes();
+		_scenes.top()->resourceLoaded = true;
+	}
+	// initializes the scene
+	if (_scenes.top()->immortal)
+	{
+		if (!_scenes.top()->loadedOnce)
+			_scenes.top()->Init(this);
+	}
+	else _scenes.top()->Init(this);
+
+	_scenes.top()->loadedOnce = true;
 
 #ifdef _DEBUG
 	std::cerr << "pushed state" << std::endl;
@@ -86,14 +116,14 @@ void Engine::_pushScene(Scene * newScene)
 
 void Engine::_popScene()
 {
-	if (!this->_scenes.empty())
+	if (!_scenes.empty())
 	{
-		this->_scenes.top()->Cleanup();
-		this->_scenes.pop();
+		_scenes.top()->Cleanup();
+		_scenes.pop();
 	}
-	if (!this->_scenes.empty())
+	if (!_scenes.empty())
 	{
-		this->_scenes.top()->Resume();
+		_scenes.top()->Resume();
 	}
 
 #ifdef _DEBUG
@@ -147,6 +177,6 @@ void Engine::handleChange()
 #ifdef _DEBUG
 		std::cerr << "There were no scenes in the stack" << std::endl;
 #endif // _DEBUG
-		this->close();
+		close();
 	}
 }

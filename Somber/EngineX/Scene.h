@@ -8,6 +8,11 @@ public:
 	Scene() {}
 	~Scene() {}
 
+	bool resourceLoaded = false;
+	bool immortal = false; // immortal scenes still get cleaned on pop
+	bool loadedOnce = false;
+
+	virtual void LoadRes() = 0;
 	virtual void Init(Engine* game) = 0;
 	virtual void Cleanup() = 0;
 
@@ -29,6 +34,11 @@ public:
 	void popScene(Engine* game)
 	{
 		game->popScene();
+	}
+	void reset(Engine* game)
+	{
+		game->popScene();
+		game->pushScene(this);
 	}
 };
 
