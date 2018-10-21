@@ -15,6 +15,7 @@ public:
 	~Engine();
 
 	sf::RenderWindow* app;
+	sf::View* gameView;
 	double width;
 	double height;
 

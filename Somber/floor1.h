@@ -41,7 +41,7 @@ private:
 	void operator= (Floor1 const&) = delete;
 	bool pause = false;
 
-	sf::View view;
+	//sf::View& view;
 
 	sf::Texture spriteSheet;
 	MainChar mainChar;

@@ -5,21 +5,30 @@
 
 using namespace sf;
 
+const int gameWidth = 1280;
+const int gameHeight = 720;
+
 int main()
 {
 	srand(time(0));
 	
-	RenderWindow app(VideoMode(1280, 720), "Depths of CSEDU");
+	RenderWindow app(VideoMode::getDesktopMode(), "Depths of CSEDU", Style::Fullscreen);
 	Event event;
 	Clock clock;
 	double dt;
 
 	Engine game(&app);
+	game.width = gameWidth;
+	game.height = gameHeight;
+
+	View gameView(FloatRect(gameWidth / 2.f, gameHeight / 2.f, gameWidth, gameHeight));
+	gameView.setViewport(FloatRect(0.f, 0.f, 0.8f, 0.8f));
+	game.gameView = &gameView;
 
 	game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
 
-	//app.setFramerateLimit(10);
+	app.setFramerateLimit(120);
 
 	while (app.isOpen())
 	{
@@ -29,6 +38,8 @@ int main()
 		{
 			if (event.type == Event::EventType::Closed)
 				game.close();
+			if (event.type == Event::EventType::KeyPressed && event.key.code == Keyboard::Escape)
+				game.close();
 			game.HandleEvents(&event);
 		}
 
@@ -37,7 +48,10 @@ int main()
 		game.Update(dt);
 
 		app.clear();
+		
+		app.setView(gameView);
 		game.Draw();
+		
 		app.display();
 	}
 	game.Cleanup();

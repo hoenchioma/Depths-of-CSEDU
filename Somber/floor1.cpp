@@ -42,8 +42,8 @@ void Floor1::Init(Engine* game)
 	cout << "floor1 scene initialized" << endl;
 
 	///////////////// views //////////////////////////
-	view.setCenter(game->width / 2, game->height / 2);
-	view.setSize(game->width, game->height);
+	/*view.setCenter(game->width / 2, game->height / 2);
+	view.setSize(game->width, game->height);*/
 	
 	////////////// main character ////////////////////
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
@@ -189,6 +189,7 @@ void Floor1::Update(Engine * game, double dt)
 
 		///////////////// View Logic /////////////////////
 		// so that camera/view doesn't go out of bounds
+		sf::View& view = *game->gameView;
 		if (mainChar.getPosition().x >= game->width / 2
 			and mainChar.getPosition().x + game->width / 2 <= background.getGlobalBounds().width)
 		{
@@ -199,7 +200,7 @@ void Floor1::Update(Engine * game, double dt)
 		{
 			view.setCenter(view.getCenter().x, mainChar.getPosition().y);
 		}
-		game->app->setView(view);
+		//game->app->setView(view);
 
 		////////////// Coin Logic //////////////////////
 		for (auto& coin : coins)
