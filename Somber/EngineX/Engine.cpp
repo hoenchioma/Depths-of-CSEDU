@@ -67,7 +67,15 @@ void Engine::_changeScene(Scene * newScene)
 	// load resources only if it is the first time
 	if (!_scenes.top()->resourceLoaded)
 	{
+		// time the resource loading process (only in debug)
+#ifdef _DEBUG
+		sf::Clock timer;
+#endif // _DEBUG
 		_scenes.top()->LoadRes();
+#ifdef _DEBUG
+		std::cerr << "Resources Loaded in " << timer.getElapsedTime().asMilliseconds() << "ms" << std::endl;
+#endif // _DEBUG
+
 		_scenes.top()->resourceLoaded = true;
 	}
 
@@ -96,7 +104,15 @@ void Engine::_pushScene(Scene * newScene)
 	// load resources only if it is the first time
 	if (!_scenes.top()->resourceLoaded)
 	{
+		// time the resource loading process (only in debug)
+#ifdef _DEBUG
+		sf::Clock timer;
+#endif // _DEBUG
 		_scenes.top()->LoadRes();
+#ifdef _DEBUG
+		std::cerr << "Resources Loaded in " << timer.getElapsedTime().asMilliseconds() << "ms" << std::endl;
+#endif // _DEBUG
+
 		_scenes.top()->resourceLoaded = true;
 	}
 	// initializes the scene
