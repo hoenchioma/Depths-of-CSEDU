@@ -2,6 +2,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <unordered_map>
 #include <Utility>
 
@@ -40,6 +41,16 @@ const sf::Keyboard::Key KeyArr[4] =
 	sf::Keyboard::Up,
 	sf::Keyboard::Down,
 };
+
+// load from file with failure message
+template <class T>
+void loadFromFile(T& res, const std::string& fileName)
+{
+	if (!res.loadFromFile(fileName))
+	{
+		std::cerr << "can't load " << fileName << std::endl;
+	}
+}
 
 // math variables
 const float invSqrtTwo = 0.7071067811865475f;
