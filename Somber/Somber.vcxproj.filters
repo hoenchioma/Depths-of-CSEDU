@@ -25,6 +25,18 @@
     <Filter Include="Source Files\EngineX\SATCD">
       <UniqueIdentifier>{8ab28bcf-a81a-4d2a-ae40-283e2c8b0ff1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Floor1">
+      <UniqueIdentifier>{34ecc7fb-1025-440e-97d3-901d0671881b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Floor1">
+      <UniqueIdentifier>{014b3a80-e631-439b-ba02-07da1ffb63b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Boss1">
+      <UniqueIdentifier>{3f9c37ec-e75c-4d33-b965-38752704a818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Boss1">
+      <UniqueIdentifier>{569ecfc6-4de2-4ff1-9366-8a74addb1c0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -45,22 +57,7 @@
     <ClInclude Include="EngineX\eClock.h">
       <Filter>Header Files\EngineX</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainChar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Balcony.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EngineX\Point.h">
@@ -68,6 +65,21 @@
     </ClInclude>
     <ClInclude Include="EngineX\Polygon.h">
       <Filter>Header Files\EngineX\SATCD</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor1.h">
+      <Filter>Header Files\Floor1</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files\Floor1</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header Files\Floor1</Filter>
+    </ClInclude>
+    <ClInclude Include="Balcony.h">
+      <Filter>Header Files\Floor1</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss1.h">
+      <Filter>Header Files\Boss1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,26 +95,26 @@
     <ClCompile Include="EngineX\Engine.cpp">
       <Filter>Source Files\EngineX</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainChar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Balcony.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EngineX\Polygon.cpp">
       <Filter>Source Files\EngineX\SATCD</Filter>
+    </ClCompile>
+    <ClCompile Include="Balcony.cpp">
+      <Filter>Source Files\Floor1</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source Files\Floor1</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Floor1</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor1.cpp">
+      <Filter>Source Files\Floor1</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss1.cpp">
+      <Filter>Source Files\Boss1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
