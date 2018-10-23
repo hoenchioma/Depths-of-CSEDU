@@ -53,8 +53,6 @@ void Boss1::LoadRes()
 
 void Boss1::Init(Engine* game)
 {
-	cout << "boss1 scene initialized" << endl;
-
 	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
@@ -163,6 +161,8 @@ void Boss1::Init(Engine* game)
 	barDis = 50 - fuseWidth / 2;
 	randLimitW = fuseWidth + 200;
 	randLimitH = fuseHeight + 200;
+
+	cout << "boss1 scene initialized" << endl;
 }
 
 void Boss1::Cleanup()

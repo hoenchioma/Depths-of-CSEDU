@@ -48,8 +48,6 @@ void Floor1::LoadRes()
 
 void Floor1::Init(Engine* game)
 {
-	cout << "floor1 scene initialized" << endl;
-
 	///////////////// views //////////////////////////
 	/*view.setCenter(game->width / 2, game->height / 2);
 	view.setSize(game->width, game->height);*/
@@ -123,6 +121,8 @@ void Floor1::Init(Engine* game)
 	background.setColor(Color(light, light, light));
 	balcony.setBrightness(light);
 	///for (auto& coin : coins) coin.setColor(Color(light, light, light));
+
+	cout << "floor1 scene initialized" << endl;
 }
 
 void Floor1::Cleanup()
