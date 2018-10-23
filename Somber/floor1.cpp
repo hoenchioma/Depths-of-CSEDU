@@ -35,6 +35,15 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load door texture" << endl;
 	}
+	if (!balconyTop.loadFromFile("res/Balcony_new_top.png"))
+	{
+		cerr << "can't load balcony top texture" << endl;
+	}
+	if (!balconyBottom.loadFromFile("res/Balcony_new_bottom.png"))
+	{
+		cerr << "can't load balcony bottom texture" << endl;
+	}
+	loadFromFile(balconyUnder, "res/Balcony_new_under_black.png");
 }
 
 void Floor1::Init(Engine* game)
@@ -48,8 +57,9 @@ void Floor1::Init(Engine* game)
 	////////////// main character ////////////////////
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
-	mainChar.setOrigin(mainChar.getTextureRect().width / 2.0, mainChar.getTextureRect().height / 2.0);
-	mainChar.setPosition(game->width / 2.0, game->height / 2.0);
+	//mainChar.setPosition(game->width / 2.f, game->height / 2.f);
+	mainChar.setPosition(0, 0);
+	mainChar.dontIntersect(&balcony.getPoly());
 	///mainChar.setPosition(0, 0);
 
 	////////////////// background ///////////////////////
@@ -62,6 +72,28 @@ void Floor1::Init(Engine* game)
 	door.setScale(0.85, 0.85);
 	door.setPosition(110, 5);
 
+	/////////////// balcony //////////////////////////
+	balcony.Init(
+		{
+			{18, 437},
+			{207, 585},
+			{477, 585},
+			{674, 437},
+			{674, 208},
+			{477, 70},
+			{207, 70},
+			{18, 208}
+		},
+		balconyTop, 
+		balconyBottom, 
+		balconyUnder, 
+		Vector2f(
+			game->width / 2.f + wallOffSetX + 20.f, 
+			game->height / 2.f + wallOffSetY + 85.f
+		)
+	);
+	balcony.setScale(1.25f);
+
 	/////////////////// coins //////////////////////
 	for (auto& coin : coins)
 	{
@@ -69,11 +101,17 @@ void Floor1::Init(Engine* game)
 		coin.addSheet(AniSprite::dir::horizontal, coinSpriteSheet.getSize().x / 8, coinSpriteSheet.getSize().y);
 		coin.setDelay(0.1);
 		coin.setScale(1.25, 1.25);
-		///coin.setOrigin(coin.getSize().x / 2, coin.getSize().y / 2);
-		coin.setPosition(
-			wallOffSetX + rand() % (int) (background.getGlobalBounds().width - wallOffSetX - revOffSetX - coin.getSize().x),
-			wallOffSetY + rand() % (int) (background.getGlobalBounds().height - wallOffSetY - revOffSetY - coin.getSize().y)
-		);
+		//coin.setOrigin(coin.getSize().x / 2, coin.getSize().y / 2);
+
+		do
+		{
+			coin.setPosition(
+				wallOffSetX + rand() % (int)(background.getGlobalBounds().width - wallOffSetX - revOffSetX - coin.getSize().x),
+				wallOffSetY + rand() % (int)(background.getGlobalBounds().height - wallOffSetY - revOffSetY - coin.getSize().y)
+			);
+		} while (Polygon(coin.getGlobalBounds()).intersects(balcony.getPoly()));
+		// randomly generate coins until it spawns outside the balcony region
+
 		coin.setSound(sound);
 		coin.getSound().setVolume(30);
 	}
@@ -83,6 +121,7 @@ void Floor1::Init(Engine* game)
 	door.setColor(Color(light, light, light));
 	mainChar.setColor(Color(light, light, light));
 	background.setColor(Color(light, light, light));
+	balcony.setBrightness(light);
 	///for (auto& coin : coins) coin.setColor(Color(light, light, light));
 }
 
@@ -190,6 +229,7 @@ void Floor1::Update(Engine * game, double dt)
 		///////////////// View Logic /////////////////////
 		// so that camera/view doesn't go out of bounds
 		sf::View& view = *game->gameView;
+
 		if (mainChar.getPosition().x >= game->width / 2
 			and mainChar.getPosition().x + game->width / 2 <= background.getGlobalBounds().width)
 		{
@@ -219,6 +259,8 @@ void Floor1::Draw(RenderWindow * app)
 	app->draw(background);
 
 	door.drawTo(app);
+	balcony.drawBottom(app);
 	if (!enteringdoor) mainChar.drawTo(app);
 	for (auto& coin : coins) coin.drawTo(app);
+	balcony.drawTop(app);
 }

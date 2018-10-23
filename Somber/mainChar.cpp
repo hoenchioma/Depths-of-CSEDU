@@ -3,6 +3,9 @@
 using namespace sf;
 using namespace std;
 
+const float charTexOffsetX = 15;
+const float charTexOffsetY = 10;
+
 void MainChar::Init(sf::Texture& tex, float delay, float vel)
 {
 	this->vel = vel;
@@ -27,6 +30,12 @@ void MainChar::Init(sf::Texture& tex, float delay, float vel)
 
 	ani[3].addSheet(AniSprite::dir::horizontal, bitx, bity, 0, 0);
 	ani[3].setDefault(IntRect(bitx, 0, bitx, bity));
+
+	// set the origin of the sprite to the centre
+	setOrigin(getTextureRect().width / 2.f, getTextureRect().height / 2.f);
+
+	// initializing polygon
+	setPolyInit();
 }
 
 void MainChar::setScale(float x, float y)
@@ -35,6 +44,8 @@ void MainChar::setScale(float x, float y)
 	{
 		i.setScale(x, y);
 	}
+	// resizing polygon after setScale
+	setPoly();
 }
 
 void MainChar::setScale(sf::Vector2f vec)
@@ -43,6 +54,8 @@ void MainChar::setScale(sf::Vector2f vec)
 	{
 		i.setScale(vec);
 	}
+	// resizing polygon after setScale
+	setPoly();
 }
 
 sf::Vector2f MainChar::getPosition() const
@@ -68,11 +81,15 @@ sf::FloatRect MainChar::getGlobalBounds() const
 void MainChar::setPosition(sf::Vector2f vec)
 {
 	for (auto& i : ani) i.setPosition(vec);
+	// resetting polygon after position change
+	setPoly();
 }
 
 void MainChar::setPosition(float x, float y)
 {
 	for (auto& i : ani) i.setPosition(x, y);
+	// resetting polygon after position change
+	setPoly();
 }
 
 void MainChar::setOrigin(sf::Vector2f vec)
@@ -135,6 +152,16 @@ void MainChar::keyHandle()
 	}
 }
 
+bool MainChar::intersects(const Polygon & a)
+{
+	return this->getPoly().intersects(a);
+}
+
+void MainChar::dontIntersect(Polygon * a)
+{
+	offLimits.push_back(a);
+}
+
 void MainChar::update(float dt)
 {
 	if (running)
@@ -154,12 +181,44 @@ void MainChar::update(float dt)
 
 				// vx = vel cos 45 = vel * 1/sqrt(2)
 				// vy = vel sin 45 = vel * 1/sqrt(2)
+
+			}
+
+			// updates the polygon after each movement
+			setPoly();
+
+			// if intersection takes place revert the movement and break the loop
+			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); }))
+			{
+				float oppVel = -vel;
+				for (auto& i : ani)
+				{
+					i.move(
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][0],
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][1]
+					);
+					i.move(
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][0],
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][1]
+					);
+				}
 			}
 		}
 		else
 		{
 			for (auto& i : ani)
 				i.move(dt * vel * dirAr[state][0], dt * vel * dirAr[state][1]);
+
+			// updates the polygon after each movement
+			setPoly();
+
+			// if intersection takes place revert the movement and break the loop
+			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); }))
+			{
+				float oppVel = -vel;
+				for (auto& i : ani)
+					i.move(dt * oppVel * dirAr[state][0], dt * oppVel * dirAr[state][1]);
+			}
 		}
 	}
 }
@@ -167,4 +226,36 @@ void MainChar::update(float dt)
 void MainChar::drawTo(sf::RenderWindow* app)
 {
 	ani[state].drawTo(app);
+	//poly.draw(app);
+}
+
+void MainChar::setPolyInit()
+{
+	float left = getGlobalBounds().left + charTexOffsetX;
+	float right = getGlobalBounds().left + getGlobalBounds().width - charTexOffsetX;
+	float top = getGlobalBounds().top + charTexOffsetY;
+	float bottom = getGlobalBounds().top + getGlobalBounds().height; 
+	// not subtracting from bottom because the bottom part of texture has no gap
+
+	poly.setPoints({
+		{left, top},
+		{left, bottom},
+		{right, bottom},
+		{right, top},
+	});
+}
+void MainChar::setPoly()
+{
+	float left = getGlobalBounds().left + charTexOffsetX;
+	float right = getGlobalBounds().left + getGlobalBounds().width - charTexOffsetX;
+	float top = getGlobalBounds().top + charTexOffsetY;
+	float bottom = getGlobalBounds().top + getGlobalBounds().height;
+	// not subtracting from bottom because the bottom part of texture has no gap
+	
+	poly.vertex[0] = Point(left, top);
+	poly.vertex[1] = Point(left, bottom);
+	poly.vertex[2] = Point(right, bottom);
+	poly.vertex[3] = Point(right, top);
+	poly.setCentre();
+	poly.sideSet();
 }

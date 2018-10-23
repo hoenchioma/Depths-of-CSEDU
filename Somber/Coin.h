@@ -1,10 +1,11 @@
 #pragma once
 
-#include "EngineX/AniSprite.h"
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+
+#include "EngineX/AniSprite.h"
+#include "EngineX/Polygon.h"
 
 class MainChar;
 

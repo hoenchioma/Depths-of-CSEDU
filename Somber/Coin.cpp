@@ -15,7 +15,7 @@ Coin::~Coin()
 
 bool Coin::collected(MainChar& mc)
 {
-	if (this->getGlobalBounds().intersects(mc.getGlobalBounds()))
+	if (mc.intersects(this->getGlobalBounds()))
 	{
 		this->setPosition((int) 1e7, (int) 1e7);
 		if (soundSet) sound.play();

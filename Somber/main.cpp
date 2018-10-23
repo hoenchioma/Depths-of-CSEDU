@@ -1,9 +1,12 @@
 #include "EngineX/Engine.h"
+
 #include "Floor1.h"
 #include "Boss1.h"
+
 #include <ctime>
 
 using namespace sf;
+using namespace std;
 
 const int gameWidth = 1280;
 const int gameHeight = 720;
@@ -21,7 +24,8 @@ int main()
 	game.width = gameWidth;
 	game.height = gameHeight;
 
-	View gameView(FloatRect(gameWidth / 2.f, gameHeight / 2.f, gameWidth, gameHeight));
+	View gameView(FloatRect(0, 0, gameWidth, gameHeight));
+	//gameView.setCenter(gameWidth / 2.f, gameHeight / 2.f);
 	gameView.setViewport(FloatRect(0.f, 0.f, 0.8f, 0.8f));
 	game.gameView = &gameView;
 

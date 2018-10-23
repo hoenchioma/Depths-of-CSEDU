@@ -167,12 +167,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Balcony.h" />
     <ClInclude Include="Boss1.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\eClock.h" />
     <ClInclude Include="EngineX\Engine.h" />
+    <ClInclude Include="EngineX\Point.h" />
+    <ClInclude Include="EngineX\Polygon.h" />
     <ClInclude Include="EngineX\Scene.h" />
     <ClInclude Include="EngineX\Utility.h" />
     <ClInclude Include="pch.h" />
@@ -180,11 +183,13 @@
     <ClInclude Include="MainChar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Balcony.cpp" />
     <ClCompile Include="Boss1.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />
+    <ClCompile Include="EngineX\Polygon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

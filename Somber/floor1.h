@@ -6,9 +6,11 @@
 
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
+
 #include "MainChar.h"
 #include "Door.h"
 #include "Coin.h"
+#include "Balcony.h"
 
 class Floor1: public Scene
 {
@@ -56,6 +58,11 @@ private:
 	sf::SoundBuffer sound;
 	Coin coins[20];
 	int coinCollected = 0;
+
+	Balcony balcony;
+	sf::Texture balconyTop;
+	sf::Texture balconyBottom;
+	sf::Texture balconyUnder;
 
 	bool enteringdoor = false;
 };

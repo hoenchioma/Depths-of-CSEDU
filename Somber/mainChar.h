@@ -2,6 +2,9 @@
 
 #include "EngineX/AniSprite.h"
 #include "EngineX/Utility.h"
+#include "EngineX/Polygon.h"
+
+#include <vector>
 
 class MainChar
 {
@@ -26,11 +29,15 @@ public:
 	void setOrigin(sf::Vector2f vec);
 	void setOrigin(float x, float y);
 	void setColor(const sf::Color& color);
+	Polygon& getPoly() { return poly; }
 
 	void moveOn(Direction direc);
 	void moveOff();
 	void setDirec(Direction direc) { state = direc; }
 	void keyHandle();
+
+	bool intersects(const Polygon& a);
+	void dontIntersect(Polygon* a); // add a polygon to the off-limits list
 
 	void update(float dt);
 
@@ -46,9 +53,15 @@ private:
 	};
 
 	AniSprite ani[4];
+	Polygon poly;
 	float vel = 500;
 	Direction state = DOWN;
 	bool diagOn = false;
 	std::pair <Direction, Direction> state_diag;
+
+	void setPolyInit();
+	void setPoly();
+
+	std::vector <Polygon*> offLimits; // polygons the character is not supposed to intersect
 };
 
