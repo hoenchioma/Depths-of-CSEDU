@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="Balcony.h" />
     <ClInclude Include="Boss1.h" />
+    <ClInclude Include="Boss2.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
@@ -185,6 +186,7 @@
   <ItemGroup>
     <ClCompile Include="Balcony.cpp" />
     <ClCompile Include="Boss1.cpp" />
+    <ClCompile Include="Boss2.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />

@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Boss1">
       <UniqueIdentifier>{569ecfc6-4de2-4ff1-9366-8a74addb1c0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Boss2">
+      <UniqueIdentifier>{e06ebba8-bc03-48cf-b9ac-4ea789c14dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Boss2">
+      <UniqueIdentifier>{f9f40033-8d02-4604-b346-a456edb0682b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -81,6 +87,9 @@
     <ClInclude Include="Boss1.h">
       <Filter>Header Files\Boss1</Filter>
     </ClInclude>
+    <ClInclude Include="Boss2.h">
+      <Filter>Header Files\Boss2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -115,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Boss1.cpp">
       <Filter>Source Files\Boss1</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss2.cpp">
+      <Filter>Source Files\Boss2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
