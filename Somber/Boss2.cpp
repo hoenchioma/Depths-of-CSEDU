@@ -9,12 +9,12 @@ using namespace std;
 
 void Boss2::LoadRes()
 {
-	bulletTexture.loadFromFile("bullet.png");
-	spriteTexture.loadFromFile("sprite.png");
-	undeadTexture1.loadFromFile("undead1.png");
-	undeadTexture2.loadFromFile("undead2.png");
-	undeadTexture3.loadFromFile("undead3.png");
-	crosshair.loadFromFile("res/crosshair.png");
+	loadFromFile(bulletTexture, "bullet.png");
+	loadFromFile(spriteTexture, "sprite.png");
+	loadFromFile(undeadTexture1, "undead1.png");
+	loadFromFile(undeadTexture2, "undead2.png");
+	loadFromFile(undeadTexture3, "undead3.png");
+	loadFromFile(crosshair, "res/crosshair.png");
 }
 
 void Boss2::Init(Engine* game)
@@ -77,7 +77,7 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		target.setPosition(mouse.getPosition(*game->app).x - crosshair.getSize().x / 20, mouse.getPosition(window).y - crosshair.getSize().y / 20);
+		target.setPosition(mouse.getPosition(*game->app).x - crosshair.getSize().x / 20, mouse.getPosition(*game->app).y - crosshair.getSize().y / 20);
 
 		if (sprite.health > 0)
 		{
@@ -93,7 +93,7 @@ void Boss2::Update(Engine * game, double dt)
 				bulletTime += 1 * dt*dtMul;
 			if (Mouse::isButtonPressed(Mouse::Left) && bulletTime >= 35)
 			{
-				sprite.bullets.push_back(bullet(&bulletTexture, sprite.object.getPosition(), Mouse::getPosition(window)));
+				sprite.bullets.push_back(bullet(&bulletTexture, sprite.object.getPosition(), Mouse::getPosition(*game->app)));
 				bulletTime = 0;
 			}
 			for (int i = 0; i < sprite.bullets.size(); i++)
@@ -104,7 +104,7 @@ void Boss2::Update(Engine * game, double dt)
 					sprite.bullets.erase(sprite.bullets.begin() + i);
 					break;
 				}
-				for (j = 0; j < zombies.size(); j++)
+				for (int j = 0; j < zombies.size(); j++)
 				{
 					if (sprite.bullets[i].object.getGlobalBounds().intersects(zombies[j].object.getGlobalBounds()))
 					{
