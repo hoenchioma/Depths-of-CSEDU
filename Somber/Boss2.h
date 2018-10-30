@@ -2,7 +2,7 @@
 #pragma once
 
 #include "EngineX/Scene.h"
-#include "EngineX/AniSprite.h"
+#include "EngineX/Anisprite.h"
 
 #include <vector>
 #include <cmath>
@@ -53,8 +53,8 @@ private:
 	std::vector<undead>zombies;
 	//window.setFramerateLimit(60);
 	Texture bulletTexture;
-	Texture spriteTexture;
-	sprite& sprite; // put in a reference so that it works with the rest of the code
+	Texture playerTexture;
+	player player(&playerTexture); // put in a reference so that it works with the rest of the code
 	Texture undeadTexture1;
 	Texture undeadTexture2;
 	Texture undeadTexture3;

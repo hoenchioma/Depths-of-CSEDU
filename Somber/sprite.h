@@ -4,16 +4,16 @@
 #include <SFML/Window.hpp>
 #include "bullet.h"
 
-class sprite
+class player
 {
 public:
 	int health;
 	sf::Sprite object;
 	std::vector<bullet> bullets;
-	sprite(sf::Texture *texture)
+	player(sf::Texture *texture)
 	{
 		health = 150;
 		object.setTexture(*texture);
 	}
-	~sprite() {}
+	~player() {}
 };
