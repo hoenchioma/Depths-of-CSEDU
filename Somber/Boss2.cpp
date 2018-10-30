@@ -1,6 +1,7 @@
 #include "Boss2.h"
 
 #include "EngineX/Utility.h"
+#include "Floor1.h"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ void Boss2::Init(Engine* game)
 	undeadTexture1.setSmooth(true);
 	undeadTexture2.setSmooth(true);
 	undeadTexture3.setSmooth(true);
+	player.Init(&playerTexture);
 	player.object.setPosition(windowWidth / 2, windowHeight / 2);
 	target.setTexture(crosshair);
 	target.setScale(0.1, 0.1);
@@ -93,7 +95,7 @@ void Boss2::Update(Engine * game, double dt)
 				bulletTime += 1 * dt*dtMul;
 			if (Mouse::isButtonPressed(Mouse::Left) && bulletTime >= 35)
 			{
-				player.bullets.push_back(bullet(&bulletTexture, player.object.getPosition(), Mouse::getPosition(*game->app)));
+				player.bullets.push_back(Bullet(&bulletTexture, player.object.getPosition(), Mouse::getPosition(*game->app)));
 				bulletTime = 0;
 			}
 			for (int i = 0; i < player.bullets.size(); i++)
@@ -124,7 +126,7 @@ void Boss2::Update(Engine * game, double dt)
 			if (spawnTime < 80) spawnTime += 1 * dt*dtMul;
 			if (spawnTime >= 80)
 			{
-				zombies.push_back(undead(&undeadTexture1, &undeadTexture2, &undeadTexture3));
+				zombies.push_back(Undead(&undeadTexture1, &undeadTexture2, &undeadTexture3));
 				spawnTime = 0;
 			}
 			for (int i = 0; i < zombies.size(); i++)

@@ -3,14 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-class undead
+class Undead
 {
 public:
 	sf::Sprite object;
 	int health;
 	int maxHealth;
 	int position;
-	undead(sf::Texture *texture1, sf::Texture *texture2, sf::Texture *texture3)
+	Undead(sf::Texture *texture1, sf::Texture *texture2, sf::Texture *texture3)
 	{
 		maxHealth = rand() % 3 + 1;
 		position = rand() % 8 + 1;

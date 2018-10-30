@@ -2,6 +2,7 @@
 
 #include "Floor1.h"
 #include "Boss1.h"
+#include "Boss2.h"
 
 #include <ctime>
 
@@ -29,8 +30,9 @@ int main()
 	gameView.setViewport(FloatRect(0.f, 0.f, 0.8f, 0.8f));
 	game.gameView = &gameView;
 
-	game.pushScene(Floor1::getInstance());
+	//game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
+	game.pushScene(Boss2::getInstance());
 
 	app.setFramerateLimit(120);
 

@@ -3,14 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-class bullet
+class Bullet
 {
 public:
 	sf::Sprite object;
 	double bulletMulX;
 	double bulletMulY;
 	double dis;
-	bullet(sf::Texture *texture, sf::Vector2f position, sf::Vector2i click)
+	Bullet(sf::Texture *texture, sf::Vector2f position, sf::Vector2i click)
 	{
 		object.setTexture(*texture);
 		object.setScale(.06, .06);
@@ -21,5 +21,5 @@ public:
 		bulletMulX /= dis;
 		bulletMulY /= dis;
 	}
-	~bullet() {}
+	~Bullet() {}
 };

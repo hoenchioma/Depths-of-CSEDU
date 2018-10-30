@@ -90,13 +90,13 @@
     <ClInclude Include="Boss2.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
-    <ClInclude Include="bullet.h">
+    <ClInclude Include="Player.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
-    <ClInclude Include="sprite.h">
+    <ClInclude Include="Bullet.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
-    <ClInclude Include="undead.h">
+    <ClInclude Include="Undead.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
   </ItemGroup>

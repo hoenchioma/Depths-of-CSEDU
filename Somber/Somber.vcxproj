@@ -170,7 +170,7 @@
     <ClInclude Include="Balcony.h" />
     <ClInclude Include="Boss1.h" />
     <ClInclude Include="Boss2.h" />
-    <ClInclude Include="bullet.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
@@ -183,8 +183,8 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Floor1.h" />
     <ClInclude Include="MainChar.h" />
-    <ClInclude Include="sprite.h" />
-    <ClInclude Include="undead.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Undead.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Balcony.cpp" />

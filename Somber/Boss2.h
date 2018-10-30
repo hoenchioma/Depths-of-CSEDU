@@ -9,9 +9,9 @@
 #include <cstdlib>
 
 #include "MainChar.h"
-#include "bullet.h"
-#include "sprite.h"
-#include "undead.h"
+#include "Bullet.h"
+#include "Player.h"
+#include "Undead.h"
 
 class Boss2 : public Scene
 {
@@ -49,16 +49,15 @@ private:
 	float bulletTime = 60;
 	float zombieSpeed = .5;
 	float spawnTime = 0;
-	Sprite target;
-	std::vector<undead>zombies;
-	//window.setFramerateLimit(60);
-	Texture bulletTexture;
-	Texture playerTexture;
-	player player(&playerTexture); // put in a reference so that it works with the rest of the code
-	Texture undeadTexture1;
-	Texture undeadTexture2;
-	Texture undeadTexture3;
-	Texture crosshair;
+	sf::Sprite target;
+	std::vector<Undead>zombies;
+	sf::Texture bulletTexture;
+	sf::Texture playerTexture;
+	Player player;
+	sf::Texture undeadTexture1;
+	sf::Texture undeadTexture2;
+	sf::Texture undeadTexture3;
+	sf::Texture crosshair;
 	sf::Mouse mouse;
 
 	// Declare variables here

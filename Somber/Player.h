@@ -2,18 +2,20 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "bullet.h"
+#include "Bullet.h"
 
-class player
+class Player
 {
 public:
+	Player() {}
+	~Player() {}
+
 	int health;
 	sf::Sprite object;
-	std::vector<bullet> bullets;
-	player(sf::Texture *texture)
+	std::vector<Bullet> bullets;
+	void Init(sf::Texture *texture)
 	{
 		health = 150;
 		object.setTexture(*texture);
 	}
-	~player() {}
 };
