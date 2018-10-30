@@ -20,14 +20,7 @@ int main()
 	Clock clock;
 	double dt;
 
-	Engine game(&app);
-	game.width = gameWidth;
-	game.height = gameHeight;
-
-	View gameView(FloatRect(0, 0, gameWidth, gameHeight));
-	//gameView.setCenter(gameWidth / 2.f, gameHeight / 2.f);
-	gameView.setViewport(FloatRect(0.f, 0.f, 0.8f, 0.8f));
-	game.gameView = &gameView;
+	Engine game(&app, gameWidth, gameHeight);
 
 	game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
@@ -52,10 +45,7 @@ int main()
 		game.Update(dt);
 
 		app.clear();
-		
-		app.setView(gameView);
 		game.Draw();
-		
 		app.display();
 	}
 	game.Cleanup();

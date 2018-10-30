@@ -13,14 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\EngineX">
-      <UniqueIdentifier>{8e0ad878-b3d1-48c7-a077-450d8b8c903b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\EngineX">
       <UniqueIdentifier>{6e593c4f-efca-40e2-b213-f1e459d21ac9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\EngineX\SATCD">
-      <UniqueIdentifier>{6daaef31-9c0f-4928-8ed2-61d41e6d7234}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\EngineX\SATCD">
       <UniqueIdentifier>{8ab28bcf-a81a-4d2a-ae40-283e2c8b0ff1}</UniqueIdentifier>
@@ -36,6 +30,18 @@
     </Filter>
     <Filter Include="Source Files\Boss1">
       <UniqueIdentifier>{569ecfc6-4de2-4ff1-9366-8a74addb1c0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX">
+      <UniqueIdentifier>{8e0ad878-b3d1-48c7-a077-450d8b8c903b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\SATCD">
+      <UniqueIdentifier>{6daaef31-9c0f-4928-8ed2-61d41e6d7234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Boss3">
+      <UniqueIdentifier>{063f2017-0a1b-40c0-b743-fbf80bb599f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Boss3">
+      <UniqueIdentifier>{8c689140-cc52-4f92-b1b0-e7f78dfef302}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +87,15 @@
     <ClInclude Include="Boss1.h">
       <Filter>Header Files\Boss1</Filter>
     </ClInclude>
+    <ClInclude Include="Boss3.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
+    <ClInclude Include="Array2d.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -115,6 +130,15 @@
     </ClCompile>
     <ClCompile Include="Boss1.cpp">
       <Filter>Source Files\Boss1</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss3.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="Array2d.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\Boss3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
