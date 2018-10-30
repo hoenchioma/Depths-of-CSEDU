@@ -90,6 +90,15 @@
     <ClInclude Include="Boss2.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>Header Files\Boss2</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>Header Files\Boss2</Filter>
+    </ClInclude>
+    <ClInclude Include="undead.h">
+      <Filter>Header Files\Boss2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

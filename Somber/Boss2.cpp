@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 using namespace sf;
 using namespace std;
 
@@ -18,12 +17,9 @@ void Boss2::LoadRes()
 	crosshair.loadFromFile("res/crosshair.png");
 }
 
-
 void Boss2::Init(Engine* game)
 {
-
-
-	app->setMouseCursorVisible(false);
+	game->app->setMouseCursorVisible(false);
 	undeadTexture1.setSmooth(true);
 	undeadTexture2.setSmooth(true);
 	undeadTexture3.setSmooth(true);
@@ -33,10 +29,7 @@ void Boss2::Init(Engine* game)
 	sf::Mouse mouse;
 
 	//Init
-
 }
-
-
 
 void Boss2::Cleanup()
 {
@@ -84,7 +77,7 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		target.setPosition(mouse.getPosition(window).x - crosshair.getSize().x / 20, mouse.getPosition(window).y - crosshair.getSize().y / 20);
+		target.setPosition(mouse.getPosition(*game->app).x - crosshair.getSize().x / 20, mouse.getPosition(window).y - crosshair.getSize().y / 20);
 
 		if (sprite.health > 0)
 		{
@@ -103,7 +96,7 @@ void Boss2::Update(Engine * game, double dt)
 				sprite.bullets.push_back(bullet(&bulletTexture, sprite.object.getPosition(), Mouse::getPosition(window)));
 				bulletTime = 0;
 			}
-			for (i = 0; i < sprite.bullets.size(); i++)
+			for (int i = 0; i < sprite.bullets.size(); i++)
 			{
 				sprite.bullets[i].object.move(15 * sprite.bullets[i].bulletMulX*dt*dtMul, 15 * sprite.bullets[i].bulletMulY*dt*dtMul);
 				if (sprite.bullets[i].object.getPosition().x > windowWidth || sprite.bullets[i].object.getPosition().x < 0 || sprite.bullets[i].object.getPosition().y > windowHeight || sprite.bullets[i].object.getPosition().y > windowHeight)
@@ -134,7 +127,7 @@ void Boss2::Update(Engine * game, double dt)
 				zombies.push_back(undead(&undeadTexture1, &undeadTexture2, &undeadTexture3));
 				spawnTime = 0;
 			}
-			for (i = 0; i < zombies.size(); i++)
+			for (int i = 0; i < zombies.size(); i++)
 			{
 				if (zombies[i].object.getPosition().x > sprite.object.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
 				if (zombies[i].object.getPosition().x < sprite.object.getPosition().x) zombies[i].object.move(zombieSpeed*dt*dtMul, 0);
@@ -151,29 +144,20 @@ void Boss2::Update(Engine * game, double dt)
 				}
 			}
 		}
-
-
 	}
 }
 
 
 void Boss2::Draw(RenderWindow * app)
 {
-
-	app->.draw(target);
-	app->.draw(sprite.object);
-	for (i = 0; i < sprite.bullets.size(); i++)
+	app->draw(target);
+	app->draw(sprite.object);
+	for (int i = 0; i < sprite.bullets.size(); i++)
 	{
-		app->.draw(sprite.bullets[i].object);
+		app->draw(sprite.bullets[i].object);
 	}
-	for (i = 0; i < zombies.size(); i++)
-		app->.draw(zombies[i].object);
-
-
-
-
-
-
+	for (int i = 0; i < zombies.size(); i++)
+		app->draw(zombies[i].object);
 };
 
 
