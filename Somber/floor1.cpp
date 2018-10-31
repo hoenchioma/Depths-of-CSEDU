@@ -2,6 +2,7 @@
 
 #include "EngineX/Utility.h"
 #include "Boss1.h"
+#include "Boss2.h"
 
 #include <iostream>
 
@@ -70,6 +71,10 @@ void Floor1::Init(Engine* game)
 	door.setScale(0.85, 0.85);
 	door.setPosition(110, 5);
 
+	door2.Init(DoorImage);
+	door2.setScale(0.85, 0.85);
+	door2.setPosition(400, 5);
+
 	/////////////// balcony //////////////////////////
 	balcony.Init(
 		{
@@ -117,6 +122,7 @@ void Floor1::Init(Engine* game)
 	/////////////// dark effect /////////////////////////
 	Uint8 light = 150; // the lower this value the more darker
 	door.setColor(Color(light, light, light));
+	door2.setColor(Color(light, light, light));
 	mainChar.setColor(Color(light, light, light));
 	background.setColor(Color(light, light, light));
 	balcony.setBrightness(light);
@@ -161,6 +167,11 @@ void Floor1::HandleEvents(Engine * game, Event * event)
 				cout << "door Opened" << endl;
 				door.open();
 			}
+			if (mainChar.getGlobalBounds().intersects(door2.getGlobalBounds()))
+			{
+				cout << "door 2 Opened" << endl;
+				door2.open();
+			}
 			break;
 		default:
 			break;
@@ -178,8 +189,6 @@ void Floor1::Update(Engine * game, double dt)
 		// Key press & release handle, character movement
 		mainChar.keyHandle();
 
-		bool intersection = mainChar.getGlobalBounds().intersects(door.getGlobalBounds());
-
 		// so that the character sprite cannot go out of bounds
 		// when the player tries to go out of bounds setPosition s to the boundary point
 		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < wallOffSetX - 10)
@@ -193,24 +202,34 @@ void Floor1::Update(Engine * game, double dt)
 		// special case logic for Door
 		// character can only enter Door region if Door is open
 		// character cannot enter wall region
-		if (door.DoorState == Door::state::CLOSED)
+
+		bool intersection = mainChar.getGlobalBounds().intersects(door.getGlobalBounds());
+		bool intersection2 = mainChar.getGlobalBounds().intersects(door2.getGlobalBounds());
+
+		//if (door.DoorState == Door::state::CLOSED)
+		//{
+		//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+		//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+		//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
+		//}
+		//else
+		//{
+			//if (!intersection)
+			//{
+			//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+			//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+			//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
+			//}
+		//}
+
+		if (intersection)
 		{
-			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
-			// 40 so that the character can partially enter the wall for a pseudo 3d effect
-		}
-		else
-		{
-			if (!intersection)
+			if (door.DoorState == Door::state::CLOSED)
 			{
 				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
 					mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
 				// 40 so that the character can partially enter the wall for a pseudo 3d effect
 			}
-		}
-
-		if (intersection)
-		{
 			if (mainChar.getPosition().y < 50)
 			{
 				///////// scene change /////////////
@@ -221,6 +240,49 @@ void Floor1::Update(Engine * game, double dt)
 				//changes the direction downward for when the player returns to scene
 				mainChar.setDirec(Direction::DOWN);
 			}
+		}
+
+		//if (door2.DoorState == Door::state::CLOSED)
+		//{
+		//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+		//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+		//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
+		//}
+		//else
+		//{
+			//if (!intersection2)
+			//{
+			//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+			//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+			//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
+			//}
+		//}
+
+		else if (intersection2)
+		{
+			if (door2.DoorState == Door::state::CLOSED)
+			{
+				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+					mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+				// 40 so that the character can partially enter the wall for a pseudo 3d effect
+			}
+			if (mainChar.getPosition().y < 50)
+			{
+				///////// scene change /////////////
+				pushScene(game, Boss2::getInstance());
+				enteringdoor = true;
+				//sets position outside Door to prevent instant re-entry
+				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY);
+				//changes the direction downward for when the player returns to scene
+				mainChar.setDirec(Direction::DOWN);
+			}
+		}
+
+		else
+		{
+			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
+				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+			// 40 so that the character can partially enter the wall for a pseudo 3d effect
 		}
 		
 		// Update the main character (movement & animation)
@@ -259,6 +321,7 @@ void Floor1::Draw(RenderWindow * app)
 	app->draw(background);
 
 	door.drawTo(app);
+	door2.drawTo(app);
 	balcony.drawBottom(app);
 	if (!enteringdoor) mainChar.drawTo(app);
 	for (auto& coin : coins) coin.drawTo(app);

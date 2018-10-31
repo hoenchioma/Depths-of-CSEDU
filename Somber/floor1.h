@@ -53,6 +53,7 @@ private:
 
 	sf::Texture DoorImage;
 	Door door;
+	Door door2;
 
 	sf::Texture coinSpriteSheet;
 	sf::SoundBuffer sound;

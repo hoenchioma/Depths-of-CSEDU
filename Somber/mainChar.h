@@ -37,7 +37,10 @@ public:
 	void keyHandle();
 
 	bool intersects(const Polygon& a);
-	void dontIntersect(Polygon* a); // add a polygon to the off-limits list
+	void dontIntersect(Polygon* a); // add a polygon pointer to the off-limits list
+	// (saves a reference/pointer to the polygon)
+	void dontIntersect(Polygon a); // add a polygon to the off-limits list
+	// (saves the polygon itself)
 
 	void update(float dt);
 
@@ -63,5 +66,6 @@ private:
 	void setPoly();
 
 	std::vector <Polygon*> offLimits; // polygons the character is not supposed to intersect
+	std::vector <Polygon> offLimits_hard; // polygons the character is not supposed to intersect
 };
 

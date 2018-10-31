@@ -162,6 +162,11 @@ void MainChar::dontIntersect(Polygon * a)
 	offLimits.push_back(a);
 }
 
+void MainChar::dontIntersect(Polygon a)
+{
+	offLimits_hard.push_back(a);
+}
+
 void MainChar::update(float dt)
 {
 	if (running)
@@ -189,6 +194,21 @@ void MainChar::update(float dt)
 
 			// if intersection takes place revert the movement and break the loop
 			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); }))
+			{
+				float oppVel = -vel;
+				for (auto& i : ani)
+				{
+					i.move(
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][0],
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][1]
+					);
+					i.move(
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][0],
+						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][1]
+					);
+				}
+			}
+			if (any_of(offLimits_hard.begin(), offLimits_hard.end(), [&](auto& i) {return poly.intersects(i); }))
 			{
 				float oppVel = -vel;
 				for (auto& i : ani)

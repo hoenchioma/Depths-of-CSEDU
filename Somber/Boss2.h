@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "Undead.h"
+#include "EngineX/eClock.h"
 
 class Boss2 : public Scene
 {
@@ -52,13 +53,33 @@ private:
 	sf::Sprite target;
 	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
-	sf::Texture playerTexture;
+	//sf::Texture playerTexture;
+	sf::Texture playerSpriteSheet;
 	Player player;
 	sf::Texture undeadTexture1;
 	sf::Texture undeadTexture2;
 	sf::Texture undeadTexture3;
 	sf::Texture crosshair;
 	sf::Mouse mouse;
+	eClock zombieEatStep;
+
+	// life variables
+	float heartDim = 16;
+
+	sf::Texture heartFull;
+	sf::Texture heartHalf;
+	sf::Texture heartEmpty;
+
+	sf::RectangleShape heart1;
+	sf::RectangleShape heart2;
+	sf::RectangleShape heart3;
+	sf::RectangleShape heart4;
+	sf::RectangleShape heart5;
+
+	// exit variables
+	sf::Texture exitLit;
+	sf::Sprite exit;
+	eClock exitTimer;
 
 	// Declare variables here
 };

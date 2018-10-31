@@ -3,6 +3,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include <cmath>
+
+const double PIE = acos(-1.0);
+
 class Bullet
 {
 public:
@@ -20,6 +24,9 @@ public:
 		dis = sqrt(pow(bulletMulX, 2) + pow(bulletMulY, 2));
 		bulletMulX /= dis;
 		bulletMulY /= dis;
+
+		float angle = atan((click.y - position.y) / (click.x - position.x)) * 180 / PIE;
+		object.setRotation(angle);
 	}
 	~Bullet() {}
 };
