@@ -23,7 +23,9 @@ public:
 	std::vector <Point> side;
 
 	// for convex polygon only
-	bool intersects(const Polygon& a); //SAT collision detection
+	// SAT collision detection
+	// optimized for rectangle (this) and polygon (a) collision [for now]
+	bool intersects(const Polygon& a);
 
 	void draw(sf::RenderWindow* app); //for debugging purposes
 

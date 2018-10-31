@@ -290,7 +290,8 @@ void Floor1::Update(Engine * game, double dt)
 
 		///////////////// View Logic /////////////////////
 		// so that camera/view doesn't go out of bounds
-		sf::View& view = *game->gameView;
+		// using a reference as a temporary fix to internal view variable change in engine
+		sf::View& view = game->gameView;
 
 		if (mainChar.getPosition().x >= game->width / 2
 			and mainChar.getPosition().x + game->width / 2 <= background.getGlobalBounds().width)

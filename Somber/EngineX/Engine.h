@@ -11,15 +11,28 @@ class Engine
 {
 public:
 	Engine() {}
-	Engine(sf::RenderWindow* app);
+	Engine(sf::RenderWindow * app, double gameWidth, double gameHeight);
 	~Engine();
 
 	sf::RenderWindow* app;
-	sf::View* gameView;
 	double width;
 	double height;
+	double fullWidth;
+	double fullHeight;
 
-	void Init(sf::RenderWindow* app);
+	// view management
+	sf::View gameView;
+	// reset the views before using them (viewport is already set)
+	// the flags whether the view is drawn
+	sf::View textBox;
+	bool textBoxOn = false;
+	sf::View inventory;
+	bool inventoryOn = false;
+	sf::View miniMap;
+	bool miniMapOn = false;
+	sf::View fullScreen;
+
+	void Init(sf::RenderWindow * app, double gameWidth, double gameHeight);
 	void Cleanup();
 
 	void Pause();

@@ -2,9 +2,9 @@
 #include "Engine.h"
 #include "Scene.h"
 
-Engine::Engine(sf::RenderWindow * app)
+Engine::Engine(sf::RenderWindow * app, double gameWidth, double gameHeight)
 {
-	Init(app);
+	Init(app, gameWidth, gameHeight);
 }
 
 Engine::~Engine()
@@ -12,11 +12,31 @@ Engine::~Engine()
 	Cleanup();
 }
 
-void Engine::Init(sf::RenderWindow * app)
+void Engine::Init(sf::RenderWindow * app, double gameWidth, double gameHeight)
 {
 	this->app = app; // do not remove "this->"
-	this->width = app->getSize().x;
-	this->height = app->getSize().y;
+	this->fullWidth = app->getSize().x;
+	this->fullHeight = app->getSize().y;
+	this->width = gameWidth;
+	this->height = gameHeight;
+
+	// set game view
+	gameView.reset(sf::FloatRect(0, 0, gameWidth, gameHeight));
+	//gameView.setCenter(sf::gameWidth / 2.f, gameHeight / 2.f);
+	gameView.setViewport(sf::FloatRect(0.f, 0.f, 0.8f, 0.8f));
+
+	// set textbox view
+	textBox.setViewport(sf::FloatRect(0.f, 0.8f, 0.8f, 0.2f));
+
+	// set mini map view
+	miniMap.setViewport(sf::FloatRect(0.8f, 0.8f, 0.2f, 0.2f));
+
+	// set inventory view
+	inventory.setViewport(sf::FloatRect(0.8f, 0.f, 0.2f, 0.8f));
+
+	// set the fullscreen view
+	fullScreen.reset(sf::FloatRect(0, 0, fullWidth, fullHeight));
+	fullScreen.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 }
 
 void Engine::Cleanup()
@@ -52,7 +72,35 @@ void Engine::Update(double dt)
 void Engine::Draw()
 {
 	if (!_scenes.empty())
-		_scenes.top()->Draw(app);
+	{
+		if (!_scenes.top()->_fullScreen)
+		{
+			app->setView(gameView);
+			_scenes.top()->Draw(app);
+
+			// only draw them if their respective flags are set
+			if (textBoxOn)
+			{
+				app->setView(textBox);
+				_scenes.top()->Draw(app);
+			}
+			if (miniMapOn)
+			{
+				app->setView(miniMap);
+				_scenes.top()->Draw(app);
+			}
+			if (inventoryOn)
+			{
+				app->setView(inventory);
+				_scenes.top()->Draw(app);
+			}
+		}
+		else // if fullScreen flag is set load the fullscreen view
+		{
+			app->setView(fullScreen);
+			_scenes.top()->Draw(app);
+		}
+	}
 }
 
 void Engine::_changeScene(Scene * newScene)
@@ -65,7 +113,7 @@ void Engine::_changeScene(Scene * newScene)
 	_scenes.push(newScene);
 
 	// load resources only if it is the first time
-	if (!_scenes.top()->resourceLoaded)
+	if (!_scenes.top()->_resourceLoaded)
 	{
 		// time the resource loading process (only in debug)
 #ifdef _DEBUG
@@ -76,18 +124,18 @@ void Engine::_changeScene(Scene * newScene)
 		std::cerr << "Resources Loaded in " << timer.getElapsedTime().asMilliseconds() << "ms" << std::endl;
 #endif // _DEBUG
 
-		_scenes.top()->resourceLoaded = true;
+		_scenes.top()->_resourceLoaded = true;
 	}
 
 	// initializes the scene
-	if (_scenes.top()->immortal)
+	if (_scenes.top()->_immortal)
 	{
-		if (!_scenes.top()->loadedOnce)
+		if (!_scenes.top()->_loadedOnce)
 			_scenes.top()->Init(this);
 	}
 	else _scenes.top()->Init(this);
 
-	_scenes.top()->loadedOnce = true;
+	_scenes.top()->_loadedOnce = true;
 
 #ifdef _DEBUG
 	std::cerr << "changed state" << std::endl;
@@ -102,7 +150,7 @@ void Engine::_pushScene(Scene * newScene)
 	}
 	_scenes.push(newScene);
 	// load resources only if it is the first time
-	if (!_scenes.top()->resourceLoaded)
+	if (!_scenes.top()->_resourceLoaded)
 	{
 		// time the resource loading process (only in debug)
 #ifdef _DEBUG
@@ -113,17 +161,17 @@ void Engine::_pushScene(Scene * newScene)
 		std::cerr << "Resources Loaded in " << timer.getElapsedTime().asMilliseconds() << "ms" << std::endl;
 #endif // _DEBUG
 
-		_scenes.top()->resourceLoaded = true;
+		_scenes.top()->_resourceLoaded = true;
 	}
 	// initializes the scene
-	if (_scenes.top()->immortal)
+	if (_scenes.top()->_immortal)
 	{
-		if (!_scenes.top()->loadedOnce)
+		if (!_scenes.top()->_loadedOnce)
 			_scenes.top()->Init(this);
 	}
 	else _scenes.top()->Init(this);
 
-	_scenes.top()->loadedOnce = true;
+	_scenes.top()->_loadedOnce = true;
 
 #ifdef _DEBUG
 	std::cerr << "pushed state" << std::endl;

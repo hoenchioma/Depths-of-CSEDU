@@ -8,9 +8,11 @@ public:
 	Scene() {}
 	~Scene() {}
 
-	bool resourceLoaded = false;
-	bool immortal = false; // immortal scenes still get cleaned on pop
-	bool loadedOnce = false;
+	bool _immortal = false; // immortal scenes still get cleaned on pop
+	bool _fullScreen = false; // if the scene is a menu, gameView will take fullscreen
+	
+	bool _resourceLoaded = false;
+	bool _loadedOnce = false;
 
 	virtual void LoadRes() = 0;
 	virtual void Init(Engine* game) = 0;
