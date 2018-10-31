@@ -20,6 +20,10 @@ void Boss2::LoadRes()
 	loadFromFile(heartHalf, "res/heart_half.png");
 	loadFromFile(heartEmpty, "res/heart_empty.png");
 	loadFromFile(exitLit, "res/exitLit.png");
+	loadFromFile(bulletSoundBuf, "res/Sounds/40_smith_wesson_8x_gunshot-mike-koenig_2.wav");
+	sf::SoundBuffer tempBuf;
+	loadFromFile(tempBuf, "res/Sounds/Zombie Gets Attacked-SoundBible.com-20348330.wav");
+	zombieSoundBuf.insert({ "zombie_attacked", tempBuf });
 }
 
 void Boss2::Init(Engine* game)
@@ -71,6 +75,14 @@ void Boss2::Init(Engine* game)
 	exit.setPosition(1e7, 1e7);
 	exit.setTexture(exitLit);
 	exitTimer.restart();
+
+	// sound
+	bulletSound.setBuffer(bulletSoundBuf);
+	bulletSound.setVolume(20);
+
+	zombieAttacked.push_back(Sound(zombieSoundBuf["zombie_attacked"]));
+	zombieAttacked.back().setVolume(50);
+	zombieAttacked.push_back(Sound());
 
 	//Init
 }
@@ -165,6 +177,7 @@ void Boss2::Update(Engine * game, double dt)
 				bulletTime += 1 * dt*dtMul;
 			if (Mouse::isButtonPressed(Mouse::Left) && bulletTime >= 35)
 			{
+				bulletSound.play(); // play sound when gun is fired
 				player.bullets.push_back(Bullet(&bulletTexture, player.getPosition(), Mouse::getPosition(*game->app)));
 				bulletTime = 0;
 			}
@@ -180,6 +193,7 @@ void Boss2::Update(Engine * game, double dt)
 				{
 					if (player.bullets[i].object.getGlobalBounds().intersects(zombies[j].object.getGlobalBounds()))
 					{
+						zombieAttacked[rand() % zombieAttacked.size()].play();
 						if (zombies[j].health <= 1)
 						{
 							zombies.erase(zombies.begin() + j);
@@ -187,6 +201,7 @@ void Boss2::Update(Engine * game, double dt)
 						else
 						{
 							zombies[j].health--;
+
 						}
 						player.bullets.erase(player.bullets.begin() + i);
 						break;

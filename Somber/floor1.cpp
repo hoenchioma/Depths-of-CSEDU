@@ -73,7 +73,7 @@ void Floor1::Init(Engine* game)
 
 	door2.Init(DoorImage);
 	door2.setScale(0.85, 0.85);
-	door2.setPosition(400, 5);
+	door2.setPosition(500, 5);
 
 	/////////////// balcony //////////////////////////
 	balcony.Init(

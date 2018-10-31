@@ -1,5 +1,8 @@
 #pragma once
-#pragma once
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 #include "EngineX/Scene.h"
 #include "EngineX/Anisprite.h"
@@ -80,6 +83,17 @@ private:
 	sf::Texture exitLit;
 	sf::Sprite exit;
 	eClock exitTimer;
+
+	// bullet sound
+	sf::SoundBuffer bulletSoundBuf;
+	sf::Sound bulletSound;
+
+	// zombie sound
+	std::map <std::string, sf::SoundBuffer> zombieSoundBuf;
+	std::vector <sf::Sound> zombieSound;
+	std::vector <sf::Sound> zombieAttacked;
+
+	eClock bulletSoundOffSet;
 
 	// Declare variables here
 };
