@@ -190,7 +190,6 @@
     <ClInclude Include="Undead.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Array2d.cpp" />
     <ClCompile Include="Balcony.cpp" />
     <ClCompile Include="Boss1.cpp" />
     <ClCompile Include="Boss2.cpp" />
@@ -210,9 +209,16 @@
     </ClCompile>
     <ClCompile Include="Floor1.cpp" />
     <ClCompile Include="MainChar.cpp" />
+    <ClCompile Include="Undead.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\Balcony_new.png" />
+    <Image Include="res\Balcony_new_bottom.png" />
+    <Image Include="res\Balcony_new_top.png" />
+    <Image Include="res\Balcony_new_under_black.png" />
+    <Image Include="res\bullet.png" />
     <Image Include="res\coin_gold.png" />
+    <Image Include="res\crosshair.png" />
     <Image Include="res\door.png" />
     <Image Include="res\door_skewed.png" />
     <Image Include="res\exitDim.png" />
@@ -224,12 +230,23 @@
     <Image Include="res\heart_empty.png" />
     <Image Include="res\heart_full.png" />
     <Image Include="res\heart_half.png" />
+    <Image Include="res\player.png" />
     <Image Include="res\running_1.png" />
+    <Image Include="res\running_base.png" />
+    <Image Include="res\undead1.png" />
+    <Image Include="res\undead2.png" />
+    <Image Include="res\undead2_mod.png" />
+    <Image Include="res\undead3.png" />
+    <Image Include="res\undead3_mod.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\Balcony_base.pdn" />
+    <None Include="res\Balcony_new.pdn" />
+    <None Include="res\balcony_rails.pdn" />
     <None Include="res\floor_back.pdn" />
     <None Include="res\Floor_tile.pdn" />
     <None Include="res\template.pdn" />
+    <None Include="res\Untitled.pdn" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

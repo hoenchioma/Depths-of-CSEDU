@@ -2,8 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
 #include "Bullet.h"
 #include "MainChar.h"
+
+#include <vector>
 
 class Player: public MainChar
 {

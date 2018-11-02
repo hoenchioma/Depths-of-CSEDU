@@ -156,6 +156,7 @@ void Boss2::Update(Engine * game, double dt)
 		else if (player.health <= 10	&&	player.health > 0)		heart5.setTexture(&heartEmpty);
 		else if (player.health <= 0)
 		{
+			// restarts game
 			reset(game);
 		}
 
@@ -201,7 +202,6 @@ void Boss2::Update(Engine * game, double dt)
 						else
 						{
 							zombies[j].health--;
-
 						}
 						player.bullets.erase(player.bullets.begin() + i);
 						break;
@@ -239,6 +239,7 @@ void Boss2::Update(Engine * game, double dt)
 			}
 		}
 
+		// Exit level
 		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
 		{
 			exit.setPosition(0, windowHeight - 60);
@@ -257,9 +258,7 @@ void Boss2::Draw(RenderWindow * app)
 	//app->draw(player.object);
 	player.drawTo(app);
 	for (int i = 0; i < player.bullets.size(); i++)
-	{
 		app->draw(player.bullets[i].object);
-	}
 	for (int i = 0; i < zombies.size(); i++)
 		app->draw(zombies[i].object);
 

@@ -93,7 +93,7 @@ private:
 	std::vector <sf::Sound> zombieSound;
 	std::vector <sf::Sound> zombieAttacked;
 
-	eClock bulletSoundOffSet;
+	//eClock bulletSoundOffSet;
 
 	// Declare variables here
 };

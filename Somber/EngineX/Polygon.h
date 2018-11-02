@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+	A vector of Points (see Point class)
+
+	-Has SAT intersection detection (between two polygons)
+*/
+
+#include <SFML/Graphics.hpp>
+
 #include "Point.h"
 
 #include <vector>

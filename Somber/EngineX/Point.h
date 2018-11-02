@@ -1,5 +1,14 @@
 #pragma once
 
+/*
+	A pair of two floats
+	Point implementation for Polygon class
+
+	-convertable to and from sf::Vector2f
+*/
+
+#include <SFML/Graphics.hpp>
+
 #include <iostream>
 #include <cmath>
 
