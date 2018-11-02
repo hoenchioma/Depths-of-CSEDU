@@ -206,22 +206,6 @@ void Floor1::Update(Engine * game, double dt)
 		bool intersection = mainChar.getGlobalBounds().intersects(door.getGlobalBounds());
 		bool intersection2 = mainChar.getGlobalBounds().intersects(door2.getGlobalBounds());
 
-		//if (door.DoorState == Door::state::CLOSED)
-		//{
-		//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-		//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
-		//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
-		//}
-		//else
-		//{
-			//if (!intersection)
-			//{
-			//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-			//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
-			//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
-			//}
-		//}
-
 		if (intersection)
 		{
 			if (door.DoorState == Door::state::CLOSED)
@@ -241,23 +225,6 @@ void Floor1::Update(Engine * game, double dt)
 				mainChar.setDirec(Direction::DOWN);
 			}
 		}
-
-		//if (door2.DoorState == Door::state::CLOSED)
-		//{
-		//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-		//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
-		//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
-		//}
-		//else
-		//{
-			//if (!intersection2)
-			//{
-			//	if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-			//		mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
-			//	// 40 so that the character can partially enter the wall for a pseudo 3d effect
-			//}
-		//}
-
 		else if (intersection2)
 		{
 			if (door2.DoorState == Door::state::CLOSED)
@@ -277,7 +244,6 @@ void Floor1::Update(Engine * game, double dt)
 				mainChar.setDirec(Direction::DOWN);
 			}
 		}
-
 		else
 		{
 			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
@@ -323,6 +289,7 @@ void Floor1::Draw(RenderWindow * app)
 
 	door.drawTo(app);
 	door2.drawTo(app);
+
 	balcony.drawBottom(app);
 	if (!enteringdoor) mainChar.drawTo(app);
 	for (auto& coin : coins) coin.drawTo(app);

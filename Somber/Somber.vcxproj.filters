@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Boss2">
       <UniqueIdentifier>{f9f40033-8d02-4604-b346-a456edb0682b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Boss3">
+      <UniqueIdentifier>{036f0582-486a-4be2-9e8a-86786e768d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Boss3">
+      <UniqueIdentifier>{ba7133d3-8188-4a9a-8cf6-edbdb7bae9b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -99,6 +105,15 @@
     <ClInclude Include="Undead.h">
       <Filter>Header Files\Boss2</Filter>
     </ClInclude>
+    <ClInclude Include="Boss3.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
+    <ClInclude Include="Array2d.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -136,6 +151,15 @@
     </ClCompile>
     <ClCompile Include="Boss2.cpp">
       <Filter>Source Files\Boss2</Filter>
+    </ClCompile>
+    <ClCompile Include="Array2d.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss3.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\Boss3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,6 @@ public:
 	Point toPoint(int x, int y);
 
 private:
-	Array2d <bool> grid;
+	//Array2d <bool> grid;
 };
 

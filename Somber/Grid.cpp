@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-
 using namespace std;
 using namespace sf;
 
@@ -13,7 +12,6 @@ Grid::Grid()
 
 Grid::~Grid()
 {
-
 }
 
 void Grid::Init(float canvasX, float canvasY, int BIT)
@@ -23,17 +21,16 @@ void Grid::Init(float canvasX, float canvasY, int BIT)
 	sizeX = canvasX / BIT;
 	sizeY = canvasY / BIT;
 
-	grid.Init(sizeY, sizeX, false);
+	//grid.Init(sizeY, sizeX, false);
 }
 
 void Grid::insert(sf::FloatRect rect)
 {
-	int top = rect.top / BIT;
 }
 
 void Grid::block(int x, int y)
 {
-	grid[y][x] = true;
+	//grid[y][x] = true;
 }
 
 Point Grid::toPoint(int x, int y)
