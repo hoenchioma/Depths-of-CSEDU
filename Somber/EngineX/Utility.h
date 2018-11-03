@@ -54,3 +54,18 @@ void loadFromFile(T& res, const std::string& fileName)
 
 // math variables
 const float invSqrtTwo = 0.7071067811865475f;
+
+// view centering
+// gameSize is the size of the actual game map
+// pos is the position to centre the camera to
+inline void centreView(sf::View& view, sf::Vector2f pos, sf::Vector2f gameSize)
+{
+	if (pos.x >= view.getSize().x / 2.0 and pos.x + view.getSize().x / 2.0 <= gameSize.x)
+		view.setCenter(pos.x, view.getCenter().y);
+	if (pos.y >= view.getSize().y / 2.0 and pos.y + view.getSize().y / 2.0 <= gameSize.y)
+		view.setCenter(view.getCenter().x, pos.y);
+}
+inline void centreView(sf::View& view, sf::Vector2f pos, sf::FloatRect gameSizeRect)
+{
+	centreView(view, pos, sf::Vector2f(gameSizeRect.width, gameSizeRect.height));
+}
