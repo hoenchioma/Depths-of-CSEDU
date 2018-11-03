@@ -256,20 +256,7 @@ void Floor1::Update(Engine * game, double dt)
 
 		///////////////// View Logic /////////////////////
 		// so that camera/view doesn't go out of bounds
-		// using a reference as a temporary fix to internal view variable change in engine
-		sf::View& view = game->gameView;
-
-		if (mainChar.getPosition().x >= game->width / 2
-			and mainChar.getPosition().x + game->width / 2 <= background.getGlobalBounds().width)
-		{
-			view.setCenter(mainChar.getPosition().x, view.getCenter().y);
-		}
-		if (mainChar.getPosition().y >= game->height / 2
-			and mainChar.getPosition().y + game->height / 2 <= background.getGlobalBounds().height)
-		{
-			view.setCenter(view.getCenter().x, mainChar.getPosition().y);
-		}
-		//game->app->setView(view);
+		centreView(game->gameView, mainChar.getPosition(), background.getGlobalBounds());
 
 		////////////// Coin Logic //////////////////////
 		for (auto& coin : coins)
