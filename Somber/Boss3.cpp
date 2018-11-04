@@ -11,10 +11,10 @@ void Boss3::LoadRes()
 
 void Boss3::Init(Engine * game)
 {
-	grid.Init(CanvasWidth, CanvasHeight, 30);
+	grid.Init(CanvasWidth, CanvasHeight, 40);
 	cout << grid.sizeX << " " << grid.sizeY << endl;
 
-	snek.Init(50, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, 0.1, 1.75);
+	snek.Init(50, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, 0.2, 1.5);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
