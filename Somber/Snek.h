@@ -23,7 +23,9 @@ public:
 	// returns whether the snake has devoured the character
 	bool update(float dt, sf::Vector2f targetPos, bool targetMoved);
 
-	void move(GridPoint point);
+	void move(GridPoint des);
+	void movePartial(double progress);
+	void moveStatic();
 
 	void drawTo(sf::RenderWindow* app);
 
