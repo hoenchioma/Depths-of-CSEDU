@@ -36,11 +36,22 @@ public:
 	void setDirec(Direction direc) { state = direc; }
 	void keyHandle();
 
+	// set the boundary of player movement (in Init)
+	// note that it takes a reference to the boundary as it can't store it by itself
+	void setBoundary(sf::Vector2f& vec);
+
+	// set the boundary of player movement (in Init)
+	// note that it takes a reference to the boundary as it can't store it by itself
+	template <class Type> void setBoundary(Type& width, Type& height);
+
 	bool intersects(const Polygon& a);
-	void dontIntersect(Polygon* a); // add a polygon pointer to the off-limits list
-	// (saves a reference/pointer to the polygon)
-	void dontIntersect(Polygon a); // add a polygon to the off-limits list
-	// (saves the polygon itself)
+
+	// add a polygon pointer to the off-limits list (saves a reference/pointer to the polygon)
+	void dontIntersect(Polygon* a);
+	// add a polygon to the off-limits list (saves the polygon itself)
+	void dontIntersect(Polygon a);
+	// add a bool function to the dontDo list (things the char is not allowed to do)
+	void dontMoveIf(std::function <bool ()> comp);
 
 	void update(float dt);
 
@@ -67,5 +78,12 @@ private:
 
 	std::vector <Polygon*> offLimits; // polygons the character is not supposed to intersect
 	std::vector <Polygon> offLimits_hard; // polygons the character is not supposed to intersect
+	std::vector <std::function <bool(void)> > dontDo; // the bool functions character is not allowed to do
 };
 
+template<class Type>
+inline void MainChar::setBoundary(Type& width, Type& height)
+{
+	this->dontMoveIf([&]() {return this->getPosition().x < 0 or this->getPosition().x > width; });
+	this->dontMoveIf([&]() {return this->getPosition().y < 0 or this->getPosition().y > height; });
+}

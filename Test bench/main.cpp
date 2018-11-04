@@ -1,9 +1,6 @@
 #include "EngineX/Engine.h"
 
-#include "Floor1.h"
-#include "Boss1.h"
-#include "Boss2.h"
-#include "Boss3.h"
+#include "Boss4.h"
 
 #include <ctime>
 
@@ -24,10 +21,7 @@ int main()
 
 	Engine game(&app, gameWidth, gameHeight);
 
-	game.pushScene(Floor1::getInstance());
-	//game.pushScene(Boss1::getInstance());
-	//game.pushScene(Boss2::getInstance());
-	//game.pushScene(Boss3::getInstance());
+	game.pushScene(Boss4::getInstance());
 
 	app.setFramerateLimit(120);
 

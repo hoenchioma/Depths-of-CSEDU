@@ -152,6 +152,11 @@ void MainChar::keyHandle()
 	}
 }
 
+void MainChar::setBoundary(sf::Vector2f& bounds)
+{
+	setBoundary(bounds.x, bounds.y);
+}
+
 bool MainChar::intersects(const Polygon & a)
 {
 	return this->getPoly().intersects(a);
@@ -165,6 +170,11 @@ void MainChar::dontIntersect(Polygon * a)
 void MainChar::dontIntersect(Polygon a)
 {
 	offLimits_hard.push_back(a);
+}
+
+void MainChar::dontMoveIf(std::function<bool(void)> comp)
+{
+	dontDo.push_back(comp);
 }
 
 void MainChar::update(float dt)
@@ -193,22 +203,10 @@ void MainChar::update(float dt)
 			setPoly();
 
 			// if intersection takes place revert the movement and break the loop
-			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); }))
-			{
-				float oppVel = -vel;
-				for (auto& i : ani)
-				{
-					i.move(
-						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][0],
-						dt * oppVel * invSqrtTwo * dirAr[state_diag.first][1]
-					);
-					i.move(
-						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][0],
-						dt * oppVel * invSqrtTwo * dirAr[state_diag.second][1]
-					);
-				}
-			}
-			if (any_of(offLimits_hard.begin(), offLimits_hard.end(), [&](auto& i) {return poly.intersects(i); }))
+			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); })
+			or any_of(offLimits_hard.begin(), offLimits_hard.end(), [&](auto& i) {return poly.intersects(i); })
+			or any_of(dontDo.begin(), dontDo.end(), [](auto i) {return i(); })
+			)
 			{
 				float oppVel = -vel;
 				for (auto& i : ani)
@@ -233,7 +231,10 @@ void MainChar::update(float dt)
 			setPoly();
 
 			// if intersection takes place revert the movement and break the loop
-			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); }))
+			if (any_of(offLimits.begin(), offLimits.end(), [&](auto i) {return poly.intersects(*i); })
+			or any_of(offLimits_hard.begin(), offLimits_hard.end(), [&](auto& i) {return poly.intersects(i); })
+			or any_of(dontDo.begin(), dontDo.end(), [](auto i) {return i(); })
+			)
 			{
 				float oppVel = -vel;
 				for (auto& i : ani)

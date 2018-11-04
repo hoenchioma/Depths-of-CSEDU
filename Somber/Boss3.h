@@ -6,6 +6,10 @@
 
 #include "EngineX/Scene.h"
 
+#include "MainChar.h"
+#include "Grid.h"
+#include "Snek.h"
+
 class Boss3 : public Scene
 {
 public:
@@ -34,4 +38,16 @@ private:
 	Boss3(Boss3 const&) = delete;
 	void operator= (Boss3 const&) = delete;
 	bool pause = false;
+
+	const int CanvasWidth = 2000;
+	const int CanvasHeight = 2000;
+
+	sf::Texture characterSpriteSheet;
+
+	MainChar mainChar;
+	Grid grid;
+	Snek snek;
+
+	// position variables to detect if mainChar moved
+	sf::Vector2f prevPos;
 };
