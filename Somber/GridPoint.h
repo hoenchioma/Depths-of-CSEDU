@@ -27,7 +27,7 @@ public:
 	// for IO operations
 	friend std::ostream& operator << (std::ostream& out, const GridPoint& point)
 	{
-		out << point.x << "i + " << point.y << "j";
+		out << "(" << point.x << ", " << point.y << ")";
 		return out;
 	}
 	friend std::istream& operator >> (std::istream& in, GridPoint& point)

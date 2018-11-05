@@ -69,3 +69,9 @@ inline void centreView(sf::View& view, sf::Vector2f pos, sf::FloatRect gameSizeR
 {
 	centreView(view, pos, sf::Vector2f(gameSizeRect.width, gameSizeRect.height));
 }
+// resets the camera to the upper left corner
+// use this when initializing scenes
+inline void resetView(sf::View& view)
+{
+	view.setCenter(view.getSize().x / 2.0, view.getSize().y / 2.0);
+}

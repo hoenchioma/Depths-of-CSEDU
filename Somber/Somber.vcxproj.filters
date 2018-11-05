@@ -19,12 +19,6 @@
     <Filter Include="Source Files\EngineX">
       <UniqueIdentifier>{6e593c4f-efca-40e2-b213-f1e459d21ac9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\EngineX\SATCD">
-      <UniqueIdentifier>{6daaef31-9c0f-4928-8ed2-61d41e6d7234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\EngineX\SATCD">
-      <UniqueIdentifier>{8ab28bcf-a81a-4d2a-ae40-283e2c8b0ff1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Floor1">
       <UniqueIdentifier>{34ecc7fb-1025-440e-97d3-901d0671881b}</UniqueIdentifier>
     </Filter>
@@ -49,34 +43,46 @@
     <Filter Include="Source Files\Boss3">
       <UniqueIdentifier>{ba7133d3-8188-4a9a-8cf6-edbdb7bae9b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\EngineX\Accessory">
+      <UniqueIdentifier>{bb8b2f8e-f835-4b06-85f5-e3946e59076e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\Functional">
+      <UniqueIdentifier>{42250eca-75f8-48ed-aeb2-879409750ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\Functional\SATCD">
+      <UniqueIdentifier>{6daaef31-9c0f-4928-8ed2-61d41e6d7234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\Utility">
+      <UniqueIdentifier>{3d9f38f3-a29c-4500-8744-4fb90218e025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineX\Functional">
+      <UniqueIdentifier>{7f4993d8-b159-4f66-8690-06ce312c5f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineX\Accessory">
+      <UniqueIdentifier>{bbe096d4-b3a7-496c-aa3b-55b60a6902c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineX\Functional\SATCD">
+      <UniqueIdentifier>{8ab28bcf-a81a-4d2a-ae40-283e2c8b0ff1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\Core">
+      <UniqueIdentifier>{7d64369a-ef46-46f3-a3fa-23ce3e87c402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineX\Core">
+      <UniqueIdentifier>{e884dee0-d926-4208-83d5-a1c28963961b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EngineX\AniSprite.h">
-      <Filter>Header Files\EngineX</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineX\Engine.h">
-      <Filter>Header Files\EngineX</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineX\Scene.h">
-      <Filter>Header Files\EngineX</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineX\Utility.h">
-      <Filter>Header Files\EngineX</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineX\eClock.h">
-      <Filter>Header Files\EngineX</Filter>
-    </ClInclude>
     <ClInclude Include="MainChar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EngineX\Point.h">
-      <Filter>Header Files\EngineX\SATCD</Filter>
+      <Filter>Header Files\EngineX\Functional\SATCD</Filter>
     </ClInclude>
     <ClInclude Include="EngineX\Polygon.h">
-      <Filter>Header Files\EngineX\SATCD</Filter>
+      <Filter>Header Files\EngineX\Functional\SATCD</Filter>
     </ClInclude>
     <ClInclude Include="Floor1.h">
       <Filter>Header Files\Floor1</Filter>
@@ -123,6 +129,24 @@
     <ClInclude Include="Maze.h">
       <Filter>Header Files\Boss3</Filter>
     </ClInclude>
+    <ClInclude Include="EngineX\EngineX.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\AniSprite.h">
+      <Filter>Header Files\EngineX\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\eClock.h">
+      <Filter>Header Files\EngineX\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\Utility.h">
+      <Filter>Header Files\EngineX\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\Engine.h">
+      <Filter>Header Files\EngineX\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineX\Scene.h">
+      <Filter>Header Files\EngineX\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -131,17 +155,11 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EngineX\AniSprite.cpp">
-      <Filter>Source Files\EngineX</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineX\Engine.cpp">
-      <Filter>Source Files\EngineX</Filter>
-    </ClCompile>
     <ClCompile Include="MainChar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EngineX\Polygon.cpp">
-      <Filter>Source Files\EngineX\SATCD</Filter>
+      <Filter>Source Files\EngineX\Functional\SATCD</Filter>
     </ClCompile>
     <ClCompile Include="Balcony.cpp">
       <Filter>Source Files\Floor1</Filter>
@@ -175,6 +193,12 @@
     </ClCompile>
     <ClCompile Include="Maze.cpp">
       <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineX\AniSprite.cpp">
+      <Filter>Source Files\EngineX\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineX\Engine.cpp">
+      <Filter>Source Files\EngineX\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

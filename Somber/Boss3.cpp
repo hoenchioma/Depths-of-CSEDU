@@ -4,6 +4,16 @@ using namespace std;
 using namespace sf;
 
 
+#define SNEK_LENGTH 100
+
+// snek speed at easy difficulty
+#define EASY_SNEK 0.3
+// snek speed at medium difficulty
+#define MID_SNEK 0.2
+// snek speed at hard difficulty
+#define HARD_SNEK 0.15
+
+
 void Boss3::LoadRes()
 {
 	loadFromFile(characterSpriteSheet, "res/running_1.png");
@@ -11,6 +21,8 @@ void Boss3::LoadRes()
 
 void Boss3::Init(Engine * game)
 {
+	resetView(game->gameView);
+	
 	grid.Init(CanvasWidth, CanvasHeight, 50);
 
 #ifdef _DEBUG
@@ -20,12 +32,13 @@ void Boss3::Init(Engine * game)
 	Maze maze("extra/maze/maze1.txt");
 	grid.fill(maze);
 
-	snek.Init(100, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, 0.175, 1);
-	//snek.Init(100, GridPoint(grid.sizeX - 1, grid.sizeY - 1), &grid, Color::Green, 0.3, 1);
+	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, MID_SNEK, 1);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
 	mainChar.setPosition(grid.toPoint(GridPoint(0, 0)));
+
+	snek.preCalculateBFS(mainChar.getPosition());
 
 	// so that it doesn't go out of the boundary
 	mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
@@ -35,6 +48,7 @@ void Boss3::Init(Engine * game)
 
 void Boss3::Cleanup()
 {
+	
 }
 
 void Boss3::Pause()
@@ -79,12 +93,11 @@ void Boss3::Update(Engine * game, double dt)
 
 		centreView(game->gameView, mainChar.getPosition(), Vector2f(CanvasWidth, CanvasHeight));
 
-		auto nowPos = mainChar.getPosition();
-		bool eaten = snek.update(dt, mainChar.getPosition(), nowPos != prevPos);
-		prevPos = nowPos;
+		bool eaten = snek.update(dt, mainChar.getPosition());
 
-		if (eaten) popScene(game);
-		if (grid.realToGrid(nowPos) == GridPoint(grid.sizeX - 1, grid.sizeY - 1)) popScene(game);
+		if (eaten) reset(game);
+		if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
+			popScene(game);
 	}
 }
 

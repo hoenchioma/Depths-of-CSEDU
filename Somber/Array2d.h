@@ -39,6 +39,7 @@ private:
 };
 
 
+
 template<class T>
 Array2d<T>::Array2d(size_t y, size_t x)
 {
@@ -65,6 +66,7 @@ void Array2d<T>::Init(size_t y, size_t x)
 
 	size = y * x;
 	
+	if (arr != nullptr) delete[] arr;
 	arr = new T[y * x];
 }
 

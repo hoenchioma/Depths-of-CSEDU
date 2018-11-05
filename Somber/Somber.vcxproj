@@ -178,6 +178,7 @@
     <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\eClock.h" />
     <ClInclude Include="EngineX\Engine.h" />
+    <ClInclude Include="EngineX\EngineX.h" />
     <ClInclude Include="EngineX\Point.h" />
     <ClInclude Include="EngineX\Polygon.h" />
     <ClInclude Include="EngineX\Scene.h" />

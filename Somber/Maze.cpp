@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Maze.h"
 
+#include <fstream>
+
 using namespace std;
 using namespace sf;
 

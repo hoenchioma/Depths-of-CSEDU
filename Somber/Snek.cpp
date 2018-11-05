@@ -85,7 +85,12 @@ void Snek::Init(int length, GridPoint start, Grid* grid, sf::Color color, double
 	this->grid = grid;
 	this->delay = delay;
 	this->scalingFactor = scale;
+	uncoiled = false;
 	_uncoilCount = length;
+	path = { Path(), false };
+
+	body.resize(length);
+	bodyGrid.resize(length);
 	bodyGridPrev.resize(length);
 
 	while (grid->at(start))	start = start + dirArr[rand() % 4];
@@ -99,8 +104,8 @@ void Snek::Init(int length, GridPoint start, Grid* grid, sf::Color color, double
 	// set all the body blocks at the same point so the snake starts coiled
 	for (int i = 0; i < length; i++)
 	{
-		body.push_back(tempRec);
-		bodyGrid.push_back(start);
+		body[i] = tempRec;
+		bodyGrid[i] = start;
 	}
 
 	headCor = bodyGrid.front();
@@ -114,14 +119,19 @@ void Snek::Init(int length, sf::Vector2f start, Grid * grid, sf::Color color, do
 	Init(length, grid->realToGrid(start), grid, color, delay, scale);
 }
 
-bool Snek::update(float dt, sf::Vector2f targetPos, bool targetMoved)
+void Snek::preCalculateBFS(sf::Vector2f targetPos)
+{
+	this->path = grid->bfs(headCor, grid->realToGrid(targetPos));
+}
+
+bool Snek::update(float dt, sf::Vector2f targetPos)
 {
 	double timePassed = time.getElapsedTime().asSeconds();
 	if (timePassed > delay)
 	{
 		moveStatic();
 
-		if (targetMoved)
+		if (path.first.empty() || grid->realToGrid(targetPos) != path.first.back())
 			path = grid->bfs(headCor, grid->realToGrid(targetPos));
 
 		if (path.second) // only move if there is a valid path

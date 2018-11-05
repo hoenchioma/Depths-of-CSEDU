@@ -19,6 +19,10 @@
 #include "Maze.h"
 
 #include <utility>
+#include <deque>
+
+// precision for real world to grid convertion (mod operation)
+#define PRECISION 1000
 
 typedef std::deque<GridPoint> Path;
 typedef std::pair<Path, bool> PathPair;
@@ -30,6 +34,8 @@ static GridPoint dirArr[4] =
 	{0, 1},
 	{0, -1}
 };
+
+
 
 class Grid
 {
@@ -54,12 +60,12 @@ public:
 	void insert(sf::FloatRect rect);
 
 	// convert point from grid co-ordinates to real co-ordinates
-	Point toPoint(int x, int y);
-	Point toPoint(GridPoint cor);
+	inline Point toPoint(int x, int y);
+	inline Point toPoint(GridPoint cor);
 
 	// convert point from real co-ordinates to grid co-ordinates
-	GridPoint realToGrid(sf::Vector2f vec);
-	int realToGrid(float x);
+	inline GridPoint realToGrid(sf::Vector2f vec);
+	inline int realToGrid(float x);
 
 	// block a point in the grid (make it a barrier in bfs)
 	inline void block(int x, int y) { blocked.at(y, x) = true; }
@@ -87,4 +93,51 @@ private:
 	Array2d <GridPoint> parent;
 	Array2d <int> level;
 };
+
+
+
+
+// inline function definitions
+
+inline Point Grid::toPoint(int x, int y)
+{
+	return Point(BIT * x + BIT / 2.0, BIT * y + BIT / 2.0);
+}
+
+inline Point Grid::toPoint(GridPoint cor)
+{
+	return toPoint(cor.x, cor.y);
+}
+
+inline GridPoint Grid::realToGrid(sf::Vector2f vec)
+{
+	int tempY = realToGrid(vec.y);
+	int tempX = realToGrid(vec.x);
+
+	// correction
+	if (tempY < 0) tempY = 0;
+	if (tempY >= sizeY) tempY = sizeY - 1;
+	if (tempX < 0) tempX = 0;
+	if (tempX >= sizeX) tempX = sizeX - 1;
+
+	//cout << tempY << " " << tempX << endl;
+
+	return GridPoint(tempX, tempY);
+}
+
+inline int Grid::realToGrid(float x)
+{
+	int ans = round((double)((x - BIT / 2.0) * PRECISION) / (BIT * PRECISION));
+	return ans;
+}
+
+inline bool Grid::isInside(int x, int y)
+{
+	return (x >= 0 && x < sizeX && y >= 0 && y < sizeY);
+}
+
+inline bool Grid::isInside(GridPoint cor)
+{
+	return isInside(cor.x, cor.y);
+}
 

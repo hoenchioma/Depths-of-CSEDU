@@ -5,6 +5,7 @@
 #include "EngineX/Polygon.h"
 
 #include <vector>
+#include <functional>
 
 class MainChar
 {

@@ -1,12 +1,10 @@
 #include "Grid.h"
 
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 using namespace sf;
-
-// precision for real world to grid convertion (mod operation)
-#define PRECISION 1000
 
 
 Grid::Grid()
@@ -53,48 +51,6 @@ void Grid::insert(sf::FloatRect rect)
 	for (int i = top; i <= bottom; i++)
 		for (int j = left; j <= right; j++)
 			block(i, j);
-}
-
-Point Grid::toPoint(int x, int y)
-{
-	return Point(BIT * x + BIT / 2.0, BIT * y + BIT / 2.0);
-}
-
-Point Grid::toPoint(GridPoint cor)
-{
-	return toPoint(cor.x, cor.y);
-}
-
-GridPoint Grid::realToGrid(sf::Vector2f vec)
-{
-	int tempY = realToGrid(vec.y);
-	int tempX = realToGrid(vec.x);
-	
-	// correction
-	if (tempY < 0) tempY = 0;
-	if (tempY >= sizeY) tempY = sizeY - 1;
-	if (tempX < 0) tempX = 0;
-	if (tempX >= sizeX) tempX = sizeX - 1;
-	
-	//cout << tempY << " " << tempX << endl;
-	
-	return GridPoint(tempX, tempY);
-}
-
-int Grid::realToGrid(float x)
-{
-	int ans = round((double) ((x - BIT / 2.0) * PRECISION) / (BIT * PRECISION));
-	return ans;
-}
-
-inline bool Grid::isInside(int x, int y)
-{
-	return (x >= 0 && x < sizeX && y >= 0 && y < sizeY);
-}
-
-inline bool Grid::isInside(GridPoint cor)
-{
-	return isInside(cor.x, cor.y);
 }
 
 PathPair Grid::bfs(GridPoint src, GridPoint des)

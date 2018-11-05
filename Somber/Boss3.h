@@ -38,6 +38,7 @@ private:
 	Boss3(Boss3 const&) = delete;
 	void operator= (Boss3 const&) = delete;
 	bool pause = false;
+	Engine* game;
 
 	const int CanvasWidth = 2000;
 	const int CanvasHeight = 2000;
@@ -47,7 +48,4 @@ private:
 	MainChar mainChar;
 	Grid grid;
 	Snek snek;
-
-	// position variables to detect if mainChar moved
-	sf::Vector2f prevPos;
 };
