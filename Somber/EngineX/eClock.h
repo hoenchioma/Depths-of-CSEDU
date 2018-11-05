@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Similar to sf::Clock with added functionality of pausing
+*/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 

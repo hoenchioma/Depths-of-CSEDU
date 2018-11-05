@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+	A animated sprite class
+	capable of playing an array of textures on a loop
+*/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <vector>

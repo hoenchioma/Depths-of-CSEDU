@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	header with usefull utlity functions
+*/
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
