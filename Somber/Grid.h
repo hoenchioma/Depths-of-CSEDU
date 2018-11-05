@@ -16,6 +16,7 @@
 #include "EngineX/Point.h"
 #include "Array2d.h"
 #include "GridPoint.h"
+#include "Maze.h"
 
 #include <utility>
 
@@ -45,6 +46,9 @@ public:
 	int BIT = 0;
 	
 	void Init(float canvasX, float canvasY, int BIT);
+	
+	// fill the grid using maze
+	void fill(Maze& maze);
 
 	// block a portion in the grid corresponding to the rect
 	void insert(sf::FloatRect rect);

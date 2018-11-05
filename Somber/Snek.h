@@ -23,10 +23,16 @@ public:
 	// returns whether the snake has devoured the character
 	bool update(float dt, sf::Vector2f targetPos, bool targetMoved);
 
+	// linear interpolated movement
 	void move(GridPoint des);
 	void movePartial(double progress);
 	void moveStatic();
+	
+	// cuts the length of the snake by n from behind
+	void cut(int n);
 
+	// draws corners interpolated fashion (to be drawn over snake)
+	void drawCorners(sf::RenderWindow* app);
 	void drawTo(sf::RenderWindow* app);
 
 	GridPoint tailCor;
@@ -39,13 +45,14 @@ private:
 	std::vector <sf::RectangleShape> body;
 	// body positions in grid co-ordinates
 	std::vector <GridPoint> bodyGrid;
-	// previous positions of the body parts
-	std::vector <sf::Vector2f> bodyPrev;
 	// prev body positions in grid co-ordinates
 	std::vector <GridPoint> bodyGridPrev;
 
 	double delay = 0.2; //in seconds
 	double scalingFactor = 1; // what multiple of BIT will the size of each body sell
 	PathPair path; // active path the snake is following
+
+	bool uncoiled = false;
+	int _uncoilCount;
 };
 

@@ -120,6 +120,9 @@
     <ClInclude Include="GridPoint.h">
       <Filter>Header Files\Boss3</Filter>
     </ClInclude>
+    <ClInclude Include="Maze.h">
+      <Filter>Header Files\Boss3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -168,6 +171,9 @@
       <Filter>Source Files\Boss2</Filter>
     </ClCompile>
     <ClCompile Include="Snek.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze.cpp">
       <Filter>Source Files\Boss3</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,17 +11,24 @@ void Boss3::LoadRes()
 
 void Boss3::Init(Engine * game)
 {
-	grid.Init(CanvasWidth, CanvasHeight, 40);
-	cout << grid.sizeX << " " << grid.sizeY << endl;
+	grid.Init(CanvasWidth, CanvasHeight, 50);
 
-	snek.Init(50, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, 0.2, 1.5);
+#ifdef _DEBUG
+	cout << grid.sizeX << " " << grid.sizeY << endl;
+#endif
+
+	Maze maze("extra/maze/maze1.txt");
+	grid.fill(maze);
+
+	snek.Init(100, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, 0.175, 1);
+	//snek.Init(100, GridPoint(grid.sizeX - 1, grid.sizeY - 1), &grid, Color::Green, 0.3, 1);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
-	mainChar.setPosition(10, 10);
+	mainChar.setPosition(grid.toPoint(GridPoint(0, 0)));
 
 	// so that it doesn't go out of the boundary
-	mainChar.setBoundary(CanvasWidth, CanvasHeight);
+	mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
 	// so that it can't go over the blocked parts in grid
 	mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
 }
@@ -50,6 +57,17 @@ void Boss3::togglePause()
 
 void Boss3::HandleEvents(Engine * game, sf::Event * event)
 {
+	if (event->type == Event::EventType::KeyPressed)
+	{
+		switch (event->key.code)
+		{
+		case Keyboard::Space:
+			togglePause();
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void Boss3::Update(Engine * game, double dt)
@@ -66,6 +84,7 @@ void Boss3::Update(Engine * game, double dt)
 		prevPos = nowPos;
 
 		if (eaten) popScene(game);
+		if (grid.realToGrid(nowPos) == GridPoint(grid.sizeX - 1, grid.sizeY - 1)) popScene(game);
 	}
 }
 

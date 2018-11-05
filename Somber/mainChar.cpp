@@ -152,9 +152,20 @@ void MainChar::keyHandle()
 	}
 }
 
-void MainChar::setBoundary(sf::Vector2f& bounds)
+void MainChar::setBoundary(sf::Vector2f topLeft, sf::Vector2f size)
 {
-	setBoundary(bounds.x, bounds.y);
+	setBoundary(topLeft.x, topLeft.y, size.x, size.y);
+}
+
+void MainChar::setBoundary(sf::FloatRect bound)
+{
+	setBoundary(bound.left, bound.top, bound.width, bound.height);
+}
+
+void MainChar::setBoundary(float left, float top, float width, float height)
+{
+	this->dontMoveIf([=]() {return this->getPosition().x < left or this->getPosition().x > left + width; });
+	this->dontMoveIf([=]() {return this->getPosition().y < top or this->getPosition().y > top + height; });
 }
 
 bool MainChar::intersects(const Polygon & a)

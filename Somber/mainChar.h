@@ -37,12 +37,11 @@ public:
 	void keyHandle();
 
 	// set the boundary of player movement (in Init)
-	// note that it takes a reference to the boundary as it can't store it by itself
-	void setBoundary(sf::Vector2f& vec);
-
+	void setBoundary(float left, float top, float width, float height);
 	// set the boundary of player movement (in Init)
-	// note that it takes a reference to the boundary as it can't store it by itself
-	template <class Type> void setBoundary(Type& width, Type& height);
+	void setBoundary(sf::Vector2f topLeft, sf::Vector2f size);
+	// set the boundary of player movement (in Init)
+	void setBoundary(sf::FloatRect bound);
 
 	bool intersects(const Polygon& a);
 
@@ -80,10 +79,3 @@ private:
 	std::vector <Polygon> offLimits_hard; // polygons the character is not supposed to intersect
 	std::vector <std::function <bool(void)> > dontDo; // the bool functions character is not allowed to do
 };
-
-template<class Type>
-inline void MainChar::setBoundary(Type& width, Type& height)
-{
-	this->dontMoveIf([&]() {return this->getPosition().x < 0 or this->getPosition().x > width; });
-	this->dontMoveIf([&]() {return this->getPosition().y < 0 or this->getPosition().y > height; });
-}

@@ -6,7 +6,7 @@ using namespace std;
 using namespace sf;
 
 // precision for real world to grid convertion (mod operation)
-const int PRECISION = 1000;
+#define PRECISION 1000
 
 
 Grid::Grid()
@@ -36,6 +36,13 @@ void Grid::Init(float canvasX, float canvasY, int BIT)
 	cout << grid.sizeY() << endl;*/
 }
 
+void Grid::fill(Maze & maze)
+{
+	for (int i = 0; i < sizeY; i++)
+		for (int j = 0; j < sizeY; j++)
+			blocked.at(i, j) = maze[i][j];
+}
+
 void Grid::insert(sf::FloatRect rect)
 {
 	int top		= realToGrid(rect.top);
@@ -61,18 +68,22 @@ Point Grid::toPoint(GridPoint cor)
 GridPoint Grid::realToGrid(sf::Vector2f vec)
 {
 	int tempY = realToGrid(vec.y);
+	int tempX = realToGrid(vec.x);
+	
+	// correction
 	if (tempY < 0) tempY = 0;
 	if (tempY >= sizeY) tempY = sizeY - 1;
-	int tempX = realToGrid(vec.x);
 	if (tempX < 0) tempX = 0;
 	if (tempX >= sizeX) tempX = sizeX - 1;
+	
 	//cout << tempY << " " << tempX << endl;
+	
 	return GridPoint(tempX, tempY);
 }
 
 int Grid::realToGrid(float x)
 {
-	int ans = ((int)((x - BIT / 2.0) * PRECISION) / (BIT * PRECISION));
+	int ans = round((double) ((x - BIT / 2.0) * PRECISION) / (BIT * PRECISION));
 	return ans;
 }
 

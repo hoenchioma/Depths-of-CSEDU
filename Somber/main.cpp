@@ -24,10 +24,10 @@ int main()
 
 	Engine game(&app, gameWidth, gameHeight);
 
-	game.pushScene(Floor1::getInstance());
+	//game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
 	//game.pushScene(Boss2::getInstance());
-	//game.pushScene(Boss3::getInstance());
+	game.pushScene(Boss3::getInstance());
 
 	app.setFramerateLimit(120);
 
