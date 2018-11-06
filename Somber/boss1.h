@@ -3,9 +3,9 @@
 #include "EngineX/Scene.h"
 #include "EngineX/AniSprite.h"
 #include "MainChar.h"
+#include "Spotlight.h"
+#include "FuseInfo.h"
 
-#define RADIUS_SPOTLIGHT 180
-#define DIAMETER_SPOTLIGHT 360
 
 class Boss1 : public Scene
 {
@@ -36,47 +36,10 @@ private:
 	void operator= (Boss1 const&) = delete;
 	bool pause = false;
 
-	class fuseInfo 
-	{
-	public:
-		float Health = 100;
-		float X;
-		float Y;
-		sf::Texture object;
-		sf::Sprite fuseBox;
-		sf::RectangleShape fuseHealthBar;
-		fuseInfo()
-		{
-			object.loadFromFile("res/fuseClosed.png");
-			fuseBox.setTexture(object);
-			fuseBox.setScale(.1, .1);
-		}
-		~fuseInfo() {}
-
-	};
-
-
-
-	class spotlight
-	{
-	public:
-		float x,y,dirX=1,dirY=1;
-		sf::CircleShape circleSpot;
-		
-		spotlight()
-		{
-			circleSpot.setRadius(RADIUS_SPOTLIGHT);
-			circleSpot.setPointCount(100);
-		}
-		~spotlight(){}
-	};
-
-
-
 
 	int windowWidth = 2000;
 	int windowHeight = 1500;
-	spotlight lights[5];
+	Spotlight lights[5];
 	float dtMul = 50;
 	//int  radiusSpotlight = 125;
 	//int  diameterSpotlight = 2 * radiusSpotlight;
@@ -114,7 +77,7 @@ private:
 	int randLimitW = fuseWidth + 300;
 	int randLimitH = fuseHeight + 300;
 	int i;
-	fuseInfo fuse[9];
+	FuseInfo fuse[9];
 	sf::Texture tex;
 	sf::Texture fuseClosed;
 	sf::Texture fuseOpened;
@@ -145,7 +108,6 @@ private:
 	sf::RectangleShape exit;
 	sf::Vector2f position = player.getPosition();
 	//sf::View view1;
-	
 
 	//sf::RectangleShape* fuseArray[5] = { &fuse1, &fuse2, &fuse3, &fuse4, &fuse5 };
 	//sf::CircleShape* spotlightArray[3] = { &spotlight1, &spotlight2, &spotlight3 };

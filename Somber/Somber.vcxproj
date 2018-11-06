@@ -183,6 +183,7 @@
     <ClInclude Include="EngineX\Polygon.h" />
     <ClInclude Include="EngineX\Scene.h" />
     <ClInclude Include="EngineX\Utility.h" />
+    <ClInclude Include="FuseInfo.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridPoint.h" />
     <ClInclude Include="Maze.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="MainChar.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Snek.h" />
+    <ClInclude Include="Spotlight.h" />
     <ClInclude Include="Undead.h" />
     <ClInclude Include="Walls.h" />
   </ItemGroup>

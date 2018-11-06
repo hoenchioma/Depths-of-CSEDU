@@ -9,7 +9,7 @@ using namespace sf;
 using namespace std;
 
 
-double centreDis(float X1, float Y1, float X2, float Y2)
+inline double centreDis(float X1, float Y1, float X2, float Y2)
 {
 	double  distance = sqrt(pow((X1 - X2), 2) + pow((Y1 - Y2), 2));
 	return distance;
@@ -58,7 +58,7 @@ void Boss1::Init(Engine* game)
 	_gameViewtemp = &game->gameView;
 
 	player.Init(tex, 0.1f, 300);
-	player.setScale(1.25, 1.25);
+	player.setScale(1.4f, 1.4f);
 	player.setPosition(30, game->height - 130);
 	player.setDirec(Direction::UP);
 	lights[0].x = 0;
@@ -308,12 +308,12 @@ void Boss1::Update(Engine * game, double dt)
 			game->pushScene(Boss1::getInstance());
 		}																		//GAME OVER FLAG
 		
-		for(i=0;i<9;i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].Health, healthBar));
+		for (i = 0; i < 9; i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].health, healthBar));
 
 
 
 		damageFuse = .5*dtMul*dt;
-		if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
+		if (fuse[1].health <= 0 && fuse[2].health <= 0 && fuse[3].health <= 0 && fuse[4].health <= 0 && fuse[5].health)
 		{
 			exit.setTexture(&exitLit);
 			if (position.x <= 110 && position.y >= (windowHeight - 60))
@@ -388,18 +388,17 @@ void Boss1::Update(Engine * game, double dt)
 void Boss1::Draw(RenderWindow * app)
 {
 	//app->setView(view1);
-	for(i=0;i<9;i++) 
-		if (player.intersects(fuse[i].fuseBox.getGlobalBounds()))//player.intersects(fuse[i].fuseBox))
+	for(i = 0; i < 9; i++) 
+		if (player.intersects(fuse[i].fuseBox.getGlobalBounds())) //player.intersects(fuse[i].fuseBox))
 		{
 			app->draw(fuse[i].fuseHealthBar);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
-				printf("health %lf i %d\n",fuse[i].Health,i);
-				if (fuse[i].Health > 0)
+				if (fuse[i].health > 0)
 				{
-					fuse[i].Health -= damageFuse;
+					fuse[i].health -= damageFuse;
 				}
-				if (fuse[i].Health <= 0)
+				if (fuse[i].health <= 0)
 				{
 					fuse[i].fuseBox.setTexture(fuseOpened);
 					//fuse[i].setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
@@ -411,11 +410,11 @@ void Boss1::Draw(RenderWindow * app)
 		app->draw(fuse2Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			if (fuse[2].Health > 0)
+			if (fuse[2].health > 0)
 			{
-				fuse[2].Health -= damageFuse;
+				fuse[2].health -= damageFuse;
 			}
-			if (fuse[2].Health <= 0)
+			if (fuse[2].health <= 0)
 			{
 				fuse2.setTexture(&fuseOpened);
 				fuse2.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
@@ -427,11 +426,11 @@ void Boss1::Draw(RenderWindow * app)
 		app->draw(fuse3Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			if (fuse[3].Health > 0)
+			if (fuse[3].health > 0)
 			{
-				fuse[3].Health -= damageFuse;
+				fuse[3].health -= damageFuse;
 			}
-			if (fuse[3].Health <= 0)
+			if (fuse[3].health <= 0)
 			{
 				fuse3.setTexture(&fuseOpened);
 				fuse3.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
@@ -443,11 +442,11 @@ void Boss1::Draw(RenderWindow * app)
 		app->draw(fuse4Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			if (fuse[4].Health > 0)
+			if (fuse[4].health > 0)
 			{
-				fuse[4].Health -= damageFuse;
+				fuse[4].health -= damageFuse;
 			}
-			if (fuse[4].Health <= 0)
+			if (fuse[4].health <= 0)
 			{
 				fuse4.setTexture(&fuseOpened);
 				fuse4.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
@@ -459,19 +458,19 @@ void Boss1::Draw(RenderWindow * app)
 		app->draw(fuse5Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			if (fuse[5].Health > 0)
+			if (fuse[5].health > 0)
 			{
-				fuse[5].Health -= damageFuse;
+				fuse[5].health -= damageFuse;
 			}
-			if (fuse[5].Health <= 0)
+			if (fuse[5].health <= 0)
 			{
 				fuse5.setTexture(&fuseOpened);
 				fuse5.setSize(Vector2f(fuseWidth+20, fuseHeight+30));
 			}
 		}
 	}*/
-	for(i=0;i<5;i++) app->draw(lights[i].circleSpot);
-	for(i=0;i<9;i++) app->draw(fuse[i].fuseBox);
+	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
+	for (i = 0; i < 9; i++) app->draw(fuse[i].fuseBox);
 	player.drawTo(app);
 	app->draw(heart1);
 	app->draw(heart2);

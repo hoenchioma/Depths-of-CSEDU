@@ -150,6 +150,12 @@
     <ClInclude Include="Walls.h">
       <Filter>Header Files\Boss3</Filter>
     </ClInclude>
+    <ClInclude Include="FuseInfo.h">
+      <Filter>Header Files\Boss1</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotlight.h">
+      <Filter>Header Files\Boss1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
