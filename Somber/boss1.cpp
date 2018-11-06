@@ -54,6 +54,8 @@ void Boss1::LoadRes()
 void Boss1::Init(Engine* game)
 {
 	resetView(game->gameView);
+	_gameViewtemp = &game->gameView;
+
 	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
@@ -120,7 +122,6 @@ void Boss1::Init(Engine* game)
 	exit.setTexture(&exitDim);
 	//view1.setSize(sf::Vector2f(windowWidth, windowHeight));
 
-	Sprite.setBoundary(0, 0, windowWidth, windowHeight);
 	
 	//view1.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
@@ -134,8 +135,8 @@ void Boss1::Init(Engine* game)
 	fuse5.setFillColor(Color(light, light, light));
 
 	// reinitialization of variables if boss1 is played a second time
-	windowWidth = game->width;
-	windowHeight = game->height;
+	windowWidth = 2000;
+	windowHeight = 1500;
 	dtMul = 50;
 	radiusSpotlight = 125;
 	diameterSpotlight = 2 * radiusSpotlight;
@@ -168,11 +169,17 @@ void Boss1::Init(Engine* game)
 	randLimitW = fuseWidth + 200;
 	randLimitH = fuseHeight + 200;
 
+	// set the boundary of Sprite movement
+	Sprite.setBoundary(0, 0, windowWidth, windowHeight);
+
+#ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
+#endif // _DEBUG
 }
 
 void Boss1::Cleanup()
 {
+	resetView(*_gameViewtemp);
 }
 
 void Boss1::Pause()

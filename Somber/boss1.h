@@ -113,6 +113,8 @@ private:
 	sf::CircleShape* spotlightArray[3] = { &spotlight1, &spotlight2, &spotlight3 };
 
 	sf::Uint8 light;
-	// Declare variables here
+
+	// temporarily stores the gameView
+	sf::View* _gameViewtemp;
 };
 
