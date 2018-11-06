@@ -78,6 +78,7 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 	{
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
+			mainMenuSound.stop();
 			pushScene(game, Floor1::getInstance());
 		}/////////////////////////////////play button
 		playButton.objectAc.setPosition(playX, playY);
