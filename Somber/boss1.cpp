@@ -117,6 +117,9 @@ void Boss1::Init(Engine* game)
 	fuse4.setTexture(&fuseClosed);
 	fuse5.setTexture(&fuseClosed);
 	exit.setTexture(&exitDim);
+	view1.setSize(sf::Vector2f(windowWidth, windowHeight));
+	
+	view1.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	// for dark effect
 	light = 100;
@@ -211,6 +214,8 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
+		//view1.setCenter(sf::Vector2f(350.f, 300.f));
 		// Key press & release handle
 		Sprite.keyHandle();
 
@@ -343,6 +348,7 @@ void Boss1::Update(Engine * game, double dt)
 
 void Boss1::Draw(RenderWindow * app)
 {
+	app->setView(view1);
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
 		app->draw(fuse1Bar);
