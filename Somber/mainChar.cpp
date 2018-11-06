@@ -58,6 +58,16 @@ void MainChar::setScale(sf::Vector2f vec)
 	setPoly();
 }
 
+void MainChar::pause()
+{
+	for (auto& i : ani) i.freeze();
+}
+
+void MainChar::resume()
+{
+	for (auto& i : ani) i.unfreeze();
+}
+
 sf::Vector2f MainChar::getPosition() const
 {
 	return ani[0].getPosition();

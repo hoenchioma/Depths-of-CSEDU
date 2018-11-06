@@ -21,6 +21,9 @@ public:
 	void setScale(float x, float y);
 	void setScale(sf::Vector2f);
 
+	void pause();
+	void resume();
+
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getSize() const;
 	sf::IntRect getTextureRect() const;
