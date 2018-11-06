@@ -97,6 +97,7 @@ void Engine::Draw()
 		}
 		else // if fullScreen flag is set load the fullscreen view
 		{
+			//std::cout << "mew" << std::endl;
 			app->setView(fullScreen);
 			_scenes.top()->Draw(app);
 		}

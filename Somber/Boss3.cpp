@@ -36,7 +36,7 @@ void Boss3::Init(Engine * game)
 	// done before snek.Init to prevent snek body blocks being walled
 	walls.Init(&grid, wallTexture);
 
-	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, EASY_SNEK, 1);
+	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, MID_SNEK, 1);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);

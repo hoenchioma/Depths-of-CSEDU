@@ -4,6 +4,7 @@
 #include "Boss1.h"
 #include "Boss2.h"
 #include "Boss3.h"
+#include "MainMenu.h"
 
 #include <ctime>
 
@@ -24,7 +25,8 @@ int main()
 
 	Engine game(&app, gameWidth, gameHeight);
 
-	game.pushScene(Floor1::getInstance());
+	game.pushScene(MainMenu::getInstance());
+	//game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
 	//game.pushScene(Boss2::getInstance());
 	//game.pushScene(Boss3::getInstance());
@@ -41,6 +43,8 @@ int main()
 				game.close();
 			if (event.type == Event::EventType::KeyPressed && event.key.code == Keyboard::Escape)
 				game.close();
+			if (event.type == Event::EventType::KeyPressed && event.key.code == Keyboard::Q)
+				game.popScene();
 			game.HandleEvents(&event);
 		}
 

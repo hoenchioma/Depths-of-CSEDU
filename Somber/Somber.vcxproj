@@ -186,6 +186,7 @@
     <ClInclude Include="FuseInfo.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridPoint.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Floor1.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="EngineX\Polygon.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
