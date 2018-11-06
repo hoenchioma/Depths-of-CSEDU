@@ -3,7 +3,7 @@
 #include "EngineX/Utility.h"
 
 #include <iostream>
- 
+
 
 using namespace sf;
 using namespace std;
@@ -50,6 +50,8 @@ void Boss1::LoadRes()
 	{
 		cout << "can't load lit exit" << endl;
 	}
+	font.loadFromFile("res/unispace bd.ttf");
+	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt");
 }
 
 void Boss1::Init(Engine* game)
@@ -69,8 +71,8 @@ void Boss1::Init(Engine* game)
 	lights[2].y = windowHeight;
 	lights[3].x = 0;
 	lights[3].y = windowHeight;
-	lights[4].x = windowWidth/2;
-	lights[4].y = windowHeight/2;
+	lights[4].x = windowWidth / 2;
+	lights[4].y = windowHeight / 2;
 	lights[0].dirX = RIGHT;
 	lights[0].dirY = DOWN;
 	lights[1].dirX = LEFT;
@@ -84,22 +86,35 @@ void Boss1::Init(Engine* game)
 
 	fuse[0].X = 50;
 	fuse[0].Y = 50;
-	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
+	fuse[1].X = rand() % (windowWidth - randLimitW) + 200;
 	fuse[1].Y = fuseDis;
 	fuse[2].X = windowWidth - fuseDis;
 	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
-	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;
+	fuse[3].X = rand() % (windowWidth - randLimitW) + 200;
 	fuse[3].Y = windowHeight - fuseDis - fuseHeight;
 	fuse[4].X = fuseDis;
 	fuse[4].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[5].X = (windowWidth - fuseWidth) / 2;
 	fuse[5].Y = (windowHeight - fuseHeight) / 2;
 	fuse[6].X = 50;
-	fuse[6].Y = windowHeight-150;
+	fuse[6].Y = windowHeight - 150;
 	fuse[7].X = windowWidth - 150;
 	fuse[7].Y = windowHeight - 150;
-	fuse[8].X = windowWidth-150;
+	fuse[8].X = windowWidth - 150;
 	fuse[8].Y = 50;
+
+	exitFlag = 0;
+	timeStore = 0;
+	timeTextMin = 0;
+
+	minToText.setFont(font);
+	secToText.setFont(font);
+	secToText.setCharacterSize(20);
+	minToText.setCharacterSize(20);
+	minToText.setPosition(windowWidth - 220, 0);
+	secToText.setPosition(windowWidth - 120, 0);
+
+
 	for (i = 0; i < 9; i++)
 	{
 		fuse[i].fuseBox.setPosition(fuse[i].X, fuse[i].Y);
@@ -132,10 +147,10 @@ void Boss1::Init(Engine* game)
 	heart4.setOutlineColor(sf::Color::Transparent);
 	heart5.setOutlineColor(sf::Color::Transparent);
 	heart5.setPosition(5, 5);
-	heart4.setPosition(heartDim+7, 5);
-	heart3.setPosition(2*heartDim+9, 5);
-	heart2.setPosition(3*heartDim+11, 5);
-	heart1.setPosition(4*heartDim+13, 5);
+	heart4.setPosition(heartDim + 7, 5);
+	heart3.setPosition(2 * heartDim + 9, 5);
+	heart2.setPosition(3 * heartDim + 11, 5);
+	heart1.setPosition(4 * heartDim + 13, 5);
 	exit.setPosition(0, windowHeight - 60);
 	heart1.setTexture(&heartFull);
 	heart2.setTexture(&heartFull);
@@ -150,7 +165,7 @@ void Boss1::Init(Engine* game)
 	exit.setTexture(&exitDim);
 	//view1.setSize(sf::Vector2f(windowWidth, windowHeight));
 
-	
+
 	//view1.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	// for dark effect
@@ -189,7 +204,7 @@ void Boss1::Init(Engine* game)
 	lights[3].dirY = UP;
 	lights[4].dirX = RIGHT;
 	lights[4].dirY = DOWN;
-	speedSpotlight = 2.5*dtMul;
+	speedSpotlight = 7 * dtMul;
 	fuseHealth = 100;
 	//speed = 5;
 	fuseDis = 70;
@@ -260,6 +275,22 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		timeStore += dt;
+		timeTextSec = timeStore;
+		if (timeTextSec > 60)
+		{
+			timeStore = 0;
+			timeTextMin++;
+		}
+
+		std::ostringstream timeMin;
+		timeMin << "TIME:  " << timeTextMin;
+		minToText.setString(timeMin.str());
+		std::ostringstream timeSec;
+		timeSec << ":" << timeTextSec;
+		secToText.setString(timeSec.str());
+
+
 		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
 		//view1.setCenter(sf::Vector2f(350.f, 300.f));
 		// Key press & release handle
@@ -269,7 +300,7 @@ void Boss1::Update(Engine * game, double dt)
 
 		position = player.getPosition();
 		centreView(game->gameView, player.getPosition(), Vector2f(windowWidth, windowHeight));
-		for(i=0;i<5;i++)
+		for (i = 0; i < 5; i++)
 		{
 			if (lights[i].x > windowWidth)								lights[i].dirX = LEFT;
 			else if (lights[i].x < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirX = RIGHT;
@@ -284,7 +315,7 @@ void Boss1::Update(Engine * game, double dt)
 			lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
 
 		}
-		
+
 		if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
 		else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
 		else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
@@ -307,18 +338,30 @@ void Boss1::Update(Engine * game, double dt)
 			game->popScene();
 			game->pushScene(Boss1::getInstance());
 		}																		//GAME OVER FLAG
-		
+
 		for (i = 0; i < 9; i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].health, healthBar));
 
 
 
 		damageFuse = .5*dtMul*dt;
-		if (fuse[1].health <= 0 && fuse[2].health <= 0 && fuse[3].health <= 0 && fuse[4].health <= 0 && fuse[5].health)
+		for (i = 0; i < 9; i++)
+		{
+			if (fuse[i].health > 0)
+			{
+				exitFlag = 0;
+				break;
+			}
+			exitFlag = 1;
+		}
+		if (exitFlag)
 		{
 			exit.setTexture(&exitLit);
 			if (position.x <= 110 && position.y >= (windowHeight - 60))
 			{
 				//////// return to previous scene /////////
+
+				Boss1ScoreFile << "Time:Min " << timeTextMin << " Sec " << timeTextSec;
+				Boss1ScoreFile.close();
 				popScene(game);
 			}
 		}
@@ -388,7 +431,7 @@ void Boss1::Update(Engine * game, double dt)
 void Boss1::Draw(RenderWindow * app)
 {
 	//app->setView(view1);
-	for(i = 0; i < 9; i++) 
+	for (i = 0; i < 9; i++)
 		if (player.intersects(fuse[i].fuseBox.getGlobalBounds())) //player.intersects(fuse[i].fuseBox))
 		{
 			app->draw(fuse[i].fuseHealthBar);
@@ -471,6 +514,7 @@ void Boss1::Draw(RenderWindow * app)
 	}*/
 	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
 	for (i = 0; i < 9; i++) app->draw(fuse[i].fuseBox);
+	//for (i = 0; i < 9; i++) printf("fuse[%d] barlowx %lf barlowy %lf\n", i, fuse[i].fuseHealthBar.getPosition().x, fuse[i].fuseHealthBar.getPosition().y);
 	player.drawTo(app);
 	app->draw(heart1);
 	app->draw(heart2);
@@ -478,6 +522,8 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(heart4);
 	app->draw(heart5);
 	app->draw(exit);
+	app->draw(minToText);
+	app->draw(secToText);
 
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer

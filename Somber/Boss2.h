@@ -17,6 +17,8 @@
 #include "Undead.h"
 #include "EngineX/eClock.h"
 
+#include <fstream>
+
 class Boss2 : public Scene
 {
 public:
@@ -47,6 +49,7 @@ private:
 	bool pause = false;
 	long long int Score;
 	float dtMul = 60;
+	float scoreNeg;
 	int windowWidth = 1280;
 	int windowHeight = 720;
 	float speed = 5;
@@ -65,6 +68,7 @@ private:
 	sf::Texture crosshair;
 	sf::Mouse mouse;
 	eClock zombieEatStep;
+	std::ofstream Boss2ScoreFile;
 
 	// life variables
 	float heartDim = 16;
@@ -82,6 +86,8 @@ private:
 	// exit variables
 	sf::Texture exitLit;
 	sf::Sprite exit;
+	sf::Font font;
+	sf::Text ScoreText;
 	eClock exitTimer;
 
 	// bullet sound
@@ -92,6 +98,7 @@ private:
 	std::map <std::string, sf::SoundBuffer> zombieSoundBuf;
 	std::vector <sf::Sound> zombieSound;
 	std::vector <sf::Sound> zombieAttacked;
+
 
 	//eClock bulletSoundOffSet;
 

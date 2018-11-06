@@ -60,7 +60,7 @@ private:
 	float spotlight2DirY = UP;
 	float spotlight3DirX = LEFT;
 	float spotlight3DirY = UP;*/
-	float speedSpotlight = 5*dtMul;
+	float speedSpotlight = 5 * dtMul;
 	float fuseHealth = 100;
 	//float speed = 5;
 	float damageFuse;// = .5*dtMul;
@@ -73,10 +73,15 @@ private:
 	float lightDamage = .5*dtMul;
 	float healthBar = 10;
 	float heartDim = 16;
-	float barDis = 40-fuseWidth/2;
-	int randLimitW = fuseWidth + 300;
-	int randLimitH = fuseHeight + 300;
+	float barDis = 40 - fuseWidth / 2;
+	int randLimitW = fuseWidth + 400;
+	int randLimitH = fuseHeight + 400;
 	int i;
+	int timeTextSec;
+	int timeTextMin;
+	double timeStore = 0;
+	bool exitFlag;
+
 	FuseInfo fuse[9];
 	sf::Texture tex;
 	sf::Texture fuseClosed;
@@ -87,6 +92,7 @@ private:
 	sf::Texture exitDim;
 	sf::Texture exitLit;
 	MainChar player;
+
 	/*sf::CircleShape spotlight1;
 	sf::CircleShape spotlight2;
 	sf::CircleShape spotlight3;
@@ -107,6 +113,15 @@ private:
 	sf::RectangleShape heart5;
 	sf::RectangleShape exit;
 	sf::Vector2f position = player.getPosition();
+
+
+	sf::Font font;
+	sf::Text minToText;
+	sf::Text secToText;
+
+	std::ofstream Boss1ScoreFile;
+
+
 	//sf::View view1;
 
 	//sf::RectangleShape* fuseArray[5] = { &fuse1, &fuse2, &fuse3, &fuse4, &fuse5 };
@@ -117,4 +132,3 @@ private:
 	// temporarily stores the gameView
 	sf::View* _gameViewtemp;
 };
-

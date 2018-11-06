@@ -24,6 +24,8 @@ void Boss2::LoadRes()
 	sf::SoundBuffer tempBuf;
 	loadFromFile(tempBuf, "res/Sounds/Zombie Gets Attacked-SoundBible.com-20348330.wav");
 	zombieSoundBuf.insert({ "zombie_attacked", tempBuf });
+	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt");
+	font.loadFromFile("res/unispace bd.ttf");
 }
 
 void Boss2::Init(Engine* game)
@@ -42,7 +44,8 @@ void Boss2::Init(Engine* game)
 	target.setScale(0.1, 0.1);
 	sf::Mouse mouse;
 	Score = 0;
-	
+	scoreNeg = 0;
+
 	// life variables
 	heartDim = 16;
 
@@ -70,7 +73,13 @@ void Boss2::Init(Engine* game)
 	heart4.setTexture(&heartFull);
 	heart5.setTexture(&heartFull);
 
+
+	ScoreText.setFont(font);
+	ScoreText.setCharacterSize(20);
 	// exit variables
+
+	//ScoreText.setColor(sf::Color::White);
+	ScoreText.setPosition(windowWidth - 150, 0);
 	exit.setScale(0.4f, 0.4f);
 	//exit.setPosition(0, windowHeight - 60);
 	exit.setPosition(1e7, 1e7);
@@ -139,22 +148,26 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		std::ostringstream numberToString;
+		numberToString << "Score : " << Score;//////////////////Score
+		ScoreText.setString(numberToString.str());
+
 		target.setPosition(mouse.getPosition(*game->app).x - crosshair.getSize().x / 20, mouse.getPosition(*game->app).y - crosshair.getSize().y / 20);
 
-		if		(player.health <= 140	&&	player.health > 130)	heart1.setTexture(&heartHalf);
-		else if (player.health <= 130	&&	player.health > 120)	heart1.setTexture(&heartEmpty);
-		else if (player.health <= 120	&&	player.health > 110)	heart1.setPosition(-500, 0);
-		else if (player.health <= 110	&&	player.health > 100)	heart2.setTexture(&heartHalf);
-		else if (player.health <= 100	&&	player.health > 90)		heart2.setTexture(&heartEmpty);
-		else if (player.health <= 90	&&	player.health > 80)		heart2.setPosition(-500, 0);
-		else if (player.health <= 80	&&	player.health > 70)		heart3.setTexture(&heartHalf);
-		else if (player.health <= 70	&&	player.health > 60)		heart3.setTexture(&heartEmpty);
-		else if (player.health <= 60	&&	player.health > 50)		heart3.setPosition(-500, 0);
-		else if (player.health <= 50	&&	player.health > 40)		heart4.setTexture(&heartHalf);
-		else if (player.health <= 40	&&	player.health > 30)		heart4.setTexture(&heartEmpty);
-		else if (player.health <= 30	&&	player.health > 20)		heart4.setPosition(-500, 0);
-		else if (player.health <= 20	&&	player.health > 10)		heart5.setTexture(&heartHalf);
-		else if (player.health <= 10	&&	player.health > 0)		heart5.setTexture(&heartEmpty);
+		if (player.health <= 140 && player.health > 130)	heart1.setTexture(&heartHalf);
+		else if (player.health <= 130 && player.health > 120)	heart1.setTexture(&heartEmpty);
+		else if (player.health <= 120 && player.health > 110)	heart1.setPosition(-500, 0);
+		else if (player.health <= 110 && player.health > 100)	heart2.setTexture(&heartHalf);
+		else if (player.health <= 100 && player.health > 90)		heart2.setTexture(&heartEmpty);
+		else if (player.health <= 90 && player.health > 80)		heart2.setPosition(-500, 0);
+		else if (player.health <= 80 && player.health > 70)		heart3.setTexture(&heartHalf);
+		else if (player.health <= 70 && player.health > 60)		heart3.setTexture(&heartEmpty);
+		else if (player.health <= 60 && player.health > 50)		heart3.setPosition(-500, 0);
+		else if (player.health <= 50 && player.health > 40)		heart4.setTexture(&heartHalf);
+		else if (player.health <= 40 && player.health > 30)		heart4.setTexture(&heartEmpty);
+		else if (player.health <= 30 && player.health > 20)		heart4.setPosition(-500, 0);
+		else if (player.health <= 20 && player.health > 10)		heart5.setTexture(&heartHalf);
+		else if (player.health <= 10 && player.health > 0)		heart5.setTexture(&heartEmpty);
 		else if (player.health <= 0)
 		{
 			// restarts game
@@ -233,9 +246,13 @@ void Boss2::Update(Engine * game, double dt)
 				{
 					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()))
 					{
-						player.health--;
-						Score -= 5;
-						if (Score < 0) Score = 0;
+						player.health -= 1 * dt*dtMul;
+						scoreNeg += dt * dtMul;
+						if (scoreNeg > 1)
+						{
+							Score -= scoreNeg;
+							scoreNeg = 0;
+						}
 						//zombies.erase(zombies.begin() + i);
 						zombieEatStep.restart();
 					}
@@ -249,6 +266,8 @@ void Boss2::Update(Engine * game, double dt)
 			exit.setPosition(0, windowHeight - 60);
 			if (player.intersects(exit.getGlobalBounds()))
 			{
+				Boss2ScoreFile << "Score: " << Score;
+				Boss2ScoreFile.close();
 				popScene(game);
 			}
 		}
@@ -271,12 +290,7 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(heart3);
 	app->draw(heart4);
 	app->draw(heart5);
+	app->draw(ScoreText);
 
 	app->draw(exit);
 };
-
-
-
-
-
-
