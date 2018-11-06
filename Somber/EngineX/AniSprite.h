@@ -9,6 +9,8 @@
 #include <SFML/Window.hpp>
 #include <vector>
 
+#include "eClock.h"
+
 class AniSprite
 {
 public:
@@ -25,28 +27,36 @@ public:
 	//add the whole animation sequence
 	//this method overwrites earlier frames
 	void addSheet(dir direc, int width, int height, int in_x = 0, int in_y = 0);
-	//default frame shown when paused
+	// sets the default frame (shown when paused)
 	void setDefault(sf::IntRect rect);
 
-	void setDelay(float delay) { _delay = delay; }
-	void pause() { play = false; }
-	void resume() { play = true; }
+	inline void setDelay(float delay) { _delay = delay; }
+	// pauses animation (shows default frame if set)
+	inline void pause() { play = false; }
+	// resumes animation
+	inline void resume() { play = true; }
 
-	sf::Vector2f getSize() const;  // returns the actual size (considering all transformations)
+	// pauses animation (pauses the clock)
+	inline void freeze() { _clock.pause(); }
+	// resumes animation (resumes the clock)
+	inline void unfreeze() { _clock.resume(); }
+
+	// returns the actual size (considering all transformations)
+	sf::Vector2f getSize() const;
 
 	//overloads for normal sprite methods
 	sf::FloatRect getGlobalBounds() const;
 	sf::IntRect getTextureRect() const;
-	sf::Vector2f getPosition() const		{ return _obj.getPosition(); }
-	void setColor(const sf::Color& color)	{ _obj.setColor(color); }
-	void setScale(float x, float y)			{ _obj.setScale(x, y); }
-	void setScale(sf::Vector2f vec)			{ _obj.setScale(vec); }
-	void move(float x, float y)				{ _obj.move(x, y); }
-	void move(sf::Vector2f vec)				{ _obj.move(vec); }
-	void setPosition(float x, float y)		{ _obj.setPosition(x, y); }
-	void setPosition(sf::Vector2f vec)		{ _obj.setPosition(vec); }
-	void setOrigin(float x, float y)		{ _obj.setOrigin(x, y); }
-	void setOrigin(sf::Vector2f vec)		{ _obj.setOrigin(vec); }
+	inline sf::Vector2f getPosition() const			{ return _obj.getPosition(); }
+	inline void setColor(const sf::Color& color)	{ _obj.setColor(color); }
+	inline void setScale(float x, float y)			{ _obj.setScale(x, y); }
+	inline void setScale(sf::Vector2f vec)			{ _obj.setScale(vec); }
+	inline void move(float x, float y)				{ _obj.move(x, y); }
+	inline void move(sf::Vector2f vec)				{ _obj.move(vec); }
+	inline void setPosition(float x, float y)		{ _obj.setPosition(x, y); }
+	inline void setPosition(sf::Vector2f vec)		{ _obj.setPosition(vec); }
+	inline void setOrigin(float x, float y)			{ _obj.setOrigin(x, y); }
+	inline void setOrigin(sf::Vector2f vec)			{ _obj.setOrigin(vec); }
 
 	void drawTo(sf::RenderWindow* app);
 
@@ -54,10 +64,13 @@ public:
 
 private:
 	sf::Sprite _obj;
-	sf::Clock _clock;
+	eClock _clock;
 
+	// delay at which each frame will be played
 	float _delay = 0.1f;
+	// vector containing the location of the frames in the sprite sheet
 	std::vector<sf::IntRect> _frames;
+	// the default frame (shown when paused)
 	sf::IntRect _default;
 	size_t _currentIndex = 0;
 
