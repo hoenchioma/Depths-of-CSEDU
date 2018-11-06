@@ -3,6 +3,7 @@
 #include "EngineX/Utility.h"
 
 #include <iostream>
+ 
 
 using namespace sf;
 using namespace std;
@@ -56,28 +57,55 @@ void Boss1::Init(Engine* game)
 	resetView(game->gameView);
 	_gameViewtemp = &game->gameView;
 
-	Sprite.Init(tex, 0.1f, 300);
-	Sprite.setScale(1.25, 1.25);
-	Sprite.setPosition(30, game->height - 130);
-	Sprite.setDirec(Direction::UP);
+	player.Init(tex, 0.1f, 300);
+	player.setScale(1.25, 1.25);
+	player.setPosition(30, game->height - 130);
+	player.setDirec(Direction::UP);
+	lights[0].x = 0;
+	lights[0].y = 0;
+	lights[1].x = windowWidth;
+	lights[1].y = 0;
+	lights[2].x = windowWidth;
+	lights[2].y = windowHeight;
+	lights[3].x = 0;
+	lights[3].y = windowHeight;
+	lights[4].x = windowWidth/2;
+	lights[4].y = windowHeight/2;
+	lights[0].dirX = RIGHT;
+	lights[0].dirY = DOWN;
+	lights[1].dirX = LEFT;
+	lights[1].dirY = DOWN;
+	lights[2].dirX = LEFT;
+	lights[2].dirY = UP;
+	lights[3].dirX = RIGHT;
+	lights[3].dirY = UP;
+	lights[4].dirX = RIGHT;
+	lights[4].dirY = DOWN;
+
+	fuse[0].X = 50;
+	fuse[0].Y = 50;
 	fuse[1].X = rand() % (windowWidth-randLimitW) + 200;
+	fuse[1].Y = fuseDis;
+	fuse[2].X = windowWidth - fuseDis;
 	fuse[2].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[3].X = rand() % (windowWidth  - randLimitW) + 200;
+	fuse[3].Y = windowHeight - fuseDis - fuseHeight;
+	fuse[4].X = fuseDis;
 	fuse[4].Y = rand() % (windowHeight - randLimitH) + 200;
 	fuse[5].X = (windowWidth - fuseWidth) / 2;
 	fuse[5].Y = (windowHeight - fuseHeight) / 2;
-	spotlight1.setPointCount(50);
-	spotlight2.setPointCount(50);
-	spotlight3.setPointCount(50);
-	spotlight1.setRadius(radiusSpotlight);
-	spotlight2.setRadius(radiusSpotlight);
-	spotlight3.setRadius(radiusSpotlight);
-	fuse1.setPosition(fuse[1].X, fuseDis);
-	fuse2.setPosition(windowWidth - fuseDis, fuse[2].Y);
-	fuse3.setPosition(fuse[3].X, windowHeight - fuseDis-fuseHeight);
-	fuse4.setPosition(fuseDis, fuse[4].Y);
-	fuse5.setPosition(fuse[5].X, fuse[5].Y);
-	fuse1Bar.setPosition(fuse[1].X-barDis, fuseDis + fuseHeight +10);
+	fuse[6].X = 50;
+	fuse[6].Y = windowHeight-150;
+	fuse[7].X = windowWidth - 150;
+	fuse[7].Y = windowHeight - 150;
+	fuse[8].X = windowWidth-150;
+	fuse[8].Y = 50;
+	for (i = 0; i < 9; i++)
+	{
+		fuse[i].fuseBox.setPosition(fuse[i].X, fuse[i].Y);
+		fuse[i].fuseHealthBar.setPosition(fuse[i].X - barDis, fuse[i].Y + fuseHeight + 15);
+	}
+	/*fuse1Bar.setPosition(fuse[1].X-barDis, fuseDis + fuseHeight +10);
 	fuse2Bar.setPosition(windowWidth-fuseDis-barDis, fuse[2].Y+fuseHeight +10 );
 	fuse3Bar.setPosition(fuse[3].X-barDis, windowHeight - fuseDis +10);
 	fuse4Bar.setPosition(fuseDis - barDis, fuse[4].Y+fuseHeight+10);
@@ -86,18 +114,18 @@ void Boss1::Init(Engine* game)
 	fuse2.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse3.setSize(Vector2f(fuseWidth, fuseHeight));
 	fuse4.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));
+	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));*/
 	heart1.setSize(Vector2f(heartDim, heartDim));
 	heart2.setSize(Vector2f(heartDim, heartDim));
 	heart3.setSize(Vector2f(heartDim, heartDim));
 	heart4.setSize(Vector2f(heartDim, heartDim));
 	heart5.setSize(Vector2f(heartDim, heartDim));
 	exit.setSize(Vector2f(110, 60));
-	fuse1.setOutlineColor(sf::Color::Transparent);
+	/*fuse1.setOutlineColor(sf::Color::Transparent);
 	fuse2.setOutlineColor(sf::Color::Transparent);
 	fuse3.setOutlineColor(sf::Color::Transparent);
 	fuse4.setOutlineColor(sf::Color::Transparent);
-	fuse5.setOutlineColor(sf::Color::Transparent);
+	fuse5.setOutlineColor(sf::Color::Transparent);*/
 	heart1.setOutlineColor(sf::Color::Transparent);
 	heart2.setOutlineColor(sf::Color::Transparent);
 	heart3.setOutlineColor(sf::Color::Transparent);
@@ -114,11 +142,11 @@ void Boss1::Init(Engine* game)
 	heart3.setTexture(&heartFull);
 	heart4.setTexture(&heartFull);
 	heart5.setTexture(&heartFull);
-	fuse1.setTexture(&fuseClosed);
+	/*fuse1.setTexture(&fuseClosed);
 	fuse2.setTexture(&fuseClosed);
 	fuse3.setTexture(&fuseClosed);
 	fuse4.setTexture(&fuseClosed);
-	fuse5.setTexture(&fuseClosed);
+	fuse5.setTexture(&fuseClosed);*/
 	exit.setTexture(&exitDim);
 	//view1.setSize(sf::Vector2f(windowWidth, windowHeight));
 
@@ -127,40 +155,48 @@ void Boss1::Init(Engine* game)
 
 	// for dark effect
 	light = 100;
-	Sprite.setColor(Color(light, light, light));
-	fuse1.setFillColor(Color(light, light, light));
+	player.setColor(Color(light, light, light));
+	/*fuse1.setFillColor(Color(light, light, light));
 	fuse2.setFillColor(Color(light, light, light));
 	fuse3.setFillColor(Color(light, light, light));
 	fuse4.setFillColor(Color(light, light, light));
-	fuse5.setFillColor(Color(light, light, light));
+	fuse5.setFillColor(Color(light, light, light));*/
 
 	// reinitialization of variables if boss1 is played a second time
 	windowWidth = 2000;
 	windowHeight = 1500;
 	dtMul = 50;
-	radiusSpotlight = 125;
-	diameterSpotlight = 2 * radiusSpotlight;
+	//RADIUS_SPOTLIGHT = 125;
+	//DIAMETER_SPOTLIGHT = 2 * radiusSpotlight;
 	spriteSize = 20;
-	spotlight1X = 0;
-	spotlight1Y = 0;
-	spotlight2X = windowWidth / 2;
-	spotlight2Y = windowHeight;
-	spotlight3X = windowWidth;
-	spotlight3Y = windowHeight / 5;
-	spotlight1DirX = RIGHT;
-	spotlight1DirY = DOWN;
-	spotlight2DirX = LEFT;
-	spotlight2DirY = UP;
-	spotlight3DirX = LEFT;
-	spotlight3DirY = UP;
+	lights[0].x = 0;
+	lights[0].y = 0;
+	lights[1].x = windowWidth;
+	lights[1].y = 0;
+	lights[2].x = windowWidth;
+	lights[2].y = windowHeight;
+	lights[3].x = 0;
+	lights[3].y = windowHeight;
+	lights[4].x = windowWidth / 2;
+	lights[4].y = windowHeight / 2;
+	lights[0].dirX = RIGHT;
+	lights[0].dirY = DOWN;
+	lights[1].dirX = LEFT;
+	lights[1].dirY = DOWN;
+	lights[2].dirX = LEFT;
+	lights[2].dirY = UP;
+	lights[3].dirX = RIGHT;
+	lights[3].dirY = UP;
+	lights[4].dirX = RIGHT;
+	lights[4].dirY = DOWN;
 	speedSpotlight = 2.5*dtMul;
 	fuseHealth = 100;
-	speed = 5;
+	//speed = 5;
 	fuseDis = 70;
 	range = 25;
 	fuseWidth = 30;
 	fuseHeight = 45;
-	spotlightDamageRange = radiusSpotlight + spriteSize - 5;
+	spotlightDamageRange = RADIUS_SPOTLIGHT + spriteSize - 5;
 	spriteHealth = 150;
 	lightDamage = .5*dtMul;
 	healthBar = 10;
@@ -170,7 +206,7 @@ void Boss1::Init(Engine* game)
 	randLimitH = fuseHeight + 200;
 
 	// set the boundary of Sprite movement
-	Sprite.setBoundary(0, 0, windowWidth, windowHeight);
+	player.setBoundary(0, 0, windowWidth, windowHeight);
 
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
@@ -184,7 +220,7 @@ void Boss1::Cleanup()
 
 void Boss1::Pause()
 {
-	Sprite.running = false;
+	player.running = false;
 	pause = true;
 
 	// this function is going to be called when the game is paused
@@ -227,27 +263,28 @@ void Boss1::Update(Engine * game, double dt)
 		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
 		//view1.setCenter(sf::Vector2f(350.f, 300.f));
 		// Key press & release handle
-		Sprite.keyHandle();
+		player.keyHandle();
 
-		Sprite.update(dt);
+		player.update(dt);
 
-		position = Sprite.getPosition();
-		centreView(game->gameView, Sprite.getPosition(), Vector2f(windowWidth, windowHeight));
+		position = player.getPosition();
+		centreView(game->gameView, player.getPosition(), Vector2f(windowWidth, windowHeight));
+		for(i=0;i<5;i++)
+		{
+			if (lights[i].x > windowWidth)								lights[i].dirX = LEFT;
+			else if (lights[i].x < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirX = RIGHT;
+			if (lights[i].y > windowHeight)								lights[i].dirY = UP;
+			else if (lights[i].y < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirY = DOWN;
 
-		if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
-		else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT;
-		if (spotlight1Y > windowHeight)								spotlight1DirY = UP;
-		else if (spotlight1Y < (-1)*(diameterSpotlight + 50))		spotlight1DirY = DOWN;
-		if (spotlight2X > windowWidth)								spotlight2DirX = LEFT;
-		else if (spotlight2X < (-1)*(diameterSpotlight + 50))		spotlight2DirX = RIGHT;
-		if (spotlight2Y > windowHeight)								spotlight2DirY = UP;
-		else if (spotlight2Y < (-1)*(diameterSpotlight + 50))		spotlight2DirY = DOWN;
-		if (spotlight3X > windowWidth)								spotlight3DirX = LEFT;
-		else if (spotlight3X < (-1)*(diameterSpotlight + 50))		spotlight3DirX = RIGHT;
-		if (spotlight3Y > windowHeight)								spotlight3DirY = UP;
-		else if (spotlight3Y < (-1)*(diameterSpotlight + 50))		spotlight3DirY = DOWN;
-		if ((centreDis(spotlight1X + radiusSpotlight, spotlight1Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight2X + radiusSpotlight, spotlight2Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange) || (centreDis(spotlight3X + radiusSpotlight, spotlight3Y + radiusSpotlight, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
-			spriteHealth -= lightDamage * dt;
+			if ((centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
+				spriteHealth -= lightDamage * dt;
+
+			lights[i].x += speedSpotlight * lights[i].dirX *dt;
+			lights[i].y += speedSpotlight * lights[i].dirY *dt;
+			lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
+
+		}
+		
 		if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
 		else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
 		else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
@@ -270,20 +307,11 @@ void Boss1::Update(Engine * game, double dt)
 			game->popScene();
 			game->pushScene(Boss1::getInstance());
 		}																		//GAME OVER FLAG
-		spotlight1X += speedSpotlight * spotlight1DirX *dt;
-		spotlight1Y += speedSpotlight * spotlight1DirY *dt;
-		spotlight2X += speedSpotlight * spotlight2DirX *dt;
-		spotlight2Y += speedSpotlight * spotlight2DirY *dt;
-		spotlight3X += speedSpotlight * spotlight3DirX *dt;
-		spotlight3Y += speedSpotlight * spotlight3DirY *dt;
-		spotlight1.setPosition(spotlight1X, spotlight1Y);
-		spotlight2.setPosition(spotlight2X, spotlight2Y);
-		spotlight3.setPosition(spotlight3X, spotlight3Y);
-		fuse1Bar.setSize(sf::Vector2f(fuse[1].Health, healthBar));
-		fuse2Bar.setSize(sf::Vector2f(fuse[2].Health, healthBar));
-		fuse3Bar.setSize(sf::Vector2f(fuse[3].Health, healthBar));
-		fuse4Bar.setSize(sf::Vector2f(fuse[4].Health, healthBar));
-		fuse5Bar.setSize(sf::Vector2f(fuse[5].Health, healthBar));
+		
+		for(i=0;i<9;i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].Health, healthBar));
+
+
+
 		damageFuse = .5*dtMul*dt;
 		if (fuse[1].Health <= 0 && fuse[2].Health <= 0 && fuse[3].Health <= 0 && fuse[4].Health <= 0 && fuse[5].Health)
 		{
@@ -308,7 +336,7 @@ void Boss1::Update(Engine * game, double dt)
 		bool LitFuse;
 		bool LitSprite;
 
-		for (int j = 0; j < 5; j++)
+		/*for (int j = 0; j < 5; j++)
 		{
 			LitFuse = false;
 			for (int i = 0; i < 3; i++)
@@ -318,7 +346,7 @@ void Boss1::Update(Engine * game, double dt)
 					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
 					fuseArray[j]->getPosition().x,
 					fuseArray[j]->getPosition().y
-				) << " " << spotlightArray[i]->getRadius() << endl;*/
+				) << " " << spotlightArray[i]->getRadius() << endl;
 				if (centreDis(
 					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
 					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
@@ -348,7 +376,7 @@ void Boss1::Update(Engine * game, double dt)
 			}
 		}
 		if (!LitSprite)
-			Sprite.setColor(Color(light, light, light));
+			Sprite.setColor(Color(light, light, light));*/
 
 	}
 
@@ -360,23 +388,25 @@ void Boss1::Update(Engine * game, double dt)
 void Boss1::Draw(RenderWindow * app)
 {
 	//app->setView(view1);
-	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
-	{
-		app->draw(fuse1Bar);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	for(i=0;i<9;i++) 
+		if (player.intersects(fuse[i].fuseBox.getGlobalBounds()))//player.intersects(fuse[i].fuseBox))
 		{
-			if (fuse[1].Health > 0)
+			app->draw(fuse[i].fuseHealthBar);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
-				fuse[1].Health -= damageFuse;
-			}
-			if (fuse[1].Health <= 0)
-			{
-				fuse1.setTexture(&fuseOpened);
-				fuse1.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+				printf("health %lf i %d\n",fuse[i].Health,i);
+				if (fuse[i].Health > 0)
+				{
+					fuse[i].Health -= damageFuse;
+				}
+				if (fuse[i].Health <= 0)
+				{
+					fuse[i].fuseBox.setTexture(fuseOpened);
+					//fuse[i].setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
+				}
 			}
 		}
-	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseWidth / 2, fuse[2].Y + fuseHeight / 2) < range)
+	/*else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseWidth / 2, fuse[2].Y + fuseHeight / 2) < range)
 	{
 		app->draw(fuse2Bar);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -439,16 +469,10 @@ void Boss1::Draw(RenderWindow * app)
 				fuse5.setSize(Vector2f(fuseWidth+20, fuseHeight+30));
 			}
 		}
-	}
-	app->draw(spotlight1);
-	app->draw(spotlight2);
-	app->draw(spotlight3);
-	app->draw(fuse1);
-	app->draw(fuse2);
-	app->draw(fuse3);
-	app->draw(fuse4);
-	app->draw(fuse5);
-	Sprite.drawTo(app);
+	}*/
+	for(i=0;i<5;i++) app->draw(lights[i].circleSpot);
+	for(i=0;i<9;i++) app->draw(fuse[i].fuseBox);
+	player.drawTo(app);
 	app->draw(heart1);
 	app->draw(heart2);
 	app->draw(heart3);

@@ -45,7 +45,7 @@ private:
 	Boss2(Boss2 const&) = delete;
 	void operator= (Boss2 const&) = delete;
 	bool pause = false;
-
+	long long int Score;
 	float dtMul = 60;
 	int windowWidth = 1280;
 	int windowHeight = 720;
