@@ -9,6 +9,7 @@
 #include "MainChar.h"
 #include "Grid.h"
 #include "Snek.h"
+#include "Walls.h"
 
 class Boss3 : public Scene
 {
@@ -48,4 +49,7 @@ private:
 	MainChar mainChar;
 	Grid grid;
 	Snek snek;
+
+	sf::Texture wallTexture;
+	Walls walls;
 };

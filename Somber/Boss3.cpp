@@ -17,6 +17,7 @@ using namespace sf;
 void Boss3::LoadRes()
 {
 	loadFromFile(characterSpriteSheet, "res/running_1.png");
+	loadFromFile(wallTexture, "res/walltex.png");
 }
 
 void Boss3::Init(Engine * game)
@@ -32,7 +33,10 @@ void Boss3::Init(Engine * game)
 	Maze maze("extra/maze/maze1.txt");
 	grid.fill(maze);
 
-	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, MID_SNEK, 1);
+	// done before snek.Init to prevent snek body blocks being walled
+	walls.Init(&grid, wallTexture);
+
+	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, EASY_SNEK, 1);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
@@ -44,6 +48,8 @@ void Boss3::Init(Engine * game)
 	mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
 	// so that it can't go over the blocked parts in grid
 	mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
+
+	//snek.time.pause();
 }
 
 void Boss3::Cleanup()
@@ -55,12 +61,14 @@ void Boss3::Pause()
 {
 	pause = true;
 	snek.time.pause();
+	mainChar.pause();
 }
 
 void Boss3::Resume()
 {
 	pause = false;
 	snek.time.resume();
+	mainChar.resume();
 }
 
 void Boss3::togglePause()
@@ -103,10 +111,14 @@ void Boss3::Update(Engine * game, double dt)
 
 void Boss3::Draw(sf::RenderWindow * app)
 {
+	walls.drawTo1(app, mainChar.getPosition());
+
 	mainChar.drawTo(app);
 	snek.drawTo(app);
 
-	/************************ TESTING ZONE **************************/
+	walls.drawTo2(app);
+
+	/************************ TESTING ZONE **************************
 	CircleShape test(5);
 	test.setOrigin(test.getRadius(), test.getRadius());
 	for (int i = 0; i < grid.sizeX; i++)

@@ -192,6 +192,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Snek.h" />
     <ClInclude Include="Undead.h" />
+    <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Balcony.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="MainChar.cpp" />
     <ClCompile Include="Snek.cpp" />
     <ClCompile Include="Undead.cpp" />
+    <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Balcony_new.png" />
