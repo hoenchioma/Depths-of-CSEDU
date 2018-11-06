@@ -1,0 +1,6 @@
+Tuesday (6 Nov) - Implement Loading screen and UI, res management work
+Wednesday (7 Nov) - Texture work, UI work 
+Thursday (8 Nov) - Texture work, story work
+Friday (9 Nov) - Implement save game state
+Saturday (10 Nov) - Implement save game state
+Sunday (11 Nov) - Game time!!
