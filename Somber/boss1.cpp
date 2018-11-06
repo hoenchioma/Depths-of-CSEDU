@@ -53,6 +53,7 @@ void Boss1::LoadRes()
 
 void Boss1::Init(Engine* game)
 {
+	resetView(game->gameView);
 	Sprite.Init(tex, 0.1f, 300);
 	Sprite.setScale(1.25, 1.25);
 	Sprite.setPosition(30, game->height - 130);
@@ -117,6 +118,11 @@ void Boss1::Init(Engine* game)
 	fuse4.setTexture(&fuseClosed);
 	fuse5.setTexture(&fuseClosed);
 	exit.setTexture(&exitDim);
+	//view1.setSize(sf::Vector2f(windowWidth, windowHeight));
+
+	Sprite.setBoundary(0, 0, windowWidth, windowHeight);
+	
+	//view1.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	// for dark effect
 	light = 100;
@@ -211,12 +217,15 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
+		//view1.setCenter(sf::Vector2f(350.f, 300.f));
 		// Key press & release handle
 		Sprite.keyHandle();
 
 		Sprite.update(dt);
 
 		position = Sprite.getPosition();
+		centreView(game->gameView, Sprite.getPosition(), Vector2f(windowWidth, windowHeight));
 
 		if (spotlight1X > windowWidth)								spotlight1DirX = LEFT;
 		else if (spotlight1X < (-1)*(diameterSpotlight + 50))		spotlight1DirX = RIGHT;
@@ -343,6 +352,7 @@ void Boss1::Update(Engine * game, double dt)
 
 void Boss1::Draw(RenderWindow * app)
 {
+	//app->setView(view1);
 	if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[1].X + fuseWidth / 2, fuseDis + fuseHeight / 2) < range)
 	{
 		app->draw(fuse1Bar);
