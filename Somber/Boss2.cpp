@@ -41,6 +41,7 @@ void Boss2::Init(Engine* game)
 	target.setTexture(crosshair);
 	target.setScale(0.1, 0.1);
 	sf::Mouse mouse;
+	Score = 0;
 	
 	// life variables
 	heartDim = 16;
@@ -194,6 +195,7 @@ void Boss2::Update(Engine * game, double dt)
 				{
 					if (player.bullets[i].object.getGlobalBounds().intersects(zombies[j].object.getGlobalBounds()))
 					{
+						Score += 10;
 						zombieAttacked[rand() % zombieAttacked.size()].play();
 						if (zombies[j].health <= 1)
 						{
@@ -232,6 +234,8 @@ void Boss2::Update(Engine * game, double dt)
 					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()))
 					{
 						player.health--;
+						Score -= 5;
+						if (Score < 0) Score = 0;
 						//zombies.erase(zombies.begin() + i);
 						zombieEatStep.restart();
 					}
