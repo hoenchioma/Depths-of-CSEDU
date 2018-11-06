@@ -38,8 +38,8 @@ private:
 		float X;
 		float Y;
 	};
-	int windowWidth = 1280;
-	int windowHeight = 720;
+	int windowWidth = 2000;
+	int windowHeight = 1500;
 	float dtMul = 50;
 	float radiusSpotlight = 125;
 	float diameterSpotlight = 2 * radiusSpotlight;
@@ -106,7 +106,7 @@ private:
 	sf::RectangleShape heart5;
 	sf::RectangleShape exit;
 	sf::Vector2f position = Sprite.getPosition();
-	sf::View view1;
+	//sf::View view1;
 	
 
 	sf::RectangleShape* fuseArray[5] = { &fuse1, &fuse2, &fuse3, &fuse4, &fuse5 };
