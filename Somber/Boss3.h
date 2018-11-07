@@ -52,4 +52,7 @@ private:
 
 	sf::Texture wallTexture;
 	Walls walls;
+
+	sf::Texture appleTex;
+	sf::Sprite apple;
 };

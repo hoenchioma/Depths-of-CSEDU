@@ -33,6 +33,10 @@ public:
 	
 	// cuts the length of the snake by n from behind
 	void cut(int n);
+	// set speed of snake
+	inline void setDelay(double delay) { this->delay = delay; }
+	inline double getDelay() { return this->delay; }
+	inline float getLength() { return body.size(); }
 
 	// draws corners interpolated fashion (to be drawn over snake)
 	void drawCorners(sf::RenderWindow* app);

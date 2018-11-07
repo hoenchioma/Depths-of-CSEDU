@@ -97,7 +97,7 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 	{
 		if (Mouse::isButtonPressed(Mouse::Left)&& fileCont)
 		{
-			pushScene(game, Boss3::getInstance());
+
 		}
 		optionButton.objectAc.setPosition(optionX, optionY);
 	}
@@ -112,6 +112,9 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 	}
 	else quitButton.objectAc.setPosition(negPos, negPos);
 	// handle events here (keyboard/ mouse)
+
+	if (event->type == Event::EventType::KeyPressed && event->key.code == Keyboard::S)
+		pushScene(game, Boss3::getInstance()), mainMenuSound.stop();
 }
 
 void MainMenu::Update(Engine * game, double dt)

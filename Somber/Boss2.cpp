@@ -25,7 +25,7 @@ void Boss2::LoadRes()
 	loadFromFile(tempBuf, "res/Sounds/Zombie Gets Attacked-SoundBible.com-20348330.wav");
 	zombieSoundBuf.insert({ "zombie_attacked", tempBuf });
 	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt");
-	font.loadFromFile("res/unispace bd.ttf");
+	font.loadFromFile("res/Font/unispace bd.ttf");
 }
 
 void Boss2::Init(Engine* game)

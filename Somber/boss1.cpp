@@ -50,7 +50,7 @@ void Boss1::LoadRes()
 	{
 		cout << "can't load lit exit" << endl;
 	}
-	font.loadFromFile("res/unispace bd.ttf");
+	font.loadFromFile("res/Font/unispace bd.ttf");
 	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt");
 }
 

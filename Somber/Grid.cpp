@@ -53,6 +53,18 @@ void Grid::insert(sf::FloatRect rect)
 			block(i, j);
 }
 
+GridPoint Grid::randomPoint()
+{
+	int x, y;
+	do
+	{
+		x = rand() % sizeX;
+		y = rand() % sizeY;
+	} 
+	while (at({ x, y }));
+	return GridPoint(x, y);
+}
+
 PathPair Grid::bfs(GridPoint src, GridPoint des)
 {
 	//sf::Clock timer;

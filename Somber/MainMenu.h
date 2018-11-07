@@ -7,22 +7,9 @@
 #include "EngineX/Engine.h"
 #include "EngineX/Scene.h"
 
+#include "Button.h"
 
-class button
-{
-public:
-	sf::Sprite objectAc;
-	sf::Sprite object;
-	button() {}
-	void Init(sf::Texture *textureAc, sf::Texture *texture, int valX, int valY)
-	{
-		objectAc.setTexture(*textureAc);
-		object.setPosition(valX, valY);
-		object.setTexture(*texture);
-		objectAc.setPosition(-500, valY);
-	}
-	~button() {}
-};
+
 
 class MainMenu : public Scene
 {
@@ -84,10 +71,10 @@ private:
 	sf::Texture Background;
 	sf::Sprite background;
 	sf::Music mainMenuSound;
-	button playButton;
-	button optionButton;
-	button quitButton;
-	button continueButton;
+	Button playButton;
+	Button optionButton;
+	Button quitButton;
+	Button continueButton;
 	
 	// declare variables here
 };

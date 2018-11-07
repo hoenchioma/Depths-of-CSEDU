@@ -70,6 +70,12 @@
     <Filter Include="Source Files\EngineX\Core">
       <UniqueIdentifier>{e884dee0-d926-4208-83d5-a1c28963961b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MainMenu">
+      <UniqueIdentifier>{606f0cf8-188c-44a5-97c4-b33970900388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MainMenu">
+      <UniqueIdentifier>{e00c69ff-aecf-4262-85f8-66d25ddfb6e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -157,7 +163,10 @@
       <Filter>Header Files\Boss1</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +225,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

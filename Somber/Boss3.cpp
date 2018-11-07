@@ -4,7 +4,7 @@ using namespace std;
 using namespace sf;
 
 
-#define SNEK_LENGTH 100
+#define SNEK_LENGTH 50
 
 // snek speed at easy difficulty
 #define EASY_SNEK 0.3
@@ -18,6 +18,7 @@ void Boss3::LoadRes()
 {
 	loadFromFile(characterSpriteSheet, "res/running_1.png");
 	loadFromFile(wallTexture, "res/walltex.png");
+	loadFromFile(appleTex, "res/apple.png");
 }
 
 void Boss3::Init(Engine * game)
@@ -36,7 +37,7 @@ void Boss3::Init(Engine * game)
 	// done before snek.Init to prevent snek body blocks being walled
 	walls.Init(&grid, wallTexture);
 
-	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, MID_SNEK, 1);
+	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, EASY_SNEK, 1);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
@@ -48,6 +49,11 @@ void Boss3::Init(Engine * game)
 	mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
 	// so that it can't go over the blocked parts in grid
 	mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
+
+	apple.setTexture(appleTex);
+	apple.setOrigin(apple.getTexture()->getSize().x / 2.0, apple.getTexture()->getSize().x / 2.0);
+	apple.setScale(0.1f, 0.1f);
+	apple.setPosition(grid.toPoint(grid.randomPoint()));
 
 	//snek.time.pause();
 }
@@ -101,6 +107,17 @@ void Boss3::Update(Engine * game, double dt)
 
 		centreView(game->gameView, mainChar.getPosition(), Vector2f(CanvasWidth, CanvasHeight));
 
+		if (mainChar.intersects(apple.getGlobalBounds()))
+		{
+			if (snek.getLength() - 10 <= 0) popScene(game);
+			else
+			{
+				apple.setPosition(grid.toPoint(grid.randomPoint()));
+				snek.cut(10);
+				snek.setDelay(snek.getDelay() - 0.03);
+			}
+		}
+
 		bool eaten = snek.update(dt, mainChar.getPosition());
 
 		if (eaten) reset(game);
@@ -115,10 +132,11 @@ void Boss3::Draw(sf::RenderWindow * app)
 
 	mainChar.drawTo(app);
 	snek.drawTo(app);
+	app->draw(apple);
 
 	walls.drawTo2(app);
 
-	/************************ TESTING ZONE **************************
+	/************************ TESTING ZONE **************************/
 	CircleShape test(5);
 	test.setOrigin(test.getRadius(), test.getRadius());
 	for (int i = 0; i < grid.sizeX; i++)

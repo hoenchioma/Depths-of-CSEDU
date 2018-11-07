@@ -225,6 +225,8 @@ void Snek::cut(int n)
 	{
 		if (body.size() == 2) break;
 		body.pop_back();
+		grid->free(bodyGridPrev.back());
+		grid->free(bodyGrid.back());
 		bodyGrid.pop_back();
 		bodyGridPrev.pop_back();
 	}

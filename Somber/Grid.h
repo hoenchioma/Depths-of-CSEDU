@@ -59,6 +59,8 @@ public:
 	// block a portion in the grid corresponding to the rect
 	void insert(sf::FloatRect rect);
 
+	GridPoint randomPoint();
+
 	// convert point from grid co-ordinates to real co-ordinates
 	inline Point toPoint(int x, int y);
 	inline Point toPoint(GridPoint cor);

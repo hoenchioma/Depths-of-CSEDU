@@ -173,6 +173,7 @@
     <ClInclude Include="Boss2.h" />
     <ClInclude Include="Boss3.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
