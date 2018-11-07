@@ -27,6 +27,7 @@ void Boss2::LoadRes()
 	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt", ios::in | ios::out);
 	font.loadFromFile("res/Font/unispace bd.ttf");
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
+	scoreCardTex.loadFromFile("res/scoreCard.png");
 }
 
 void Boss2::Init(Engine* game)
@@ -38,6 +39,8 @@ void Boss2::Init(Engine* game)
 	undeadTexture2.setSmooth(true);
 	undeadTexture3.setSmooth(true);
 	highestScoreTag.setTexture(highestScoreTex);
+	scoreCard.setTexture(scoreCardTex);
+	scoreCard.setPosition(3000, 3000);
 	highestScoreTag.setPosition(3000, 3000);
 	//player.Init(&playerTexture);
 
@@ -282,6 +285,7 @@ void Boss2::Update(Engine * game, double dt)
 				zombies.clear();
 				ScoreText.setCharacterSize(50);
 				ScoreText.setPosition(350, 200);
+				scoreCard.setPosition(0, 0);
 				if (Score > topScore) highestScoreTag.setPosition(350, 300);
 					else topScoreText.setPosition(400, 300);
 				//Boss2ScoreFile.seekp(0);
@@ -310,9 +314,10 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(heart3);
 	app->draw(heart4);
 	app->draw(heart5);
+	app->draw(scoreCard);
 	app->draw(ScoreText);
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
-
+	
 	app->draw(exit);
 };

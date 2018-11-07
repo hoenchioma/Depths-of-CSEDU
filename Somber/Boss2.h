@@ -59,9 +59,11 @@ private:
 	int topScore;
 	sf::Sprite target;
 	sf::Sprite highestScoreTag;
+	sf::Sprite  scoreCard;
 	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
 	sf::Texture highestScoreTex;
+	sf::Texture scoreCardTex;
 	//sf::Texture playerTexture;
 	sf::Texture playerSpriteSheet;
 	Player player;
