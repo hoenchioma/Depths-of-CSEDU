@@ -24,16 +24,21 @@ void Boss2::LoadRes()
 	sf::SoundBuffer tempBuf;
 	loadFromFile(tempBuf, "res/Sounds/Zombie Gets Attacked-SoundBible.com-20348330.wav");
 	zombieSoundBuf.insert({ "zombie_attacked", tempBuf });
-	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt");
+	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt", ios::in | ios::out);
 	font.loadFromFile("res/Font/unispace bd.ttf");
+	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 }
 
 void Boss2::Init(Engine* game)
 {
 	game->app->setMouseCursorVisible(false);
+	Boss2ScoreFile >> topScore;
+	printf("%d\n", topScore);
 	undeadTexture1.setSmooth(true);
 	undeadTexture2.setSmooth(true);
 	undeadTexture3.setSmooth(true);
+	highestScoreTag.setTexture(highestScoreTex);
+	highestScoreTag.setPosition(3000, 3000);
 	//player.Init(&playerTexture);
 
 	player.Init(playerSpriteSheet, 0.1f, 300.f);
@@ -75,12 +80,20 @@ void Boss2::Init(Engine* game)
 
 
 	ScoreText.setFont(font);
+	topScoreText.setFont(font);
 	ScoreText.setCharacterSize(20);
+	topScoreText.setCharacterSize(30);
 	// exit variables
 
 	//ScoreText.setColor(sf::Color::White);
 	ScoreText.setPosition(windowWidth - 150, 0);
+	topScoreText.setPosition(3000, 3000);
 	exit.setScale(0.4f, 0.4f);
+
+	ostringstream TopScoreString;
+	TopScoreString << "TOP SCORE : " << topScore;//////////////////Score
+	topScoreText.setString(TopScoreString.str());
+
 	//exit.setPosition(0, windowHeight - 60);
 	exit.setPosition(1e7, 1e7);
 	exit.setTexture(exitLit);
@@ -148,7 +161,7 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		std::ostringstream numberToString;
+		ostringstream numberToString;
 		numberToString << "Score : " << Score;//////////////////Score
 		ScoreText.setString(numberToString.str());
 
@@ -261,14 +274,21 @@ void Boss2::Update(Engine * game, double dt)
 		}
 
 		// Exit level
-		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
+		if (exitTimer.getElapsedTime().asSeconds() > 10.0)
 		{
 			exit.setPosition(0, windowHeight - 60);
 			if (player.intersects(exit.getGlobalBounds()))
 			{
-				Boss2ScoreFile << "Score: " << Score;
+				zombies.clear();
+				ScoreText.setCharacterSize(50);
+				ScoreText.setPosition(350, 200);
+				if (Score > topScore) highestScoreTag.setPosition(350, 300);
+					else topScoreText.setPosition(400, 300);
+				//Boss2ScoreFile.seekp(0);
+				//Boss2ScoreFile<< Score;
 				Boss2ScoreFile.close();
-				popScene(game);
+				if(Keyboard::isKeyPressed(Keyboard::Enter))
+					popScene(game);
 			}
 		}
 	}
@@ -291,6 +311,8 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(heart4);
 	app->draw(heart5);
 	app->draw(ScoreText);
+	app->draw(topScoreText);
+	app->draw(highestScoreTag);
 
 	app->draw(exit);
 };
