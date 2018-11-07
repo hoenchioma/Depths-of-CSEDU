@@ -39,6 +39,7 @@ private:
 
 	int windowWidth = 2000;
 	int windowHeight = 1500;
+	int fuseCount;
 	Spotlight lights[5];
 	float dtMul = 50;
 	//int  radiusSpotlight = 125;
@@ -118,6 +119,7 @@ private:
 	sf::Font font;
 	sf::Text minToText;
 	sf::Text secToText;
+	sf::Text fuseNumber;
 
 	std::ofstream Boss1ScoreFile;
 

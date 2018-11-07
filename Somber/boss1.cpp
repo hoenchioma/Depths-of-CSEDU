@@ -109,11 +109,13 @@ void Boss1::Init(Engine* game)
 
 	minToText.setFont(font);
 	secToText.setFont(font);
+	fuseNumber.setFont(font);
 	secToText.setCharacterSize(20);
 	minToText.setCharacterSize(20);
+	fuseNumber.setCharacterSize(20);
 	minToText.setPosition(windowWidth - 220, 0);
 	secToText.setPosition(windowWidth - 120, 0);
-
+	fuseNumber.setPosition(0, 20);
 
 	for (i = 0; i < 9; i++)
 	{
@@ -282,13 +284,17 @@ void Boss1::Update(Engine * game, double dt)
 			timeStore = 0;
 			timeTextMin++;
 		}
-
+		fuseCount = 0;
+		for (i = 0; i < 9; i++) fuseCount += fuse[i].fuseState;
 		std::ostringstream timeMin;
 		timeMin << "TIME:  " << timeTextMin;
 		minToText.setString(timeMin.str());
 		std::ostringstream timeSec;
 		timeSec << ":" << timeTextSec;
 		secToText.setString(timeSec.str());
+		std::ostringstream numberToText;
+		numberToText << "FUSES LEFT : " << fuseCount;
+		fuseNumber.setString(numberToText.str());
 
 
 		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
@@ -444,74 +450,12 @@ void Boss1::Draw(RenderWindow * app)
 				if (fuse[i].health <= 0)
 				{
 					fuse[i].fuseBox.setTexture(fuseOpened);
+					fuse[i].fuseState = 0;
 					//fuse[i].setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
 				}
 			}
 		}
-	/*else if (centreDis(position.x + spriteSize, position.y + spriteSize, windowWidth - fuseDis + fuseWidth / 2, fuse[2].Y + fuseHeight / 2) < range)
-	{
-		app->draw(fuse2Bar);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		{
-			if (fuse[2].health > 0)
-			{
-				fuse[2].health -= damageFuse;
-			}
-			if (fuse[2].health <= 0)
-			{
-				fuse2.setTexture(&fuseOpened);
-				fuse2.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
-			}
-		}
-	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[3].X + fuseWidth / 2, windowHeight - fuseDis) < range)
-	{
-		app->draw(fuse3Bar);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		{
-			if (fuse[3].health > 0)
-			{
-				fuse[3].health -= damageFuse;
-			}
-			if (fuse[3].health <= 0)
-			{
-				fuse3.setTexture(&fuseOpened);
-				fuse3.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
-			}
-		}
-	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuseDis + fuseWidth / 2, fuse[4].Y + fuseHeight / 2) < range)
-	{
-		app->draw(fuse4Bar);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		{
-			if (fuse[4].health > 0)
-			{
-				fuse[4].health -= damageFuse;
-			}
-			if (fuse[4].health <= 0)
-			{
-				fuse4.setTexture(&fuseOpened);
-				fuse4.setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
-			}
-		}
-	}
-	else if (centreDis(position.x + spriteSize, position.y + spriteSize, fuse[5].X + fuseWidth / 2, fuse[5].Y + fuseWidth / 2) < range)
-	{
-		app->draw(fuse5Bar);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		{
-			if (fuse[5].health > 0)
-			{
-				fuse[5].health -= damageFuse;
-			}
-			if (fuse[5].health <= 0)
-			{
-				fuse5.setTexture(&fuseOpened);
-				fuse5.setSize(Vector2f(fuseWidth+20, fuseHeight+30));
-			}
-		}
-	}*/
+	
 	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
 	for (i = 0; i < 9; i++) app->draw(fuse[i].fuseBox);
 	//for (i = 0; i < 9; i++) printf("fuse[%d] barlowx %lf barlowy %lf\n", i, fuse[i].fuseHealthBar.getPosition().x, fuse[i].fuseHealthBar.getPosition().y);
@@ -524,6 +468,7 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(exit);
 	app->draw(minToText);
 	app->draw(secToText);
+	app->draw(fuseNumber);
 
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
