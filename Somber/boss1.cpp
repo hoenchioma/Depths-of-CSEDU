@@ -490,7 +490,7 @@ void Boss1::Draw(RenderWindow * app)
 			}
 		}
 	
-	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
+	
 	for (i = 0; i < 9; i++) app->draw(fuse[i].fuseBox);
 	//for (i = 0; i < 9; i++) printf("fuse[%d] barlowx %lf barlowy %lf\n", i, fuse[i].fuseHealthBar.getPosition().x, fuse[i].fuseHealthBar.getPosition().y);
 	player.drawTo(app);
@@ -505,6 +505,7 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(topScoreText);
 	app->draw(fuseNumber);
 	app->draw(highestScoreTag);
+	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }
