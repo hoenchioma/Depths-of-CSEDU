@@ -40,14 +40,14 @@ private:
 	int windowWidth = 1280;
 	int windowHeight = 720;
 	int fuseCount;
-	Spotlight lights[5];
+	Spotlight lights[4];
 	float dtMul = 50;
 	float spriteSize = 20;
 	const int LEFT = -1;
 	const int RIGHT = 1;
 	const int UP = -1;
 	const int DOWN = 1;
-	float speedSpotlight = 5 * dtMul;
+	float speedSpotlight = 3 * dtMul;
 	float fuseHealth = 100;
 	float damageFuse;
 	float fuseDis = 70;
@@ -81,6 +81,7 @@ private:
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
+	sf::Sprite door;
 	FuseInfo fuse[7];
 	TableEEE tableDLD[7],tableBottom;
 	sf::Texture highestScoreTex;
@@ -96,6 +97,8 @@ private:
 	sf::Texture tableHorTex;
 	sf::Texture tableNormTex;
 	sf::Texture tableBotTex;
+	sf::Texture doorOpenTex;
+	sf::Texture doorCloseTex;
 	MainChar player;
 
 	
@@ -104,7 +107,7 @@ private:
 	sf::RectangleShape heart3;
 	sf::RectangleShape heart4;
 	sf::RectangleShape heart5;
-	sf::Vector2f position = player.getPosition();
+	//sf::Vector2f position = player.getPosition();
 
 
 	sf::Font font;

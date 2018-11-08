@@ -4,8 +4,8 @@
 #include <SFML/Window.hpp>
 
 
-#define RADIUS_SPOTLIGHT 180
-#define DIAMETER_SPOTLIGHT 360
+#define RADIUS_SPOTLIGHT 150
+#define DIAMETER_SPOTLIGHT 300
 
 class Spotlight
 {
