@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Virtual base class for all scenes to inherit from
+*/
+
 #include "Engine.h"
 
 class Scene

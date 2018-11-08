@@ -1,7 +1,14 @@
 #pragma once
 
+/*
+	The class that handles all the states and their changes
+	It also handles views for textbox, inventory and minimap
+*/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <TGUI/TGUI.hpp>
+
 #include <stack>
 #include <queue>
 
