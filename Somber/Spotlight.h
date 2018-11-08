@@ -1,3 +1,9 @@
+#pragma once
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+
+
 #define RADIUS_SPOTLIGHT 180
 #define DIAMETER_SPOTLIGHT 360
 

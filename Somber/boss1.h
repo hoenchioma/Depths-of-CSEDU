@@ -37,34 +37,19 @@ private:
 	bool pause = false;
 
 
-	int windowWidth = 2000;
-	int windowHeight = 1500;
+	int windowWidth = 1280;
+	int windowHeight = 720;
 	int fuseCount;
 	Spotlight lights[5];
 	float dtMul = 50;
-	//int  radiusSpotlight = 125;
-	//int  diameterSpotlight = 2 * radiusSpotlight;
 	float spriteSize = 20;
-	/*float spotlight1X = 0;
-	float spotlight1Y = 0;
-	float spotlight2X = windowWidth / 2;
-	float spotlight2Y = windowHeight;
-	float spotlight3X = windowWidth;
-	float spotlight3Y = windowHeight / 5;*/
 	const int LEFT = -1;
 	const int RIGHT = 1;
 	const int UP = -1;
 	const int DOWN = 1;
-	/*float spotlight1DirX = RIGHT;
-	float spotlight1DirY = DOWN;
-	float spotlight2DirX = LEFT;
-	float spotlight2DirY = UP;
-	float spotlight3DirX = LEFT;
-	float spotlight3DirY = UP;*/
 	float speedSpotlight = 5 * dtMul;
 	float fuseHealth = 100;
-	//float speed = 5;
-	float damageFuse;// = .5*dtMul;
+	float damageFuse;
 	float fuseDis = 70;
 	float range = 25;
 	float fuseWidth = 30;
@@ -85,12 +70,19 @@ private:
 	bool exitFlag;
 	bool gameOverFlag;
 	int topTime;
-	//int myTime;
+
+	class TableEEE
+	{
+	public:
+		sf::Sprite object;
+	};
+
 
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
-	FuseInfo fuse[9];
+	FuseInfo fuse[7];
+	TableEEE tableDLD[7],tableBottom;
 	sf::Texture highestScoreTex;
 	sf::Texture scoreCardTex;
 	sf::Texture floorTexture;
@@ -100,29 +92,18 @@ private:
 	sf::Texture heartFull;
 	sf::Texture heartHalf;
 	sf::Texture heartEmpty;
-	sf::Texture exitDim;
-	sf::Texture exitLit;
+	sf::Texture tableFlipTex;
+	sf::Texture tableHorTex;
+	sf::Texture tableNormTex;
+	sf::Texture tableBotTex;
 	MainChar player;
 
-	/*sf::CircleShape spotlight1;
-	sf::CircleShape spotlight2;
-	sf::CircleShape spotlight3;
-	sf::RectangleShape fuse1;
-	sf::RectangleShape fuse2;
-	sf::RectangleShape fuse3;
-	sf::RectangleShape fuse4;
-	sf::RectangleShape fuse5;
-	sf::RectangleShape fuse1Bar;
-	sf::RectangleShape fuse2Bar;
-	sf::RectangleShape fuse3Bar;
-	sf::RectangleShape fuse4Bar;
-	sf::RectangleShape fuse5Bar;*/
+	
 	sf::RectangleShape heart1;
 	sf::RectangleShape heart2;
 	sf::RectangleShape heart3;
 	sf::RectangleShape heart4;
 	sf::RectangleShape heart5;
-	sf::RectangleShape exit;
 	sf::Vector2f position = player.getPosition();
 
 
