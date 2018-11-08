@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+#include <TGUI/TGUI.hpp>
 
 #include "EngineX/Scene.h"
 
@@ -10,6 +11,7 @@
 #include "Grid.h"
 #include "Snek.h"
 #include "Walls.h"
+#include "TextBox.h"
 
 class Boss3 : public Scene
 {
@@ -48,11 +50,18 @@ private:
 
 	MainChar mainChar;
 	Grid grid;
+
 	Snek snek;
+	sf::Texture headTex;
+	sf::Texture bodyTex;
+	sf::Texture tailTex;
+	sf::Texture jointTex;
 
 	sf::Texture wallTexture;
 	Walls walls;
 
 	sf::Texture appleTex;
 	sf::Sprite apple;
+
+	TextBox textBox;
 };

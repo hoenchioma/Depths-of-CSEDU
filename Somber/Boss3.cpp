@@ -19,11 +19,20 @@ void Boss3::LoadRes()
 	loadFromFile(characterSpriteSheet, "res/running_1.png");
 	loadFromFile(wallTexture, "res/walltex.png");
 	loadFromFile(appleTex, "res/apple.png");
+
+	loadFromFile(headTex, "res/snek_head.png");
+	loadFromFile(tailTex, "res/snek_tail.png");
+	loadFromFile(bodyTex, "res/snek_body.png");
+	loadFromFile(jointTex, "res/snek_joint2.png");
 }
 
 void Boss3::Init(Engine * game)
 {
+	this->game = game;
+
 	resetView(game->gameView);
+	game->miniMapOn = true;
+	game->miniMap.reset(sf::FloatRect(0, 0, CanvasWidth, CanvasHeight));
 	
 	grid.Init(CanvasWidth, CanvasHeight, 50);
 
@@ -38,6 +47,7 @@ void Boss3::Init(Engine * game)
 	walls.Init(&grid, wallTexture);
 
 	snek.Init(SNEK_LENGTH, Vector2f(game->width / 2.0, game->height / 2.0), &grid, Color::Green, EASY_SNEK, 1);
+	snek.setTexture(headTex, tailTex, bodyTex, jointTex);
 	
 	mainChar.Init(characterSpriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
@@ -55,12 +65,15 @@ void Boss3::Init(Engine * game)
 	apple.setScale(0.1f, 0.1f);
 	apple.setPosition(grid.toPoint(grid.randomPoint()));
 
+	textBox.Init(game);
+	//game->textBoxOn = true;
+
 	//snek.time.pause();
 }
 
 void Boss3::Cleanup()
 {
-	
+	this->game->miniMapOn = false;
 }
 
 void Boss3::Pause()
@@ -92,10 +105,14 @@ void Boss3::HandleEvents(Engine * game, sf::Event * event)
 		case Keyboard::Space:
 			togglePause();
 			break;
+		case Keyboard::C:
+			snek.cut(10);
+			break;
 		default:
 			break;
 		}
 	}
+	textBox.handleEvent(event);
 }
 
 void Boss3::Update(Engine * game, double dt)
@@ -121,8 +138,8 @@ void Boss3::Update(Engine * game, double dt)
 		bool eaten = snek.update(dt, mainChar.getPosition());
 
 		if (eaten) reset(game);
-		if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
-			popScene(game);
+		//if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
+			//popScene(game);
 	}
 }
 
@@ -136,7 +153,9 @@ void Boss3::Draw(sf::RenderWindow * app)
 
 	walls.drawTo2(app);
 
-	/************************ TESTING ZONE **************************/
+	textBox.draw();
+
+	/************************ TESTING ZONE **************************
 	CircleShape test(5);
 	test.setOrigin(test.getRadius(), test.getRadius());
 	for (int i = 0; i < grid.sizeX; i++)

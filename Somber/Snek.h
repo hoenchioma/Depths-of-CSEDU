@@ -9,6 +9,9 @@
 #include <vector>
 #include <deque>
 
+
+
+
 class Snek
 {
 public:
@@ -19,6 +22,8 @@ public:
 	
 	void Init(int length, GridPoint start, Grid* grid, sf::Color color = sf::Color::Green, double delay = 0.2, double scale = 1);
 	void Init(int length, sf::Vector2f start, Grid* grid, sf::Color color = sf::Color::Green, double delay = 0.2, double scale = 1);
+
+	void setTexture(const sf::Texture& head, const sf::Texture& tail, const sf::Texture& mid, const sf::Texture& joint);
 	
 	// optional precalculation of bfs to target to prevent lag
 	void preCalculateBFS(sf::Vector2f targetPos);
@@ -30,6 +35,7 @@ public:
 	void move(GridPoint des);
 	void movePartial(double progress);
 	void moveStatic();
+	void direcUpdate();
 	
 	// cuts the length of the snake by n from behind
 	void cut(int n);
@@ -48,12 +54,15 @@ public:
 private:
 	Grid* grid;
 
-	// body of the snake
-	std::vector <sf::RectangleShape> body;
-	// body positions in grid co-ordinates
-	std::vector <GridPoint> bodyGrid;
-	// prev body positions in grid co-ordinates
-	std::vector <GridPoint> bodyGridPrev;
+	std::vector <sf::RectangleShape> body; // body of the snake
+	std::vector <GridPoint> bodyGrid; // body positions in grid co-ordinates
+	std::vector <GridPoint> bodyGridPrev; // prev body positions in grid co-ordinates
+	std::vector <Direction> bodyDir; // body directions
+	std::vector <Direction> bodyDirPrev; // prev body directions
+
+	// joint/corner piece of snek
+	sf::RectangleShape joint;
+	const sf::Texture* tailTex;
 
 	double delay = 0.2; //in seconds
 	double scalingFactor = 1; // what multiple of BIT will the size of each body sell

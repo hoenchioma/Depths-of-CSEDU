@@ -24,6 +24,7 @@
 // precision for real world to grid convertion (mod operation)
 #define PRECISION 1000
 
+// for storing bfs path
 typedef std::deque<GridPoint> Path;
 typedef std::pair<Path, bool> PathPair;
 
@@ -99,7 +100,7 @@ private:
 
 
 
-// inline function definitions
+/////////// inline function definitions ///////////////////
 
 inline Point Grid::toPoint(int x, int y)
 {

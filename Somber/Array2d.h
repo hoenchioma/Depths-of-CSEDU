@@ -3,6 +3,7 @@
 /*
 	A custom implementation of a dynamic 2d array
 */
+
 #include "GridPoint.h"
 
 #include <cassert>
@@ -39,6 +40,7 @@ private:
 };
 
 
+///////////// method definitions /////////////////
 
 template<class T>
 Array2d<T>::Array2d(size_t y, size_t x)
