@@ -32,8 +32,6 @@ void TextBox::Init(Engine* game)
 	box->setRenderer(theme.getRenderer("TextBox"));
 
 	gui.add(box);
-
-	tgui::
 }
 
 void TextBox::handleEvent(sf::Event * event)
