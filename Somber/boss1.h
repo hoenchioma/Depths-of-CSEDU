@@ -82,13 +82,14 @@ private:
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
 	sf::Sprite door;
+	sf::Sprite bot3Side;
+	sf::Sprite bot4Side;
 	FuseInfo fuse[7];
 	TableEEE tableDLD[7],tableBottom;
 	sf::Texture highestScoreTex;
 	sf::Texture scoreCardTex;
 	sf::Texture floorTexture;
 	sf::Texture tex;
-	sf::Texture fuseClosed;
 	sf::Texture fuseOpened;
 	sf::Texture heartFull;
 	sf::Texture heartHalf;
@@ -99,6 +100,7 @@ private:
 	sf::Texture tableBotTex;
 	sf::Texture doorOpenTex;
 	sf::Texture doorCloseTex;
+	sf::Texture fuseBotSideOpenTex;
 	MainChar player;
 
 	
