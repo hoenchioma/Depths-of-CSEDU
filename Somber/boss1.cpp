@@ -54,6 +54,7 @@ void Boss1::LoadRes()
 	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
+	floorTexture.loadFromFile("res/floorExtended.png");
 }
 
 void Boss1::Init(Engine* game)
@@ -65,6 +66,7 @@ void Boss1::Init(Engine* game)
 	player.setScale(1.4f, 1.4f);
 	player.setPosition(30, game->height - 130);
 	player.setDirec(Direction::UP);
+	floor.setTexture(floorTexture);
 	lights[0].x = 0;
 	lights[0].y = 0;
 	lights[1].x = windowWidth;
@@ -394,7 +396,7 @@ void Boss1::Update(Engine * game, double dt)
 				}
 				scoreToText.setCharacterSize(50);
 				scoreToText.setPosition(550, 1100);
-				scoreCard.setPosition(0, 800);
+				scoreCard.setPosition(0, 778);
 				if (topTime!=0 && topTime <= timeTextMin * 60 + timeTextSec )
 				{
 					topScoreText.setPosition(500, 1250);
@@ -471,6 +473,7 @@ void Boss1::Update(Engine * game, double dt)
 void Boss1::Draw(RenderWindow * app)
 {
 	//app->setView(view1);
+	app->draw(floor);
 	for (i = 0; i < 9; i++)
 		if (player.intersects(fuse[i].fuseBox.getGlobalBounds())) //player.intersects(fuse[i].fuseBox))
 		{

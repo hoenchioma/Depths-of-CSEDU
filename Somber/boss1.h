@@ -89,9 +89,11 @@ private:
 
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
+	sf::Sprite floor;
 	FuseInfo fuse[9];
 	sf::Texture highestScoreTex;
 	sf::Texture scoreCardTex;
+	sf::Texture floorTexture;
 	sf::Texture tex;
 	sf::Texture fuseClosed;
 	sf::Texture fuseOpened;
