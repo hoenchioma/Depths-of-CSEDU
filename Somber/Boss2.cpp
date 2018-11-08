@@ -277,7 +277,7 @@ void Boss2::Update(Engine * game, double dt)
 		}
 
 		// Exit level
-		if (exitTimer.getElapsedTime().asSeconds() > 10.0)
+		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
 		{
 			exit.setPosition(0, windowHeight - 60);
 			if (player.intersects(exit.getGlobalBounds()))

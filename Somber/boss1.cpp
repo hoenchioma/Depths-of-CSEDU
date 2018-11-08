@@ -51,14 +51,16 @@ void Boss1::LoadRes()
 		cout << "can't load lit exit" << endl;
 	}
 	font.loadFromFile("res/Font/unispace bd.ttf");
-	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt");
+	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
+	highestScoreTex.loadFromFile("res/HighScoreTag.png");
+	scoreCardTex.loadFromFile("res/scoreCard.png");
 }
 
 void Boss1::Init(Engine* game)
 {
 	resetView(game->gameView);
 	_gameViewtemp = &game->gameView;
-
+	Boss1ScoreFile >> topTime;
 	player.Init(tex, 0.1f, 300);
 	player.setScale(1.4f, 1.4f);
 	player.setPosition(30, game->height - 130);
@@ -104,18 +106,34 @@ void Boss1::Init(Engine* game)
 	fuse[8].Y = 50;
 
 	exitFlag = 0;
+	gameOverFlag = 0;
 	timeStore = 0;
 	timeTextMin = 0;
 
-	minToText.setFont(font);
-	secToText.setFont(font);
+	scoreToText.setFont(font);
+	//secToText.setFont(font);
 	fuseNumber.setFont(font);
-	secToText.setCharacterSize(20);
-	minToText.setCharacterSize(20);
+	topScoreText.setFont(font);
+	//secToText.setCharacterSize(20);
+	scoreToText.setCharacterSize(20);
 	fuseNumber.setCharacterSize(20);
-	minToText.setPosition(windowWidth - 220, 0);
-	secToText.setPosition(windowWidth - 120, 0);
+	topScoreText.setCharacterSize(30);
+	scoreToText.setPosition(windowWidth - 220, 0);
+	//secToText.setPosition(windowWidth - 120, 0);
+	topScoreText.setPosition(3000, 3000);
 	fuseNumber.setPosition(0, 20);
+
+	highestScoreTag.setTexture(highestScoreTex);
+	scoreCard.setTexture(scoreCardTex);
+
+
+	scoreCard.setPosition(3000, 3000);
+	highestScoreTag.setPosition(3000, 3000);
+
+
+	std::ostringstream topTimetoText;
+	topTimetoText << "TOP TIME:" << topTime/60 << ":" << topTime%60;
+	topScoreText.setString(topTimetoText.str());
 
 	for (i = 0; i < 9; i++)
 	{
@@ -277,24 +295,27 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		timeStore += dt;
-		timeTextSec = timeStore;
-		if (timeTextSec > 60)
+		if(!gameOverFlag)
 		{
-			timeStore = 0;
-			timeTextMin++;
+			timeStore += dt;
+			if (timeStore >= 60)
+			{
+				timeStore = 0;
+				timeTextMin++;
+			}
+			timeTextSec = timeStore;
+			//myTime = timeTextMin * 60 + timeTextSec;
+			//printf("%d\n", myTime);
+			fuseCount = 0;
+			for (i = 0; i < 9; i++) fuseCount += fuse[i].fuseState;
+			std::ostringstream timeMin;
+			timeMin << "TIME:" << timeTextMin << ":" << timeTextSec;
+			scoreToText.setString(timeMin.str());
+
+			std::ostringstream numberToText;
+			numberToText << "FUSES LEFT : " << fuseCount;
+			fuseNumber.setString(numberToText.str()); 
 		}
-		fuseCount = 0;
-		for (i = 0; i < 9; i++) fuseCount += fuse[i].fuseState;
-		std::ostringstream timeMin;
-		timeMin << "TIME:  " << timeTextMin;
-		minToText.setString(timeMin.str());
-		std::ostringstream timeSec;
-		timeSec << ":" << timeTextSec;
-		secToText.setString(timeSec.str());
-		std::ostringstream numberToText;
-		numberToText << "FUSES LEFT : " << fuseCount;
-		fuseNumber.setString(numberToText.str());
 
 
 		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
@@ -361,14 +382,27 @@ void Boss1::Update(Engine * game, double dt)
 		}
 		if (exitFlag)
 		{
+			gameOverFlag = 1;
 			exit.setTexture(&exitLit);
 			if (position.x <= 110 && position.y >= (windowHeight - 60))
 			{
 				//////// return to previous scene /////////
-
-				Boss1ScoreFile << "Time:Min " << timeTextMin << " Sec " << timeTextSec;
+				for (i = 0; i < 5; i++) 
+				{
+					lights[i].x = 3000; 
+					lights[i].y = 3000;
+				}
+				scoreToText.setCharacterSize(50);
+				scoreToText.setPosition(550, 1100);
+				scoreCard.setPosition(0, 800);
+				if (topTime!=0 && topTime <= timeTextMin * 60 + timeTextSec )
+				{
+					topScoreText.setPosition(500, 1250);
+				}
+				else highestScoreTag.setPosition(350, 1250);
+				//if(Boss1ScoreFile<< timeTextMin*60+timeTextSec;
 				Boss1ScoreFile.close();
-				popScene(game);
+				if(Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 			}
 		}
 
@@ -466,10 +500,11 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(heart4);
 	app->draw(heart5);
 	app->draw(exit);
-	app->draw(minToText);
-	app->draw(secToText);
+	app->draw(scoreCard);
+	app->draw(scoreToText);
+	app->draw(topScoreText);
 	app->draw(fuseNumber);
-
+	app->draw(highestScoreTag);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }

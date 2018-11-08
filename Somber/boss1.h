@@ -80,10 +80,18 @@ private:
 	int i;
 	int timeTextSec;
 	int timeTextMin;
-	double timeStore = 0;
+	double timeStore;
+	int timeTotal;
 	bool exitFlag;
+	bool gameOverFlag;
+	int topTime;
+	//int myTime;
 
+	sf::Sprite highestScoreTag;
+	sf::Sprite  scoreCard;
 	FuseInfo fuse[9];
+	sf::Texture highestScoreTex;
+	sf::Texture scoreCardTex;
 	sf::Texture tex;
 	sf::Texture fuseClosed;
 	sf::Texture fuseOpened;
@@ -117,11 +125,12 @@ private:
 
 
 	sf::Font font;
-	sf::Text minToText;
-	sf::Text secToText;
+	sf::Text scoreToText;
+	//sf::Text secToText;
 	sf::Text fuseNumber;
+	sf::Text topScoreText;
 
-	std::ofstream Boss1ScoreFile;
+	std::fstream Boss1ScoreFile;
 
 
 	//sf::View view1;
