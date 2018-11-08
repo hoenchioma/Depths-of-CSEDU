@@ -142,27 +142,12 @@ void Boss1::Init(Engine* game)
 		fuse[i].fuseBox.setPosition(fuse[i].X, fuse[i].Y);
 		fuse[i].fuseHealthBar.setPosition(fuse[i].X - barDis, fuse[i].Y + fuseHeight + 15);
 	}
-	/*fuse1Bar.setPosition(fuse[1].X-barDis, fuseDis + fuseHeight +10);
-	fuse2Bar.setPosition(windowWidth-fuseDis-barDis, fuse[2].Y+fuseHeight +10 );
-	fuse3Bar.setPosition(fuse[3].X-barDis, windowHeight - fuseDis +10);
-	fuse4Bar.setPosition(fuseDis - barDis, fuse[4].Y+fuseHeight+10);
-	fuse5Bar.setPosition(fuse[5].X-barDis, fuse[5].Y + fuseHeight+10);
-	fuse1.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse2.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse3.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse4.setSize(Vector2f(fuseWidth, fuseHeight));
-	fuse5.setSize(Vector2f(fuseWidth, fuseHeight));*/
 	heart1.setSize(Vector2f(heartDim, heartDim));
 	heart2.setSize(Vector2f(heartDim, heartDim));
 	heart3.setSize(Vector2f(heartDim, heartDim));
 	heart4.setSize(Vector2f(heartDim, heartDim));
 	heart5.setSize(Vector2f(heartDim, heartDim));
 	exit.setSize(Vector2f(110, 60));
-	/*fuse1.setOutlineColor(sf::Color::Transparent);
-	fuse2.setOutlineColor(sf::Color::Transparent);
-	fuse3.setOutlineColor(sf::Color::Transparent);
-	fuse4.setOutlineColor(sf::Color::Transparent);
-	fuse5.setOutlineColor(sf::Color::Transparent);*/
 	heart1.setOutlineColor(sf::Color::Transparent);
 	heart2.setOutlineColor(sf::Color::Transparent);
 	heart3.setOutlineColor(sf::Color::Transparent);
@@ -179,30 +164,16 @@ void Boss1::Init(Engine* game)
 	heart3.setTexture(&heartFull);
 	heart4.setTexture(&heartFull);
 	heart5.setTexture(&heartFull);
-	/*fuse1.setTexture(&fuseClosed);
-	fuse2.setTexture(&fuseClosed);
-	fuse3.setTexture(&fuseClosed);
-	fuse4.setTexture(&fuseClosed);
-	fuse5.setTexture(&fuseClosed);*/
 	exit.setTexture(&exitDim);
-	//view1.setSize(sf::Vector2f(windowWidth, windowHeight));
-
-
-	//view1.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	// for dark effect
 	light = 100;
 	player.setColor(Color(light, light, light));
-	/*fuse1.setFillColor(Color(light, light, light));
-	fuse2.setFillColor(Color(light, light, light));
-	fuse3.setFillColor(Color(light, light, light));
-	fuse4.setFillColor(Color(light, light, light));
-	fuse5.setFillColor(Color(light, light, light));*/
 
 	// reinitialization of variables if boss1 is played a second time
 	windowWidth = 2000;
 	windowHeight = 1500;
-	dtMul = 50;
+	dtMul = 60;
 	//RADIUS_SPOTLIGHT = 125;
 	//DIAMETER_SPOTLIGHT = 2 * radiusSpotlight;
 	spriteSize = 20;
@@ -306,8 +277,6 @@ void Boss1::Update(Engine * game, double dt)
 				timeTextMin++;
 			}
 			timeTextSec = timeStore;
-			//myTime = timeTextMin * 60 + timeTextSec;
-			//printf("%d\n", myTime);
 			fuseCount = 0;
 			for (i = 0; i < 9; i++) fuseCount += fuse[i].fuseState;
 			std::ostringstream timeMin;
@@ -318,10 +287,6 @@ void Boss1::Update(Engine * game, double dt)
 			numberToText << "FUSES LEFT : " << fuseCount;
 			fuseNumber.setString(numberToText.str()); 
 		}
-
-
-		//view1.setCenter(Sprite.getPosition().x, Sprite.getPosition().y);
-		//view1.setCenter(sf::Vector2f(350.f, 300.f));
 		// Key press & release handle
 		player.keyHandle();
 
@@ -402,66 +367,12 @@ void Boss1::Update(Engine * game, double dt)
 					topScoreText.setPosition(500, 1250);
 				}
 				else highestScoreTag.setPosition(350, 1250);
-				//if(Boss1ScoreFile<< timeTextMin*60+timeTextSec;
 				Boss1ScoreFile.close();
 				if(Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 			}
 		}
 
 		// controlling light and dark with respect to spotlight
-
-		/*int i = 0;
-		cout << centreDis(
-			spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-			spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-			Sprite.getPosition().x,
-			Sprite.getPosition().y
-		) << " " << spotlightArray[i]->getRadius() << endl;*/
-
-		bool LitFuse;
-		bool LitSprite;
-
-		/*for (int j = 0; j < 5; j++)
-		{
-			LitFuse = false;
-			for (int i = 0; i < 3; i++)
-			{
-				/*cout << centreDis(
-					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-					fuseArray[j]->getPosition().x,
-					fuseArray[j]->getPosition().y
-				) << " " << spotlightArray[i]->getRadius() << endl;
-				if (centreDis(
-					spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-					spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-					fuseArray[j]->getPosition().x,
-					fuseArray[j]->getPosition().y
-				) < spotlightArray[i]->getRadius())
-				{
-					LitFuse = true;
-					fuseArray[j]->setFillColor(Color(255, 255, 255));
-				}
-			}
-			if (!LitFuse)
-				fuseArray[j]->setFillColor(Color(light, light, light));
-		}
-		LitSprite = false;
-		for (int i = 0; i < 3; i++)
-		{
-			if (centreDis(
-				spotlightArray[i]->getPosition().x + spotlightArray[i]->getRadius(),
-				spotlightArray[i]->getPosition().y + spotlightArray[i]->getRadius(),
-				Sprite.getPosition().x,
-				Sprite.getPosition().y
-			) < spotlightArray[i]->getRadius())
-			{
-				LitSprite = true;
-				Sprite.setColor(Color(255, 255, 255));
-			}
-		}
-		if (!LitSprite)
-			Sprite.setColor(Color(light, light, light));*/
 
 	}
 
@@ -475,7 +386,7 @@ void Boss1::Draw(RenderWindow * app)
 	//app->setView(view1);
 	app->draw(floor);
 	for (i = 0; i < 9; i++)
-		if (player.intersects(fuse[i].fuseBox.getGlobalBounds())) //player.intersects(fuse[i].fuseBox))
+		if (player.intersects(fuse[i].fuseBox.getGlobalBounds())) 
 		{
 			app->draw(fuse[i].fuseHealthBar);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -488,14 +399,12 @@ void Boss1::Draw(RenderWindow * app)
 				{
 					fuse[i].fuseBox.setTexture(fuseOpened);
 					fuse[i].fuseState = 0;
-					//fuse[i].setSize(Vector2f(fuseWidth + 20, fuseHeight + 30));
 				}
 			}
 		}
 	
 	
 	for (i = 0; i < 9; i++) app->draw(fuse[i].fuseBox);
-	//for (i = 0; i < 9; i++) printf("fuse[%d] barlowx %lf barlowy %lf\n", i, fuse[i].fuseHealthBar.getPosition().x, fuse[i].fuseHealthBar.getPosition().y);
 	player.drawTo(app);
 	app->draw(heart1);
 	app->draw(heart2);
