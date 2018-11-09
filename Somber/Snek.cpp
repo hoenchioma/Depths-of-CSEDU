@@ -156,6 +156,8 @@ void Snek::Init(int length, GridPoint start, Grid* grid, sf::Color color, double
 
 	headCor = bodyGrid.front();
 	tailCor = bodyGrid.back();
+
+	eating = false;
 	
 	time.restart(); // reset the clock to 0
 }
@@ -192,6 +194,10 @@ bool Snek::update(float dt, sf::Vector2f targetPos)
 		if (path.second) // only move if there is a valid path
 		{
 			if (path.first.empty()) return true;
+
+			// setting variables for proper eating animation
+			if (path.first.size() <= 1) eating = true;
+			else eating = false;
 
 			move(path.first.front());
 			direcUpdate();
@@ -361,11 +367,21 @@ void Snek::drawCorners(sf::RenderWindow * app)
 	}
 }
 
-void Snek::drawTo(sf::RenderWindow * app)
+void Snek::drawTo1(sf::RenderWindow * app)
 {
-	for (auto& i : body) app->draw(i);
+	if (!eating)
+	{
+		for (auto& i : body) app->draw(i);
+		drawCorners(app); // draw the corners
+	}
+}
 
-	// draw the corners
-	drawCorners(app);
+void Snek::drawTo2(sf::RenderWindow * app)
+{
+	if (eating)
+	{
+		for (auto& i : body) app->draw(i);
+		drawCorners(app); // draw the corners
+	}
 }
 

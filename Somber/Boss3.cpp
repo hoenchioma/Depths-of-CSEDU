@@ -87,6 +87,8 @@ void Boss3::Cleanup()
 {
 	resetView(game->gameView);
 	this->game->miniMapOn = false;
+	menu.turnOff();
+	textBox.setText("");
 	Resume();
 }
 
@@ -96,7 +98,6 @@ void Boss3::Pause()
 	snek.time.pause();
 	mainChar.pause();
 	textBox.time.pause();
-	
 }
 
 void Boss3::Resume()
@@ -173,9 +174,10 @@ void Boss3::Draw(sf::RenderWindow * app)
 	
 	walls.drawTo1(app, mainChar.getPosition());
 
-	mainChar.drawTo(app);
-	snek.drawTo(app);
+	snek.drawTo1(app);
 	app->draw(apple);
+	mainChar.drawTo(app);
+	snek.drawTo2(app);
 
 	walls.drawTo2(app);
 

@@ -28,8 +28,6 @@ void TextBox::Init(Engine* game, const sf::Font& font)
 		box->setSize(size);
 
 		box->setTextSize(15);
-		box->setText("Hello!!");
-		box->setEnabled(false);
 		box->setInheritedFont(font);
 
 		box->setRenderer(theme.getRenderer("TextBox"));
@@ -47,6 +45,8 @@ void TextBox::Init(Engine* game, const sf::Font& font)
 
 		once = true;
 	}
+	box->setEnabled(false);
+	box->setText("");
 	time.restart();
 }
 

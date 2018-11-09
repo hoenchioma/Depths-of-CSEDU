@@ -31,7 +31,7 @@ int main()
 	//game.pushScene(Boss2::getInstance());
 	//game.pushScene(Boss3::getInstance());
 
-	//app.setFramerateLimit(120);
+	app.setFramerateLimit(120);
 
 	while (app.isOpen())
 	{
