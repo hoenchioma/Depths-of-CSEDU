@@ -11,4 +11,5 @@ public:
 	int health;
 	int maxHealth;
 	int position;
+	float preX, preY;
 };

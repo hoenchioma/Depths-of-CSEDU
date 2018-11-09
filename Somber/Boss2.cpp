@@ -19,12 +19,11 @@ void Boss2::LoadRes()
 	loadFromFile(heartFull, "res/heart_full.png");
 	loadFromFile(heartHalf, "res/heart_half.png");
 	loadFromFile(heartEmpty, "res/heart_empty.png");
-	loadFromFile(exitLit, "res/exitLit.png");
+	loadFromFile(doorTex, "res/door.png");
 	loadFromFile(bulletSoundBuf, "res/Sounds/40_smith_wesson_8x_gunshot-mike-koenig_2.wav");
 	sf::SoundBuffer tempBuf;
 	loadFromFile(tempBuf, "res/Sounds/Zombie Gets Attacked-SoundBible.com-20348330.wav");
 	zombieSoundBuf.insert({ "zombie_attacked", tempBuf });
-	Boss2ScoreFile.open("res/file/Boss2ScoreFile.txt", ios::in | ios::out);
 	font.loadFromFile("res/Font/unispace bd.ttf");
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
@@ -36,7 +35,12 @@ void Boss2::LoadRes()
 void Boss2::Init(Engine* game)
 {
 	game->app->setMouseCursorVisible(false);
-	Boss2ScoreFile >> topScore;
+	ifstream Boss2ScoreFileIn;
+	Boss2ScoreFileIn.open("res/file/Boss2ScoreFile.txt");
+	Boss2ScoreFileIn >> topScore;
+	Boss2ScoreFileIn.close();
+
+	fileClose = 0;
 	midPCTex.setSmooth(true);
 	highestScoreTag.setTexture(highestScoreTex);
 	scoreCard.setTexture(scoreCardTex);
@@ -46,12 +50,15 @@ void Boss2::Init(Engine* game)
 	midPC.setTexture(midPCTex);
 	bottomPC.setTexture(midPCTex);
 	centreTable.setTexture(centreTableTex);
-	centreTable.setScale(.3, .25);
-	centreTable.setPosition(windowWidth - 100, 300);
+	//centreTable.setScale(.3, .25);
+	centreTable.setPosition(880, 319);
 	
 	midPC.setPosition(25,300);
 	bottomPC.setPosition(25,windowHeight-42);
-	
+	door.setTexture(doorTex);
+	door.setTextureRect(IntRect(0, 0, doorTex.getSize().x/ 2, doorTex.getSize().y));
+	door.setScale(0.85, 0.75);
+	door.setPosition(50,-10);
 
 	player.Init(playerSpriteSheet, 0.1f, 300.f);
 	player.setScale(1.4, 1.4);
@@ -102,15 +109,15 @@ void Boss2::Init(Engine* game)
 	//ScoreText.setColor(sf::Color::White);
 	ScoreText.setPosition(windowWidth - 150, 0);
 	topScoreText.setPosition(3000, 3000);
-	exit.setScale(0.4f, 0.4f);
+	//exit.setScale(0.4f, 0.4f);
 
 	ostringstream TopScoreString;
 	TopScoreString << "TOP SCORE : " << topScore;//////////////////Score
 	topScoreText.setString(TopScoreString.str());
 
 	//exit.setPosition(0, windowHeight - 60);
-	exit.setPosition(1e7, 1e7);
-	exit.setTexture(exitLit);
+	//exit.setPosition(1e7, 1e7);
+	//exit.setTexture(exitLit);
 	exitTimer.restart();
 
 	// sound
@@ -123,8 +130,9 @@ void Boss2::Init(Engine* game)
 
 	//Init
 
-	player.dontIntersect(sf::FloatRect(0.f,325.f,875.f,49.f));
+	player.dontIntersect(sf::FloatRect(0.f,322.f,870,49));
 	player.dontIntersect(sf::FloatRect(160,42,843,28));
+	player.dontIntersect(sf::FloatRect(880,347,108,22));
 }
 
 void Boss2::Cleanup()
@@ -262,20 +270,23 @@ void Boss2::Update(Engine * game, double dt)
 			}
 			for (int i = 0; i < zombies.size(); i++)
 			{
-				if (player.getPosition().x<845&&player.getPosition().y<352&&zombies[i].object.getPosition().y>347&&zombies[i].object.getPosition().x<850)
-					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
-				else if (player.getPosition().x < 845 && player.getPosition().y > 360 && zombies[i].object.getPosition().y<358 && zombies[i].object.getPosition().x < 850)
-					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
+				if (player.getPosition().y<390 && zombies[i].object.getPosition().y>295&&zombies[i].object.getPosition().x<985)
+					zombies[i].object.move(zombieSpeed * dt*dtMul*2, 0);
+				else if (player.getPosition().y > 295 && zombies[i].object.getPosition().y<390 && zombies[i].object.getPosition().x < 985)
+					zombies[i].object.move(zombieSpeed * dt*dtMul*2, 0);
 				else
 				{
 					if (zombies[i].object.getPosition().x > player.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
 					if (zombies[i].object.getPosition().x < player.getPosition().x) zombies[i].object.move(zombieSpeed*dt*dtMul, 0);
 					if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
 					if (zombies[i].object.getPosition().y < player.getPosition().y) zombies[i].object.move(0, zombieSpeed*dt*dtMul);
-					if (zombies[i].object.getPosition().x < 0 || zombies[i].object.getPosition().y < 0 || zombies[i].object.getPosition().x >windowWidth || zombies[i].object.getPosition().y > windowHeight)
-					{
-						zombies.erase(zombies.begin() + i);
-					}
+					//if (zombies[i].object.getPosition().x < 0 || zombies[i].object.getPosition().y < 0 || zombies[i].object.getPosition().x >windowWidth || zombies[i].object.getPosition().y > windowHeight)
+				}
+				if (zombies[i].object.getPosition().x < 984 && zombies[i].object.getPosition().y>291 && zombies[i].object.getPosition().y < 389)
+				{
+					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
+					if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
+					else zombies[i].object.move(0, zombieSpeed*dt*dtMul);
 				}
 			}
 			if (zombieEatStep.getElapsedTime().asMilliseconds() > 10)
@@ -299,20 +310,31 @@ void Boss2::Update(Engine * game, double dt)
 		}
 
 		// Exit level
-		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
+		if (exitTimer.getElapsedTime().asSeconds() > 10.0)
 		{
-			exit.setPosition(0, windowHeight - 60);
-			if (player.intersects(exit.getGlobalBounds()))
+			door.setTextureRect(IntRect(doorTex.getSize().x / 2, 0, doorTex.getSize().x / 2, doorTex.getSize().y));
+			//.setPosition(0, windowHeight - 60);
+			if (player.intersects(door.getGlobalBounds()))
 			{
 				zombies.clear();
 				ScoreText.setCharacterSize(50);
 				ScoreText.setPosition(350, 200);
 				scoreCard.setPosition(0, 0);
-				if (Score > topScore) highestScoreTag.setPosition(350, 300);
+				
+				if (Score > topScore)
+				{
+					if (!fileClose)
+					{
+						ofstream Boss2ScoreFileOut;
+						Boss2ScoreFileOut.open("res/file/Boss2ScoreFile.txt");
+						Boss2ScoreFileOut << Score;
+						Boss2ScoreFileOut.close();
+					}
+					highestScoreTag.setPosition(350, 300);
+				}
 					else topScoreText.setPosition(400, 300);
-				//Boss2ScoreFile.seekp(0);
-				//Boss2ScoreFile<< Score;
-				Boss2ScoreFile.close();
+				fileClose = 1;
+				
 				if(Keyboard::isKeyPressed(Keyboard::Enter))
 					popScene(game);
 			}
@@ -325,14 +347,16 @@ void Boss2::Draw(RenderWindow * app)
 {
 	app->draw(floor);
 	app->draw(target);
+	app->draw(door);
 	player.drawTo(app);
+	for (int i = 0; i < zombies.size(); i++)
+		app->draw(zombies[i].object);
 	app->draw(centreTable);
 	app->draw(midPC);
 	app->draw(bottomPC);
 	for (int i = 0; i < player.bullets.size(); i++)
 		app->draw(player.bullets[i].object);
-	for (int i = 0; i < zombies.size(); i++)
-		app->draw(zombies[i].object);
+
 
 	app->draw(heart1);
 	app->draw(heart2);
@@ -344,5 +368,5 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
 	
-	app->draw(exit);
+	
 };

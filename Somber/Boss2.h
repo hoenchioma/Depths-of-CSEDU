@@ -56,13 +56,16 @@ private:
 	float bulletTime = 60;
 	float zombieSpeed = .5;
 	float spawnTime = 0;
+	float moveTime;
 	int topScore;
+	bool fileClose;
 	sf::Sprite target;
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
 	sf::Sprite bottomPC;
 	sf::Sprite midPC;
+
 	sf::Sprite centreTable;
 	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
@@ -80,7 +83,8 @@ private:
 	sf::Texture centreTableTex;
 	sf::Mouse mouse;
 	eClock zombieEatStep;
-	std::fstream Boss2ScoreFile;
+	
+
 
 	// life variables
 	float heartDim = 16;
@@ -96,13 +100,14 @@ private:
 	sf::RectangleShape heart5;
 
 	// exit variables
-	sf::Texture exitLit;
-	sf::Sprite exit;
+	sf::Texture doorTex;
+	//sf::Texture doorOpenTex;
+	sf::Sprite door;
 	sf::Font font;
 	sf::Text ScoreText;
 	sf::Text topScoreText;
 	eClock exitTimer;
-
+	
 	// bullet sound
 	sf::SoundBuffer bulletSoundBuf;
 	sf::Sound bulletSound;
