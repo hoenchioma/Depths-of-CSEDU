@@ -310,7 +310,7 @@ void Boss2::Update(Engine * game, double dt)
 		}
 
 		// Exit level
-		if (exitTimer.getElapsedTime().asSeconds() > 10.0)
+		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
 		{
 			door.setTextureRect(IntRect(doorTex.getSize().x / 2, 0, doorTex.getSize().x / 2, doorTex.getSize().y));
 			//.setPosition(0, windowHeight - 60);

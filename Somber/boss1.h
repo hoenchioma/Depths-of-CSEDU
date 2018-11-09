@@ -8,6 +8,7 @@
 
 #include "TextBox.h"
 #include "RestartMenu.h"
+#include <fstream>
 
 class TableEEE
 {
@@ -80,6 +81,7 @@ private:
 	bool exitFlag;
 	bool gameOverFlag;
 	int topTime;
+	bool fileClose;
 
 
 
@@ -123,7 +125,7 @@ private:
 	sf::Text fuseNumber;
 	sf::Text topScoreText;
 
-	std::fstream Boss1ScoreFile;
+	//std::fstream Boss1ScoreFile;
 
 
 	//sf::View view1;

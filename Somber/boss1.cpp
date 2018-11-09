@@ -39,7 +39,7 @@ void Boss1::LoadRes()
 		cout << "can't load empty heart" << endl;
 	}
 	font.loadFromFile("res/Font/unispace bd.ttf");
-	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
+	//Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
 	floorTexture.loadFromFile("res/floorBoss1.png");
@@ -64,8 +64,13 @@ void Boss1::Init(Engine* game)
 	_gameViewtemp = &game->gameView;
 	this->game = game;
 
+	ifstream Boss1ScoreFileIn;
+	Boss1ScoreFileIn.open("res/file/Boss2ScoreFile.txt");
+	Boss1ScoreFileIn >> topTime;
+	Boss1ScoreFileIn.close();
 
-	Boss1ScoreFile >> topTime;
+	fileClose = 0;
+	//Boss1ScoreFile >> topTime;
 	player.Init(tex, 0.1f, 300);
 	player.setScale(1.4f, 1.4f);
 	player.setPosition(game->width-50,  60);
@@ -399,8 +404,19 @@ void Boss1::Update(Engine * game, double dt)
 				{
 					topScoreText.setPosition(500, 300);
 				}
-				else highestScoreTag.setPosition(350, 300);
-				Boss1ScoreFile.close();
+				else
+				{
+					highestScoreTag.setPosition(350, 300);
+					if (!fileClose)
+					{
+						ofstream Boss1ScoreFileOut;
+						Boss1ScoreFileOut.open("res/file/Boss1ScoreFile.txt");
+						Boss1ScoreFileOut << timeTextMin * 60 + timeTextSec;
+						Boss1ScoreFileOut.close();
+					}
+				}
+				fileClose = 1;
+				//Boss1ScoreFile.close();
 				if(Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 			}
 		}
