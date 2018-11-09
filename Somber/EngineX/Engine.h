@@ -7,7 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <TGUI/TGUI.hpp>
+
+#include "Inventory.h"
 
 #include <stack>
 #include <queue>
@@ -26,6 +27,8 @@ public:
 	double height;
 	double fullWidth;
 	double fullHeight;
+
+	Inventory inv;
 
 	// view management
 	sf::View gameView;
@@ -73,4 +76,8 @@ private:
 	void _pushScene(Scene* newScene);
 	void _popScene();
 };
+
+// usefull macros for inventory
+#define INVI(x) game->inv.intVal[x]
+#define INVD(x) game->inv.doubleVal[x]
 

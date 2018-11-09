@@ -7,3 +7,4 @@
 #include "Point.h"
 #include "Polygon.h"
 #include "Utility.h"
+#include "Inventory.h"

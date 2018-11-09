@@ -64,9 +64,6 @@
     <Filter Include="Source Files\EngineX\Functional\SATCD">
       <UniqueIdentifier>{8ab28bcf-a81a-4d2a-ae40-283e2c8b0ff1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\EngineX\Core">
-      <UniqueIdentifier>{7d64369a-ef46-46f3-a3fa-23ce3e87c402}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\EngineX\Core">
       <UniqueIdentifier>{e884dee0-d926-4208-83d5-a1c28963961b}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="Source Files\MainMenu">
       <UniqueIdentifier>{e00c69ff-aecf-4262-85f8-66d25ddfb6e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineX\Core">
+      <UniqueIdentifier>{7d64369a-ef46-46f3-a3fa-23ce3e87c402}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +174,12 @@
     <ClInclude Include="RestartMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EngineX\Inventory.h">
+      <Filter>Header Files\EngineX\Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultInv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -227,9 +233,6 @@
     <ClCompile Include="EngineX\Engine.cpp">
       <Filter>Source Files\EngineX\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Walls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files\MainMenu</Filter>
     </ClCompile>
@@ -238,6 +241,12 @@
     </ClCompile>
     <ClCompile Include="RestartMenu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Walls.cpp">
+      <Filter>Source Files\Boss3</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineX\Inventory.cpp">
+      <Filter>Source Files\EngineX\Functional</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -175,11 +175,13 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="DefaultInv.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
     <ClInclude Include="EngineX\eClock.h" />
     <ClInclude Include="EngineX\Engine.h" />
     <ClInclude Include="EngineX\EngineX.h" />
+    <ClInclude Include="EngineX\Inventory.h" />
     <ClInclude Include="EngineX\Point.h" />
     <ClInclude Include="EngineX\Polygon.h" />
     <ClInclude Include="EngineX\Scene.h" />
@@ -209,6 +211,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineX\AniSprite.cpp" />
     <ClCompile Include="EngineX\Engine.cpp" />
+    <ClCompile Include="EngineX\Inventory.cpp" />
     <ClCompile Include="EngineX\Polygon.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />

@@ -17,7 +17,7 @@ const int gameHeight = 720;
 int main()
 {
 	srand(time(0));
-	
+
 	RenderWindow app(VideoMode::getDesktopMode(), "Depths of CSEDU", Style::Fullscreen);
 	Event event;
 	Clock clock;
