@@ -47,6 +47,7 @@ void TextBox::Init(Engine* game, const sf::Font& font)
 
 		once = true;
 	}
+	time.restart();
 }
 
 void TextBox::handleEvent(sf::Event * event)
@@ -54,7 +55,37 @@ void TextBox::handleEvent(sf::Event * event)
 	gui.handleEvent(*event);
 }
 
+void TextBox::update()
+{
+	if (!textQ.empty())
+	{
+		if (time.getElapsedTime().asSeconds() > delay)
+		{
+			box->addText(textQ.front());
+			textQ.pop();
+
+			time.restart();
+		}
+	}
+}
+
 void TextBox::draw()
 {
 	gui.draw();
+}
+
+void TextBox::addText(std::string str)
+{
+	box->addText(str);
+}
+
+void TextBox::addTextTyped(std::string str)
+{
+	for (char i : str) textQ.push(i);
+}
+
+void TextBox::setText(std::string str)
+{
+	box->setText(str);
+	textQ = {}; // clearing the queue
 }

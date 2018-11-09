@@ -75,6 +75,7 @@ void Boss3::Init(Engine * game)
 	floor.setPosition(0, 0);
 
 	textBox.Init(game, textBoxFont);
+	textBox.addTextTyped("Hello world, you guys are the best. I'll always be in debt to you :')");
 
 	menu.Init(game, this, textBoxFont);
 	//menu.turnOn();
@@ -84,8 +85,8 @@ void Boss3::Init(Engine * game)
 
 void Boss3::Cleanup()
 {
+	resetView(game->gameView);
 	this->game->miniMapOn = false;
-	menu.turnOff();
 	Resume();
 }
 
@@ -94,6 +95,8 @@ void Boss3::Pause()
 	pause = true;
 	snek.time.pause();
 	mainChar.pause();
+	textBox.time.pause();
+	
 }
 
 void Boss3::Resume()
@@ -101,6 +104,7 @@ void Boss3::Resume()
 	pause = false;
 	snek.time.resume();
 	mainChar.resume();
+	textBox.time.resume();
 }
 
 void Boss3::togglePause()
@@ -159,6 +163,7 @@ void Boss3::Update(Engine * game, double dt)
 		}
 		//if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
 			//popScene(game);
+		textBox.update();
 	}
 }
 
