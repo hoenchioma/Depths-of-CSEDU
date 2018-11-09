@@ -22,10 +22,6 @@ void Boss1::LoadRes()
 	{
 		cout << "can't load Sprite" << endl;
 	}
-	if (!fuseClosed.loadFromFile("res/fuseClosed.png"))
-	{
-		cout << "can't load texture fuseClosed" << endl;
-	}
 	if (!fuseOpened.loadFromFile("res/fuseOpened.png"))
 	{
 		cout << "can't load texture fuseOpened" << endl;
@@ -51,6 +47,15 @@ void Boss1::LoadRes()
 	tableHorTex.loadFromFile("res/tableEEEHorizontal.png");
 	tableNormTex.loadFromFile("res/tableEEE.png");
 	tableBotTex.loadFromFile("res/tableBottom.png");
+	doorCloseTex.loadFromFile("res/doubleDoorClose.png");
+	doorOpenTex.loadFromFile("res/doubleDoorOpen.png");
+	//fuseBotCloseTex.loadFromFile("res/fuseBottomClose.png");
+	fuseBotSideOpenTex.loadFromFile("res/fuseBottomSideOpen.png");
+	fuse[3].fuseOpenTex.loadFromFile("res/fuseBottomOpen.png");
+	fuse[4].fuseOpenTex.loadFromFile("res/fuseBottomOpen.png");
+	fuse[3].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
+	fuse[4].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
+
 }
 
 void Boss1::Init(Engine* game)
@@ -60,7 +65,7 @@ void Boss1::Init(Engine* game)
 	Boss1ScoreFile >> topTime;
 	player.Init(tex, 0.1f, 300);
 	player.setScale(1.4f, 1.4f);
-	player.setPosition(game->width-50,  50);
+	player.setPosition(game->width-50,  60);
 	player.setDirec(Direction::DOWN);
 	
 	lights[0].x = 0;
@@ -71,8 +76,6 @@ void Boss1::Init(Engine* game)
 	lights[2].y = windowHeight;
 	lights[3].x = 0;
 	lights[3].y = windowHeight;
-	lights[4].x = windowWidth / 2;
-	lights[4].y = windowHeight / 2;
 	lights[0].dirX = RIGHT;
 	lights[0].dirY = DOWN;
 	lights[1].dirX = LEFT;
@@ -81,23 +84,21 @@ void Boss1::Init(Engine* game)
 	lights[2].dirY = UP;
 	lights[3].dirX = RIGHT;
 	lights[3].dirY = UP;
-	lights[4].dirX = RIGHT;
-	lights[4].dirY = DOWN;
 
 	fuse[0].X = 90;
-	fuse[0].Y = 5;
+	fuse[0].Y = 18;
 	fuse[1].X = 2;
-	fuse[1].Y = windowHeight/2-20;
+	fuse[1].Y = windowHeight/2+30;
 	fuse[2].X = 2;
-	fuse[2].Y = windowHeight - 75;
-	fuse[3].X = 425;
-	fuse[3].Y = windowHeight-15;
-	fuse[4].X = 750;
-	fuse[4].Y = windowHeight-15;
-	fuse[5].X = windowWidth - 50;
-	fuse[5].Y = windowHeight - 20;
-	fuse[6].X = windowWidth - 20;
-	fuse[6].Y = windowHeight/2-20;
+	fuse[2].Y = windowHeight - 20;
+	fuse[3].X = 410;
+	fuse[3].Y = windowHeight-21;
+	fuse[4].X = 740;
+	fuse[4].Y = windowHeight-21;
+	fuse[5].X = windowWidth - 3;
+	fuse[5].Y = windowHeight - 70;
+	fuse[6].X = windowWidth -3;
+	fuse[6].Y = windowHeight/2-15;
 
 	exitFlag = 0;
 	gameOverFlag = 0;
@@ -114,9 +115,13 @@ void Boss1::Init(Engine* game)
 	topScoreText.setPosition(3000, 3000);
 	fuseNumber.setPosition(0, 20);
 
+	
 	highestScoreTag.setTexture(highestScoreTex);
 	scoreCard.setTexture(scoreCardTex);
 	floor.setTexture(floorTexture);
+	door.setTexture(doorCloseTex);
+	door.setPosition(windowWidth - 100, 0);
+
 	tableBottom.object.setTexture(tableBotTex);
 	tableDLD[0].object.setTexture(tableNormTex);
 	tableDLD[1].object.setTexture(tableNormTex);
@@ -128,7 +133,7 @@ void Boss1::Init(Engine* game)
 	tableDLD[0].object.setPosition(5, 410);
 	tableDLD[1].object.setPosition(5, 110);
 	tableDLD[2].object.setPosition(190, windowHeight-105);
-	tableDLD[3].object.setPosition(500, windowHeight - 105);
+	tableDLD[3].object.setPosition(510, windowHeight - 105);
 	tableDLD[4].object.setPosition(850, windowHeight - 105);
 	tableDLD[5].object.setPosition(1165, 110);
 	tableDLD[6].object.setPosition(1165, 410);
@@ -152,8 +157,17 @@ void Boss1::Init(Engine* game)
 	for (i = 0; i < 7; i++)
 	{
 		fuse[i].fuseBox.setPosition(fuse[i].X, fuse[i].Y);
-		fuse[i].fuseHealthBar.setPosition(fuse[i].X - barDis, fuse[i].Y + fuseHeight + 15);
+		fuse[i].fuseHealthBar.setPosition(3000,3000);
 	}
+	bot3Side.setTexture(fuseBotSideOpenTex);
+	bot4Side.setTexture(fuseBotSideOpenTex);
+	bot3Side.setScale(.15, .2);
+	bot4Side.setScale(.15, .2);
+	bot4Side.setPosition(3000, 3000);
+	bot3Side.setPosition(3000, 3000);
+
+
+
 	heart1.setSize(Vector2f(heartDim, heartDim));
 	heart2.setSize(Vector2f(heartDim, heartDim));
 	heart3.setSize(Vector2f(heartDim, heartDim));
@@ -176,16 +190,25 @@ void Boss1::Init(Engine* game)
 	heart5.setTexture(&heartFull);
 	for (i = 0; i < 7; i++)
 	{
-		fuse[i].fuseBox.setTexture(fuse[i].object);
+		fuse[i].fuseBox.setTexture(fuse[i].fuseCloseTex);
 		fuse[i].health = 100;
 	}
+	//fuse[3].fuseBox.setTexture(fuseBotCloseTex);
+	fuse[3].fuseBox.setScale(.15,.2);
+	//fuse[4].fuseBox.setTexture(fuseBotCloseTex);
+	fuse[4].fuseBox.setScale(.15, .2);
+
+	fuse[1].fuseBox.setRotation(-90);
+	fuse[2].fuseBox.setRotation(-90);
+	fuse[5].fuseBox.setRotation(90);
+	fuse[6].fuseBox.setRotation(90);
 
 	// for dark effect
 	light = 100;
 	player.setColor(Color(light, light, light));
 
 	// set the boundary of Sprite movement
-	player.setBoundary(40, 40, windowWidth-50, windowHeight-70);
+	player.setBoundary(40, 55, windowWidth-50, windowHeight-70);
 
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
@@ -263,21 +286,24 @@ void Boss1::Update(Engine * game, double dt)
 
 		player.update(dt);
 
-		position = player.getPosition();
 		//centreView(game->gameView, player.getPosition(), Vector2f(windowWidth, windowHeight));
-		for (i = 0; i < 5; i++)
+		for (i = 0; i < 4; i++)
 		{
+			if ((centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, player.getPosition().x + spriteSize, player.getPosition().y + spriteSize) < spotlightDamageRange))
+				spriteHealth -= lightDamage * dt;
+
 			if (lights[i].x > windowWidth)								lights[i].dirX = LEFT;
 			else if (lights[i].x < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirX = RIGHT;
 			if (lights[i].y > windowHeight)								lights[i].dirY = UP;
 			else if (lights[i].y < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirY = DOWN;
 
-			if ((centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, position.x + spriteSize, position.y + spriteSize) < spotlightDamageRange))
-				spriteHealth -= lightDamage * dt;
 
 			lights[i].x += speedSpotlight * lights[i].dirX *dt;
 			lights[i].y += speedSpotlight * lights[i].dirY *dt;
 			lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
+
+
+			
 
 		}
 
@@ -302,7 +328,7 @@ void Boss1::Update(Engine * game, double dt)
 			spriteHealth = 150;
 			game->popScene();
 			game->pushScene(Boss1::getInstance());
-		}																		//GAME OVER FLAG
+		}																		
 
 		for (i = 0; i < 7; i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].health, healthBar));
 
@@ -317,14 +343,15 @@ void Boss1::Update(Engine * game, double dt)
 				break;
 			}
 			exitFlag = 1;
+			door.setTexture(doorOpenTex);
 		}
 		if (exitFlag)
 		{
 			gameOverFlag = 1;
-			if (position.x <= 110 && position.y >= (windowHeight - 60))
+			if (player.intersects(door.getGlobalBounds()))
 			{
 				//////// return to previous scene /////////
-				for (i = 0; i < 5; i++) 
+				for (i = 0; i < 4; i++) 
 				{
 					lights[i].x = 3000; 
 					lights[i].y = 3000;
@@ -355,12 +382,13 @@ void Boss1::Draw(RenderWindow * app)
 {
 	//app->setView(view1);
 	app->draw(floor);
+	app->draw(door);
 
 	for (i = 0; i < 7; i++) app->draw(tableDLD[i].object);
 	for (i = 0; i < 7; i++)
 		if(player.intersects(fuse[i].fuseBox.getGlobalBounds())) 
 		{
-			app->draw(fuse[i].fuseHealthBar);
+			fuse[i].fuseHealthBar.setPosition(player.getPosition().x - 50, player.getPosition().y+11);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
 				if (fuse[i].health > 0)
@@ -369,16 +397,26 @@ void Boss1::Draw(RenderWindow * app)
 				}
 				if (fuse[i].health <= 0)
 				{
-					fuse[i].fuseBox.setTexture(fuseOpened);
+					fuse[i].fuseBox.setTexture(fuse[i].fuseOpenTex);
+					//fuse[4].fuseBox.setScale(1, 1);
 					fuse[i].fuseState = 0;
 				}
 			}
 		}
+		else fuse[i].fuseHealthBar.setPosition(3000, 3000);
+
+
+	if(fuse[3].health<=0) 	bot3Side.setPosition(fuse[3].X + 68, fuse[3].Y - 22);
+	if(fuse[4].health<=0) bot4Side.setPosition(fuse[4].X + 68, fuse[4].Y - 22);
+
 	
 	
 	app->draw(tableBottom.object);
 	for (i = 0; i < 7; i++) app->draw(fuse[i].fuseBox);
 	player.drawTo(app);
+	for (i = 0; i < 7; i++) app->draw(fuse[i].fuseHealthBar);
+	app->draw(bot3Side);
+	app->draw(bot4Side);
 	app->draw(heart1);
 	app->draw(heart2);
 	app->draw(heart3);
@@ -389,7 +427,7 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(scoreToText);
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
-	for (i = 0; i < 5; i++) app->draw(lights[i].circleSpot);
+	for (i = 0; i < 4; i++) app->draw(lights[i].circleSpot);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }
