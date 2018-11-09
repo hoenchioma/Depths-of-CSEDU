@@ -55,12 +55,16 @@ void Boss1::LoadRes()
 	fuse[3].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
 	fuse[4].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
 
+	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
 }
 
 void Boss1::Init(Engine* game)
 {
 	resetView(game->gameView);
 	_gameViewtemp = &game->gameView;
+	this->game = game;
+
+
 	Boss1ScoreFile >> topTime;
 	player.Init(tex, 0.1f, 300);
 	player.setScale(1.4f, 1.4f);
@@ -214,6 +218,17 @@ void Boss1::Init(Engine* game)
 	// set the boundary of Sprite movement
 	player.setBoundary(40, 55, windowWidth-50, windowHeight-70);
 
+	///////// textBox /////////////
+	textBox.Init(game, textBoxFont);
+	textBox.addTextTyped("Hello world!!");
+
+	///////// restart menu ///////////
+	menu.Init(game, this, textBoxFont);
+
+	///////// minimap ////////////
+	game->miniMapOn = true;
+	game->miniMap.reset(sf::FloatRect(0, 0, windowWidth, windowHeight));
+
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
 #endif // _DEBUG
@@ -222,12 +237,18 @@ void Boss1::Init(Engine* game)
 void Boss1::Cleanup()
 {
 	resetView(*_gameViewtemp);
+	this->game->miniMapOn = false;
+	menu.turnOff();
+	textBox.setText("");
+	Resume();
 }
 
 void Boss1::Pause()
 {
-	player.running = false;
 	pause = true;
+
+	player.pause();
+	textBox.time.pause();
 
 	// this function is going to be called when the game is paused
 }
@@ -235,6 +256,9 @@ void Boss1::Pause()
 void Boss1::Resume()
 {
 	pause = false;
+
+	player.resume();
+	textBox.time.resume();
 
 	// this function is going to be called when the game is resumed
 }
@@ -260,6 +284,9 @@ void Boss1::HandleEvents(Engine * game, Event * event)
 			break;
 		}
 	}
+
+	textBox.handleEvent(event);
+	menu.handleEvent(event);
 }
 
 void Boss1::Update(Engine * game, double dt)
@@ -268,7 +295,6 @@ void Boss1::Update(Engine * game, double dt)
 	{
 
 		//for (i == 0; i < 7;i++) if((player.intersects(tableDLD[i].object.getGlobalBounds()))) playerIC=
-
 
 
 		if(!gameOverFlag)
@@ -336,8 +362,9 @@ void Boss1::Update(Engine * game, double dt)
 			//////// restarts level ///////////
 			heart5.setPosition(-500, 0);
 			spriteHealth = 150;
-			game->popScene();
-			game->pushScene(Boss1::getInstance());
+			
+			Pause();
+			menu.turnOn();
 		}																		
 
 		for (i = 0; i < 7; i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].health, healthBar));
@@ -378,7 +405,8 @@ void Boss1::Update(Engine * game, double dt)
 			}
 		}
 
-		// controlling light and dark with respect to spotlight
+		// updates the textBox
+		textBox.update();
 
 	}
 
@@ -437,6 +465,10 @@ void Boss1::Draw(RenderWindow * app)
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
 	for (i = 0; i < 4; i++) app->draw(lights[i].circleSpot);
+
+
+	textBox.draw();
+	menu.draw(app);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer
 }

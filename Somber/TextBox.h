@@ -25,8 +25,11 @@ public:
 	void update();
 	void draw();
 
+	// append the string to the current text
 	void addText(std::string str);
+	// add the text but each letter at a certain delay
 	void addTextTyped(std::string str);
+	// replace the current text
 	void setText(std::string str);
 
 	tgui::TextBox::Ptr box;
