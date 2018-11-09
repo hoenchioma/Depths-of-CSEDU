@@ -137,7 +137,11 @@ void Boss1::Init(Engine* game)
 	tableDLD[4].object.setPosition(850, windowHeight - 105);
 	tableDLD[5].object.setPosition(1165, 110);
 	tableDLD[6].object.setPosition(1165, 410);
-	for (i = 0; i < 7; i++) tableDLD[i].object.setScale(.7, .7);
+	for (i = 0; i < 7; i++)
+	{
+		tableDLD[i].object.setScale(.7, .7);
+		//tableDLD[i].ICnum = i+1;
+	}
 	tableBottom.object.setScale(.7, .7);
 	tableBottom.object.setPosition(500, 20);
 
@@ -262,6 +266,11 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+
+		//for (i == 0; i < 7;i++) if((player.intersects(tableDLD[i].object.getGlobalBounds()))) playerIC=
+
+
+
 		if(!gameOverFlag)
 		{
 			timeStore += dt;
@@ -273,6 +282,7 @@ void Boss1::Update(Engine * game, double dt)
 			timeTextSec = timeStore;
 			fuseCount = 0;
 			for (i = 0; i < 7; i++) fuseCount += fuse[i].fuseState;
+			if(fuseCount==0) door.setTexture(doorOpenTex);
 			std::ostringstream timeMin;
 			timeMin << "TIME:" << timeTextMin << ":" << timeTextSec;
 			scoreToText.setString(timeMin.str());
@@ -343,7 +353,6 @@ void Boss1::Update(Engine * game, double dt)
 				break;
 			}
 			exitFlag = 1;
-			door.setTexture(doorOpenTex);
 		}
 		if (exitFlag)
 		{
@@ -386,7 +395,7 @@ void Boss1::Draw(RenderWindow * app)
 
 	for (i = 0; i < 7; i++) app->draw(tableDLD[i].object);
 	for (i = 0; i < 7; i++)
-		if(player.intersects(fuse[i].fuseBox.getGlobalBounds())) 
+		if(player.intersects(fuse[i].fuseBox.getGlobalBounds()) && fuse[i].health>0) 
 		{
 			fuse[i].fuseHealthBar.setPosition(player.getPosition().x - 50, player.getPosition().y+11);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
