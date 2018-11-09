@@ -21,7 +21,7 @@ public:
 		fuseOpenTex.loadFromFile("res/fuseOpened.png");
 		fuseBox.setTexture(fuseCloseTex);
 		fuseBox.setScale(.1, .1);
-		fuseState = 1;
+		fuseState ;
 	}
 	~FuseInfo() {}
 

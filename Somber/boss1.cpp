@@ -42,14 +42,13 @@ void Boss1::LoadRes()
 	Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
-	floorTexture.loadFromFile("res/floorExtended.png");
+	floorTexture.loadFromFile("res/floorBoss1.png");
 	tableFlipTex.loadFromFile("res/tableEEEFlip.png");
 	tableHorTex.loadFromFile("res/tableEEEHorizontal.png");
 	tableNormTex.loadFromFile("res/tableEEE.png");
 	tableBotTex.loadFromFile("res/tableBottom.png");
 	doorCloseTex.loadFromFile("res/doubleDoorClose.png");
 	doorOpenTex.loadFromFile("res/doubleDoorOpen.png");
-	//fuseBotCloseTex.loadFromFile("res/fuseBottomClose.png");
 	fuseBotSideOpenTex.loadFromFile("res/fuseBottomSideOpen.png");
 	fuse[3].fuseOpenTex.loadFromFile("res/fuseBottomOpen.png");
 	fuse[4].fuseOpenTex.loadFromFile("res/fuseBottomOpen.png");
@@ -196,6 +195,7 @@ void Boss1::Init(Engine* game)
 	{
 		fuse[i].fuseBox.setTexture(fuse[i].fuseCloseTex);
 		fuse[i].health = 100;
+		fuse[i].fuseState = 1;
 	}
 	//fuse[3].fuseBox.setTexture(fuseBotCloseTex);
 	fuse[3].fuseBox.setScale(.15,.2);
