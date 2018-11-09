@@ -61,7 +61,9 @@ private:
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
-	sf::Sprite midBlock;
+	sf::Sprite bottomPC;
+	sf::Sprite midPC;
+	sf::Sprite centreTable;
 	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
 	sf::Texture highestScoreTex;
@@ -74,7 +76,8 @@ private:
 	sf::Texture undeadTexture3;
 	sf::Texture crosshair;
 	sf::Texture floorTex;
-	sf::Texture midBlockTex;
+	sf::Texture midPCTex;
+	sf::Texture centreTableTex;
 	sf::Mouse mouse;
 	eClock zombieEatStep;
 	std::fstream Boss2ScoreFile;

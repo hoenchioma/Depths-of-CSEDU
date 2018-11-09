@@ -29,31 +29,35 @@ void Boss2::LoadRes()
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
 	floorTex.loadFromFile("res/floorBoss2.png");
-	midBlockTex.loadFromFile("res/boss2Middle.png");
+	midPCTex.loadFromFile("res/boss2MiddlePC.png"); 
+	centreTableTex.loadFromFile("res/centrePC.png");
 }
 
 void Boss2::Init(Engine* game)
 {
 	game->app->setMouseCursorVisible(false);
 	Boss2ScoreFile >> topScore;
-	printf("%d\n", topScore);
-	undeadTexture1.setSmooth(true);
-	undeadTexture2.setSmooth(true);
-	undeadTexture3.setSmooth(true);
+	midPCTex.setSmooth(true);
 	highestScoreTag.setTexture(highestScoreTex);
 	scoreCard.setTexture(scoreCardTex);
 	scoreCard.setPosition(3000, 3000);
 	highestScoreTag.setPosition(3000, 3000);
 	floor.setTexture(floorTex);
-	midBlock.setTexture(midBlockTex);
-	midBlock.setPosition(0, 348);
+	midPC.setTexture(midPCTex);
+	bottomPC.setTexture(midPCTex);
+	centreTable.setTexture(centreTableTex);
+	centreTable.setScale(.3, .25);
+	centreTable.setPosition(windowWidth - 100, 300);
+	
+	midPC.setPosition(25,300);
+	bottomPC.setPosition(25,windowHeight-42);
 	
 
 	player.Init(playerSpriteSheet, 0.1f, 300.f);
-	//player.setScale(1.4f, 1.4f);
+	player.setScale(1.4, 1.4);
 	player.setPosition(windowWidth / 2.0, windowHeight / 2.0+50);
 
-	player.setBoundary(40, 55, windowWidth - 50, windowHeight - 70);
+	player.setBoundary(40, 55, windowWidth - 50, windowHeight - 90);
 
 	target.setTexture(crosshair);
 	target.setScale(0.1, 0.1);
@@ -119,7 +123,8 @@ void Boss2::Init(Engine* game)
 
 	//Init
 
-	player.dontIntersect(midBlock.getGlobalBounds());
+	player.dontIntersect(sf::FloatRect(0.f,325.f,875.f,49.f));
+	player.dontIntersect(sf::FloatRect(160,42,843,28));
 }
 
 void Boss2::Cleanup()
@@ -173,6 +178,7 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if (Score < 0) Score = 0;
 		ostringstream numberToString;
 		numberToString << "Score : " << Score;//////////////////Score
 		ScoreText.setString(numberToString.str());
@@ -257,9 +263,9 @@ void Boss2::Update(Engine * game, double dt)
 			for (int i = 0; i < zombies.size(); i++)
 			{
 				if (player.getPosition().x<845&&player.getPosition().y<352&&zombies[i].object.getPosition().y>347&&zombies[i].object.getPosition().x<850)
-				{
 					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
-				}
+				else if (player.getPosition().x < 845 && player.getPosition().y > 360 && zombies[i].object.getPosition().y<358 && zombies[i].object.getPosition().x < 850)
+					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
 				else
 				{
 					if (zombies[i].object.getPosition().x > player.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
@@ -318,10 +324,11 @@ void Boss2::Update(Engine * game, double dt)
 void Boss2::Draw(RenderWindow * app)
 {
 	app->draw(floor);
-	app->draw(midBlock);
 	app->draw(target);
-	//app->draw(player.object);
 	player.drawTo(app);
+	app->draw(centreTable);
+	app->draw(midPC);
+	app->draw(bottomPC);
 	for (int i = 0; i < player.bullets.size(); i++)
 		app->draw(player.bullets[i].object);
 	for (int i = 0; i < zombies.size(); i++)
