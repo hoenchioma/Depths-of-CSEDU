@@ -46,7 +46,8 @@ public:
 
 	// draws corners interpolated fashion (to be drawn over snake)
 	void drawCorners(sf::RenderWindow* app);
-	void drawTo(sf::RenderWindow* app);
+	void drawTo1(sf::RenderWindow* app);
+	void drawTo2(sf::RenderWindow* app);
 
 	GridPoint tailCor;
 	GridPoint headCor;
@@ -70,5 +71,7 @@ private:
 
 	bool uncoiled = false;
 	int _uncoilCount;
+
+	bool eating = false;
 };
 

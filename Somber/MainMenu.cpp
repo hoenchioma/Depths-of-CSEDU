@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "DefaultInv.h"
 #include "Floor1.h"
 #include "Boss3.h"
 
@@ -28,10 +29,12 @@ void MainMenu::Init(Engine* game)
 	game->fullScreen.reset(sf::FloatRect(0, 0, windowWidth, windowHeight));
 	_fullScreen = true;
 
+	if (ifstream("save/inv.txt")) fileCont = true;
+
 	continueButton.Init(&ContinueButtonAvailAc, &ContinueButtonAvail, continueX, continueY);
 	if (fileCont)
 	{
-		continueButton.object.setTexture(ContinueButtonAvailAc);
+		continueButton.object.setTexture(ContinueButtonAvail);
 		continueButton.objectAc.setTexture(ContinueButtonAvailAc);
 	}
 	else
@@ -79,6 +82,7 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
 			mainMenuSound.stop();
+			makeDefault(game->inv);
 			pushScene(game, Floor1::getInstance());
 		}/////////////////////////////////play button
 		playButton.objectAc.setPosition(playX, playY);
@@ -88,7 +92,11 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 	{
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			
+			mainMenuSound.stop();
+			// if file is corrupt load default
+			if (game->inv.loadFromFile("save/inv.txt")) makeDefault(game->inv);
+			if (INVI("floor") == 0) pushScene(game, Floor1::getInstance());
+			//else if (INVI("floor") == 1) pushScene(game, Floor2::getInstance());
 		}
 		continueButton.objectAc.setPosition(continueX, continueY);
 	}
