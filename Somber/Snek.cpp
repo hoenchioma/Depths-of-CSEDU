@@ -137,10 +137,10 @@ void Snek::Init(int length, GridPoint start, Grid* grid, sf::Color color, double
 
 	joint.setSize(Vector2f(grid->BIT * scalingFactor, grid->BIT * scalingFactor));
 	joint.setOrigin(joint.getSize().x / 2.0, joint.getSize().y / 2.0);
-	joint.setFillColor(Color::Green);
+	//joint.setFillColor(Color::Green);
 
 	RectangleShape tempRec(Vector2f(grid->BIT * scalingFactor, grid->BIT * scalingFactor));
-	tempRec.setFillColor(Color::Green);
+	//tempRec.setFillColor(Color::Green);
 	tempRec.setOrigin(tempRec.getSize().x / 2.0, tempRec.getSize().y / 2.0);
 	tempRec.setPosition(grid->toPoint(start));
 	grid->at(start) = true;

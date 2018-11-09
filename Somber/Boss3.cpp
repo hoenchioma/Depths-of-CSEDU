@@ -17,13 +17,16 @@ using namespace sf;
 void Boss3::LoadRes()
 {
 	loadFromFile(characterSpriteSheet, "res/running_1.png");
-	loadFromFile(wallTexture, "res/walltex.png");
+	loadFromFile(wallTexture, "res/walltex_wshadow.png");
+	loadFromFile(floorTex, "res/stone_floor_50x50.png");
 	loadFromFile(appleTex, "res/apple.png");
 
-	loadFromFile(headTex, "res/snek_head.png");
+	loadFromFile(headTex, "res/snek_head2.png");
 	loadFromFile(tailTex, "res/snek_tail.png");
 	loadFromFile(bodyTex, "res/snek_body.png");
 	loadFromFile(jointTex, "res/snek_joint2.png");
+
+	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
 }
 
 void Boss3::Init(Engine * game)
@@ -65,8 +68,16 @@ void Boss3::Init(Engine * game)
 	apple.setScale(0.1f, 0.1f);
 	apple.setPosition(grid.toPoint(grid.randomPoint()));
 
-	textBox.Init(game);
-	//game->textBoxOn = true;
+
+	floorTex.setRepeated(true);
+	floor.setTexture(floorTex);
+	floor.setTextureRect(IntRect(0, 0, CanvasWidth, CanvasHeight));
+	floor.setPosition(0, 0);
+
+	textBox.Init(game, textBoxFont);
+
+	menu.Init(game, this, textBoxFont);
+	//menu.turnOn();
 
 	//snek.time.pause();
 }
@@ -74,6 +85,8 @@ void Boss3::Init(Engine * game)
 void Boss3::Cleanup()
 {
 	this->game->miniMapOn = false;
+	menu.turnOff();
+	Resume();
 }
 
 void Boss3::Pause()
@@ -105,14 +118,15 @@ void Boss3::HandleEvents(Engine * game, sf::Event * event)
 		case Keyboard::Space:
 			togglePause();
 			break;
-		case Keyboard::C:
+		/*case Keyboard::C:
 			snek.cut(10);
-			break;
+			break;*/
 		default:
 			break;
 		}
 	}
 	textBox.handleEvent(event);
+	menu.handleEvent(event);
 }
 
 void Boss3::Update(Engine * game, double dt)
@@ -137,7 +151,12 @@ void Boss3::Update(Engine * game, double dt)
 
 		bool eaten = snek.update(dt, mainChar.getPosition());
 
-		if (eaten) reset(game);
+		if (eaten)
+		{
+			eaten = false;
+			Pause();
+			menu.turnOn();
+		}
 		//if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
 			//popScene(game);
 	}
@@ -145,6 +164,8 @@ void Boss3::Update(Engine * game, double dt)
 
 void Boss3::Draw(sf::RenderWindow * app)
 {
+	app->draw(floor);
+	
 	walls.drawTo1(app, mainChar.getPosition());
 
 	mainChar.drawTo(app);
@@ -154,6 +175,7 @@ void Boss3::Draw(sf::RenderWindow * app)
 	walls.drawTo2(app);
 
 	textBox.draw();
+	menu.draw(app);
 
 	/************************ TESTING ZONE **************************
 	CircleShape test(5);

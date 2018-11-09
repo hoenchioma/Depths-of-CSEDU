@@ -193,6 +193,7 @@
     <ClInclude Include="Floor1.h" />
     <ClInclude Include="MainChar.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RestartMenu.h" />
     <ClInclude Include="Snek.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="TextBox.h" />
@@ -221,6 +222,7 @@
     </ClCompile>
     <ClCompile Include="Floor1.cpp" />
     <ClCompile Include="MainChar.cpp" />
+    <ClCompile Include="RestartMenu.cpp" />
     <ClCompile Include="Snek.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Undead.cpp" />

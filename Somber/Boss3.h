@@ -12,6 +12,7 @@
 #include "Snek.h"
 #include "Walls.h"
 #include "TextBox.h"
+#include "RestartMenu.h"
 
 class Boss3 : public Scene
 {
@@ -63,5 +64,11 @@ private:
 	sf::Texture appleTex;
 	sf::Sprite apple;
 
+	sf::Font textBoxFont;
 	TextBox textBox;
+
+	sf::Texture floorTex;
+	sf::Sprite floor;
+
+	RestartMenu menu;
 };

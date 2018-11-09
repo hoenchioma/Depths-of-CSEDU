@@ -175,7 +175,7 @@ TextBox {
     SelectedTextColor           = White;
     SelectedTextBackgroundColor = rgb( 10, 110, 255);
     CaretColor                  = rgb(110, 110, 255);
-    Padding                     = (20, 20, 20, 20);
+    Padding                     = (25, 25, 25, 25);
     Scrollbar                   = &Scrollbar;
 }
 

@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Textbox containing the instruction and player interaction
+*/
+
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 
@@ -11,7 +15,7 @@ public:
 	TextBox();
 	~TextBox();
 
-	void Init(Engine* game);
+	void Init(Engine* game, const sf::Font& font);
 
 	void handleEvent(sf::Event* event);
 	void draw();
@@ -20,5 +24,6 @@ public:
 
 private:
 	tgui::Gui gui;
+	bool once = false;
 };
 
