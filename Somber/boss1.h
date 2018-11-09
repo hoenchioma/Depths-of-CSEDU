@@ -6,6 +6,13 @@
 #include "Spotlight.h"
 #include "FuseInfo.h"
 
+class TableEEE
+{
+public:
+	sf::Sprite object;
+	//int ICnum;
+};
+
 
 class Boss1 : public Scene
 {
@@ -71,11 +78,6 @@ private:
 	bool gameOverFlag;
 	int topTime;
 
-	class TableEEE
-	{
-	public:
-		sf::Sprite object;
-	};
 
 
 	sf::Sprite highestScoreTag;
