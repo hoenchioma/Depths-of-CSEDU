@@ -6,6 +6,9 @@
 #include "Spotlight.h"
 #include "FuseInfo.h"
 
+#include "TextBox.h"
+#include "RestartMenu.h"
+
 class TableEEE
 {
 public:
@@ -132,4 +135,10 @@ private:
 
 	// temporarily stores the gameView
 	sf::View* _gameViewtemp;
+
+	Engine* game;
+
+	sf::Font textBoxFont;
+	TextBox textBox;
+	RestartMenu menu;
 };
