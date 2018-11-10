@@ -45,6 +45,7 @@ void Floor2::LoadRes()
 		cerr << "can't load balcony bottom texture" << endl;
 	}
 	loadFromFile(balconyUnder, "res/Balcony_new_under_black.png");
+	floor2CovTex.loadFromFile("res/floor2cover.png");
 }
 
 void Floor2::Init(Engine* game)
@@ -56,7 +57,7 @@ void Floor2::Init(Engine* game)
 	////////////// main character ////////////////////
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
-	mainChar.dontIntersect(sf::FloatRect(377,0,1000, 320));
+	mainChar.dontIntersect(sf::FloatRect(393,0,1000, 320));
 	//mainChar.setPosition(game->width / 2.f, game->height / 2.f);
 	mainChar.setPosition(0, 0);
 	mainChar.dontIntersect(&balcony.getPoly());
@@ -71,7 +72,9 @@ void Floor2::Init(Engine* game)
 	door.Init(DoorImage);
 	door.setScale(0.85, 0.85);
 	door.setPosition(110, 5);
-
+	floor2Cover.setTexture(floor2CovTex);
+	floor2Cover.setScale(1.35, 1.35);
+	floor2Cover.setPosition(374, 0);
 
 	/////////////// balcony //////////////////////////
 	balcony.Init(
@@ -123,6 +126,7 @@ void Floor2::Init(Engine* game)
 	mainChar.setColor(Color(light, light, light));
 	background.setColor(Color(light, light, light));
 	balcony.setBrightness(light);
+	floor2Cover.setColor(Color(light, light, light));
 	///for (auto& coin : coins) coin.setColor(Color(light, light, light));
 
 	cout << "Floor2 scene initialized" << endl;
@@ -254,4 +258,5 @@ void Floor2::Draw(RenderWindow * app)
 	if (!enteringdoor) mainChar.drawTo(app);
 	//for (auto& coin : coins) coin.drawTo(app);
 	balcony.drawTop(app);
+	app->draw(floor2Cover);
 }

@@ -64,6 +64,9 @@ private:
 	sf::Texture balconyTop;
 	sf::Texture balconyBottom;
 	sf::Texture balconyUnder;
+	sf::Sprite floor2Cover;
+	sf::Texture floor2CovTex;
+
 
 	bool enteringdoor = false;
 };
