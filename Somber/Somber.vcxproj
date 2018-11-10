@@ -193,6 +193,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="OptionMenu.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Floor1.h" />
     <ClInclude Include="MainChar.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="OptionMenu.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

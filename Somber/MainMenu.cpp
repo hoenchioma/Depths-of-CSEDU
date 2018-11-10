@@ -2,6 +2,7 @@
 
 #include "DefaultInv.h"
 #include "Floor1.h"
+#include "OptionMenu.h"
 #include "Boss3.h"
 
 using namespace sf;
@@ -47,8 +48,8 @@ void MainMenu::Init(Engine* game)
 	quitButton.Init(&QuitButtonAc, &QuitButton, quitX, quitY);
 	background.setTexture(Background);
 	mainMenuSound.setVolume(50);
-	mainMenuSound.setLoop(true);
-	mainMenuSound.play();
+	//mainMenuSound.setLoop(true);
+	//mainMenuSound.play();
 	// initialize variables
 }
 
@@ -103,9 +104,9 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 	else continueButton.objectAc.setPosition(negPos, negPos);
 	if (mouseCor.x >= optionX && mouseCor.x <= 707 && mouseCor.y >= optionY && mouseCor.y <= 508)
 	{
-		if (Mouse::isButtonPressed(Mouse::Left)&& fileCont)
+		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-
+			pushScene(game, OptionMenu::getInstance());
 		}
 		optionButton.objectAc.setPosition(optionX, optionY);
 	}
@@ -129,6 +130,7 @@ void MainMenu::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if(mainMenuSound.getStatus()!=Sound::Status::Playing) mainMenuSound.play();
 		if (backgroundScale < 1) scaleFlag = 0;
 		if (backgroundScale > 1.05) scaleFlag = 1;
 		if(scaleFlag==0)backgroundScale += .0001*dt*dtMul;
