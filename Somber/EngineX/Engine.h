@@ -78,6 +78,6 @@ private:
 };
 
 // usefull macros for inventory
-#define INVI(x) game->inv.intVal[x]
-#define INVD(x) game->inv.doubleVal[x]
+#define INVI(x) (game->inv.intVal[x])
+#define INVD(x) (game->inv.doubleVal[x])
 
