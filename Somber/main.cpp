@@ -29,7 +29,7 @@ int main()
 	Engine game(&app, gameWidth, gameHeight);
 
 	game.pushScene(MainMenu::getInstance());
-	game.pushScene(Floor2::getInstance());
+	//game.pushScene(Floor2::getInstance());
 	//game.pushScene(PauseMenu::getInstance());
 	//game.pushScene(OptionMenu::getInstance());
 	//game.pushScene(Floor1::getInstance());

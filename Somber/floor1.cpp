@@ -45,6 +45,10 @@ void Floor1::LoadRes()
 		cerr << "can't load balcony bottom texture" << endl;
 	}
 	loadFromFile(balconyUnder, "res/Balcony_new_under_black.png");
+
+
+	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
+	invShow.loadRes();
 }
 
 void Floor1::Init(Engine* game)
@@ -52,6 +56,25 @@ void Floor1::Init(Engine* game)
 	///////////////// views //////////////////////////
 	/*view.setCenter(game->width / 2, game->height / 2);
 	view.setSize(game->width, game->height);*/
+
+	this->game = game;
+
+	////////////////// textbox and inv //////////////////////
+	game->miniMapOn = true;
+	game->miniMap.reset(sf::FloatRect(0, 0, game->width, game->height));
+	// inventory
+	game->inventoryOn = true;
+	game->inventory.reset(sf::FloatRect(
+		InvShow::getDefaultLoc().x,
+		InvShow::getDefaultLoc().y,
+		game->fullWidth * 0.2,
+		game->fullHeight * 0.8
+	));
+	invShow.Init(game);
+
+	textBox.Init(game, textBoxFont);
+	//textBox.addTextTyped("Escape the snake.\n\nIf you can....\n\nCollect poison apples to hurt the snake");
+	///////////////////////////////////////////////////////////
 	
 	////////////// main character ////////////////////
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
@@ -133,17 +156,28 @@ void Floor1::Init(Engine* game)
 
 void Floor1::Cleanup()
 {
+	resetView(game->gameView);
+	this->game->miniMapOn = false;
+	this->game->inventoryOn = false;
+	_fullScreen = false;
+	textBox.turnOn();
+	textBox.setText("");
+	Resume();
 }
 
 void Floor1::Pause()
 {
 	mainChar.running = false;
 	pause = true;
+
+	textBox.time.pause();
 }
 
 void Floor1::Resume()
 {
 	pause = false;
+
+	textBox.time.resume();
 }
 
 void Floor1::togglePause()
@@ -177,6 +211,7 @@ void Floor1::HandleEvents(Engine * game, Event * event)
 			break;
 		}
 	}
+	textBox.handleEvent(event);
 }
 
 void Floor1::Update(Engine * game, double dt)
@@ -267,6 +302,9 @@ void Floor1::Update(Engine * game, double dt)
 				// sets the coins way outside the screen
 			}
 		}
+
+		textBox.update();
+		invShow.update();
 	}
 }
 
@@ -281,4 +319,7 @@ void Floor1::Draw(RenderWindow * app)
 	if (!enteringdoor) mainChar.drawTo(app);
 	for (auto& coin : coins) coin.drawTo(app);
 	balcony.drawTop(app);
+
+	textBox.draw();
+	invShow.draw(app);
 }
