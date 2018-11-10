@@ -15,9 +15,12 @@ void makeDefault(Inventory& inv)
 		{"speed", 0},
 		{"invincible", 0},
 		{"healthBoost", 0},
+		{"bandage", 0},
 		{"reLife", 0},
 		{"timeFreeze", 0},
-		{"phaze", 0}
+		{"phase", 0},
+		// keys
+		{"keys", 0},
 	};
 	inv.doubleVal =
 	{
