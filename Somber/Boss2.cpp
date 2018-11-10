@@ -46,10 +46,32 @@ void Boss2::LoadRes()
 	loadFromFile(zombieRunTexR[0], "res/Zombies 1/zombie1RunRight.png");
 	loadFromFile(zombieRunTexR[1], "res/Zombies 2/zombie2RunRight.png");
 	loadFromFile(zombieRunTexR[2], "res/Zombies 3/zombie3RunRight.png");
+
+	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
+	invShow.loadRes();
 }
 
 void Boss2::Init(Engine* game)
 {
+	this->game = game;
+	
+	////////////////// textbox and inv //////////////////////
+	game->miniMapOn = true;
+	game->miniMap.reset(sf::FloatRect(0, 0, game->width, game->height));
+	// inventory
+	game->inventoryOn = true;
+	game->inventory.reset(sf::FloatRect(
+		InvShow::getDefaultLoc().x,
+		InvShow::getDefaultLoc().y,
+		game->fullWidth * 0.2,
+		game->fullHeight * 0.8
+	));
+	invShow.Init(game);
+
+	textBox.Init(game, textBoxFont);
+	//textBox.addTextTyped("Escape the snake.\n\nIf you can....\n\nCollect poison apples to hurt the snake");
+	///////////////////////////////////////////////////////////
+	
 	game->app->setMouseCursorVisible(false);
 	ifstream Boss2ScoreFileIn;
 	Boss2ScoreFileIn.open("save/Boss2ScoreFile.txt");
@@ -139,6 +161,14 @@ void Boss2::Cleanup()
 {
 	player.health = 150;
 	zombies.clear();
+
+	resetView(game->gameView);
+	//this->game->miniMapOn = false;
+	//this->game->inventoryOn = false;
+	_fullScreen = false;
+	textBox.turnOn();
+	textBox.setText("");
+	Resume();
 }
 
 void Boss2::Pause()
@@ -150,6 +180,7 @@ void Boss2::Pause()
 
 	for (auto& i : zombies) i.pause();
 
+	textBox.time.pause();
 	// this function is going to be called when the game is paused
 }
 
@@ -160,6 +191,8 @@ void Boss2::Resume()
 	exitTimer.resume();
 
 	for (auto& i : zombies) i.resume();
+
+	textBox.time.resume();
 	// this function is going to be called when the game is resumed
 }
 
@@ -184,6 +217,8 @@ void Boss2::HandleEvents(Engine * game, Event * event)
 			break;
 		}
 	}
+
+	textBox.handleEvent(event);
 }
 
 void Boss2::Update(Engine * game, double dt)
@@ -414,6 +449,9 @@ void Boss2::Update(Engine * game, double dt)
 			}
 		}
 		//if (!zombies.empty()) cout << zombies[0].getPosition().x << " " << zombies[0].prevPosX << endl;
+
+		textBox.update();
+		invShow.update();
 	}
 }
 
@@ -437,4 +475,7 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
 	for (i = 0; i < diffInt; i++) app->draw(heartSprite[i]);
+
+	textBox.draw();
+	invShow.draw(app);
 };

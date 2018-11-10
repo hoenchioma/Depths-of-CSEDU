@@ -143,8 +143,8 @@ void Boss3::Init(Engine * game)
 void Boss3::Cleanup()
 {
 	resetView(game->gameView);
-	this->game->miniMapOn = false;
-	this->game->inventoryOn = false;
+	//this->game->miniMapOn = false;
+	//this->game->inventoryOn = false;
 	_fullScreen = false;
 	menu.turnOff();
 	textBox.turnOn();
