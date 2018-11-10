@@ -12,11 +12,11 @@ void makeDefault(Inventory& inv)
 		{"boss2Complete", 0},
 		{"boss3Complete", 0},
 		// perks
-		{"speed", 1},
-		{"invincible", 1},
+		{"speed", 0},
+		{"invincible", 0},
 		{"healthBoost", 0},
-		{"reLife", 1},
-		{"timeFreeze", 1},
+		{"reLife", 0},
+		{"timeFreeze", 0},
 		{"phaze", 0}
 	};
 	inv.doubleVal =
