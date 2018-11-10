@@ -183,6 +183,12 @@
     <ClInclude Include="TimeText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InvShow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -252,6 +258,12 @@
       <Filter>Source Files\EngineX\Functional</Filter>
     </ClCompile>
     <ClCompile Include="TimeText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvShow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

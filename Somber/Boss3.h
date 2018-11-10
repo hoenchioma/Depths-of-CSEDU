@@ -14,6 +14,7 @@
 #include "TextBox.h"
 #include "RestartMenu.h"
 #include "TimeText.h"
+#include "InvShow.h"
 
 class Boss3 : public Scene
 {
@@ -67,6 +68,8 @@ private:
 
 	sf::Font textBoxFont;
 	TextBox textBox;
+
+	InvShow invShow;
 
 	sf::Texture floorTex;
 	sf::Sprite floor;

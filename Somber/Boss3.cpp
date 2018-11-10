@@ -1,5 +1,7 @@
 #include "Boss3.h"
 
+//#include "DefaultInv.h"
+
 using namespace std;
 using namespace sf;
 
@@ -33,6 +35,8 @@ void Boss3::LoadRes()
 	scoreCardTex.loadFromFile("res/scoreCard.png");
 
 	timeText.resLoad();
+
+	invShow.loadRes();
 }
 
 void Boss3::Init(Engine * game)
@@ -40,8 +44,22 @@ void Boss3::Init(Engine * game)
 	this->game = game;
 
 	resetView(game->gameView);
+
+	//makeDefault(game->inv);
+
+	// mini map
 	game->miniMapOn = true;
 	game->miniMap.reset(sf::FloatRect(0, 0, CanvasWidth, CanvasHeight));
+
+	// inventory
+	game->inventoryOn = true;
+	game->inventory.reset(sf::FloatRect(
+		InvShow::getDefaultLoc().x,
+		InvShow::getDefaultLoc().y,
+		game->fullWidth * 0.2,
+		game->fullHeight * 0.8
+	));
+	invShow.Init(game);
 	
 	grid.Init(CanvasWidth, CanvasHeight, 50);
 
@@ -112,6 +130,7 @@ void Boss3::Cleanup()
 {
 	resetView(game->gameView);
 	this->game->miniMapOn = false;
+	this->game->inventoryOn = false;
 	_fullScreen = false;
 	menu.turnOff();
 	textBox.turnOn();
@@ -253,6 +272,8 @@ void Boss3::Update(Engine * game, double dt)
 		textBox.update();
 
 		timeText.update();
+
+		invShow.update();
 	}
 	if (GameOver && Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 }
@@ -273,6 +294,7 @@ void Boss3::Draw(sf::RenderWindow * app)
 	timeText.drawTo(app);
 
 	textBox.draw();
+	invShow.draw(app);
 	menu.draw(app);
 
 	/////// score and high score ////////

@@ -2,7 +2,9 @@
 
 #include "EngineX/EngineX.h"
 
-void makeDefault(Inventory& inv)
+#include <map>
+
+static void makeDefault(Inventory& inv)
 {
 	inv.intVal = 
 	{
@@ -12,15 +14,15 @@ void makeDefault(Inventory& inv)
 		{"boss2Complete", 0},
 		{"boss3Complete", 0},
 		// perks
-		{"speed", 0},
-		{"invincible", 0},
+		{"speed",		0},
+		{"invincible",	0},
 		{"healthBoost", 0},
-		{"bandage", 0},
-		{"reLife", 0},
-		{"timeFreeze", 0},
-		{"phase", 0},
+		{"bandage",		0},
+		{"reLife",		0},
+		{"timeFreeze",	0},
+		{"phase",		0},
 		// keys
-		{"keys", 0},
+		{"keys",		0},
 	};
 	inv.doubleVal =
 	{
