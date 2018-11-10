@@ -19,6 +19,9 @@
 
 #include <fstream>
 
+
+
+
 class Boss2 : public Scene
 {
 public:
@@ -59,6 +62,18 @@ private:
 	float moveTime;
 	int topScore;
 	bool fileClose;
+
+	bool speedPerk;
+	bool invinciblePerk;
+	bool timeFreeze;
+	int perkTime = 10;
+	int i;
+	int healthDiff;
+	int diffInt;
+	float diffFloat;
+
+
+
 	sf::Sprite target;
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
@@ -83,9 +98,12 @@ private:
 	sf::Texture centreTableTex;
 	sf::Mouse mouse;
 	eClock zombieEatStep;
+	eClock speedPerkTime;
+	eClock invinciblePerkTime;
+	eClock timeFreezeTime;
 	
 
-
+	sf::Sprite heartSprite[10];
 	// life variables
 	float heartDim = 16;
 
@@ -93,11 +111,11 @@ private:
 	sf::Texture heartHalf;
 	sf::Texture heartEmpty;
 
-	sf::RectangleShape heart1;
-	sf::RectangleShape heart2;
-	sf::RectangleShape heart3;
-	sf::RectangleShape heart4;
-	sf::RectangleShape heart5;
+	//sf::RectangleShape heart1;
+	//sf::RectangleShape heart2;
+	//sf::RectangleShape heart3;
+	//sf::RectangleShape heart4;
+	//sf::RectangleShape heart5;
 
 	// exit variables
 	sf::Texture doorTex;

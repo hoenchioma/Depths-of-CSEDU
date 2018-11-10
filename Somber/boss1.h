@@ -84,12 +84,13 @@ private:
 	bool fileClose;
 	bool speedPerk;
 	bool invinciblePerk;
-	bool reLifePerk;
 	bool timeFreeze;
-	bool relife;
 	int perkTime = 10;
+	int healthDiff;
+	int diffInt;
+	float diffFloat;
 
-
+	sf::Sprite heartSprite[10];
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
@@ -118,11 +119,11 @@ private:
 	eClock invinciblePerkTime;
 	eClock timeFreezeTime;
 	
-	sf::RectangleShape heart1;
+	/*sf::RectangleShape heart1;
 	sf::RectangleShape heart2;
 	sf::RectangleShape heart3;
 	sf::RectangleShape heart4;
-	sf::RectangleShape heart5;
+	sf::RectangleShape heart5;*/
 	//sf::Vector2f position = player.getPosition();
 
 

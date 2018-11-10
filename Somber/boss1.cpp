@@ -115,7 +115,6 @@ void Boss1::Init(Engine* game)
 
 	speedPerk = 0;
 	invinciblePerk = 0;
-	reLifePerk = 0;
 	timeFreeze = 0;
 
 	scoreToText.setFont(font);
@@ -185,7 +184,7 @@ void Boss1::Init(Engine* game)
 
 
 
-	heart1.setSize(Vector2f(heartDim, heartDim));
+	/*art1.setSize(Vector2f(heartDim, heartDim));
 	heart2.setSize(Vector2f(heartDim, heartDim));
 	heart3.setSize(Vector2f(heartDim, heartDim));
 	heart4.setSize(Vector2f(heartDim, heartDim));
@@ -204,7 +203,7 @@ void Boss1::Init(Engine* game)
 	heart2.setTexture(&heartFull);
 	heart3.setTexture(&heartFull);
 	heart4.setTexture(&heartFull);
-	heart5.setTexture(&heartFull);
+	heart5.setTexture(&heartFull);*/
 	for (i = 0; i < 7; i++)
 	{
 		fuse[i].fuseBox.setTexture(fuse[i].fuseCloseTex);
@@ -389,7 +388,7 @@ void Boss1::Update(Engine * game, double dt)
 
 		}
 
-		if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
+		/*if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
 		else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
 		else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
 		else if (spriteHealth <= 110 && spriteHealth > 100) heart2.setTexture(&heartHalf);
@@ -412,7 +411,31 @@ void Boss1::Update(Engine * game, double dt)
 			
 			Pause();
 			menu.turnOn();
-		}																		
+		}	*/	
+		diffInt = spriteHealth/ 30;
+		diffFloat = spriteHealth / 30.0;
+		if (diffInt < diffFloat) diffInt++;
+		for (i = 0; i < diffInt; i++)
+		{
+			healthDiff = spriteHealth-i*30;
+			
+			if (healthDiff > 0)
+			{
+				if (healthDiff > 20)	heartSprite[i].setTexture(heartFull);
+				else if (healthDiff <= 20 && healthDiff > 10) heartSprite[i].setTexture(heartHalf);
+				else if (healthDiff <= 10 ) heartSprite[i].setTexture(heartEmpty);
+				heartSprite[i].setPosition(i * 20 + 10, 0);
+			}
+			else heartSprite[i].setPosition(-300, -3000);
+			//printf("health diff[%d] %d\n",i,healthDiff);
+		}
+
+
+		if (spriteHealth <= 0 && INVI("reLife") <= 0)
+		{
+			Pause();
+			menu.turnOn();
+		}
 		else if (INVI("reLife") > 0 && spriteHealth<=0)
 		{
 			spriteHealth = 60;
@@ -522,11 +545,12 @@ void Boss1::Draw(RenderWindow * app)
 	for (i = 0; i < 7; i++) app->draw(fuse[i].fuseHealthBar);
 	app->draw(bot3Side);
 	app->draw(bot4Side);
-	app->draw(heart1);
+	/*app->draw(heart1);
 	app->draw(heart2);
 	app->draw(heart3);
 	app->draw(heart4);
-	app->draw(heart5);
+	app->draw(heart5);*/
+	for (i = 0; i < diffInt; i++) app->draw(heartSprite[i]);
 	app->draw(fuseNumber);
 	app->draw(scoreCard);
 	app->draw(scoreToText);

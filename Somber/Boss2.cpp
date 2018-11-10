@@ -40,6 +40,7 @@ void Boss2::Init(Engine* game)
 	Boss2ScoreFileIn >> topScore;
 	Boss2ScoreFileIn.close();
 
+
 	fileClose = 0;
 	midPCTex.setSmooth(true);
 	highestScoreTag.setTexture(highestScoreTex);
@@ -72,16 +73,21 @@ void Boss2::Init(Engine* game)
 	Score = 0;
 	scoreNeg = 0;
 
+
+	speedPerk = 0;
+	invinciblePerk = 0;
+	timeFreeze = 0;
+
 	// life variables
 	heartDim = 16;
 
-	heart1.setSize(Vector2f(heartDim, heartDim));
-	heart2.setSize(Vector2f(heartDim, heartDim));
-	heart3.setSize(Vector2f(heartDim, heartDim));
-	heart4.setSize(Vector2f(heartDim, heartDim));
-	heart5.setSize(Vector2f(heartDim, heartDim));
+	/*heart1.setSize(Vector2f(heartDim, heartDim));
+	//heart2.setSize(Vector2f(heartDim, heartDim));
+	//heart3.setSize(Vector2f(heartDim, heartDim));
+	//heart4.setSize(Vector2f(heartDim, heartDim));
+	//heart5.setSize(Vector2f(heartDim, heartDim));
 
-	heart1.setOutlineColor(sf::Color::Transparent);
+	//heart1.setOutlineColor(sf::Color::Transparent);
 	heart2.setOutlineColor(sf::Color::Transparent);
 	heart3.setOutlineColor(sf::Color::Transparent);
 	heart4.setOutlineColor(sf::Color::Transparent);
@@ -97,7 +103,7 @@ void Boss2::Init(Engine* game)
 	heart2.setTexture(&heartFull);
 	heart3.setTexture(&heartFull);
 	heart4.setTexture(&heartFull);
-	heart5.setTexture(&heartFull);
+	heart5.setTexture(&heartFull);*/
 
 
 	ScoreText.setFont(font);
@@ -186,6 +192,38 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed") > 0 && !speedPerk)
+		{
+			player.setVel(800);
+			speedPerk = 1;
+			INVI("speed")--;
+			speedPerkTime.restart();
+
+		}
+		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300);
+
+		if (Keyboard::isKeyPressed(Keyboard::Num2) && !fileClose && INVI("invincible") > 0 && !invinciblePerk)
+		{
+			invinciblePerk = 1;
+			invinciblePerkTime.restart();
+			INVI("invincible")--;
+		}
+		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
+
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreeze)
+		{
+			timeFreeze = 1;
+			timeFreezeTime.restart();
+			INVI("timeFreeze")--;
+			exitTimer.pause();
+		}
+
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreeze)
+		{
+			timeFreeze = 0;
+			exitTimer.resume();
+		}
+
 		if (Score < 0) Score = 0;
 		ostringstream numberToString;
 		numberToString << "Score : " << Score;//////////////////Score
@@ -193,7 +231,36 @@ void Boss2::Update(Engine * game, double dt)
 
 		target.setPosition(mouse.getPosition(*game->app).x - crosshair.getSize().x / 20, mouse.getPosition(*game->app).y - crosshair.getSize().y / 20);
 
-		if (player.health <= 140 && player.health > 130)	heart1.setTexture(&heartHalf);
+		diffInt = player.health / 30;
+		diffFloat = player.health / 30.0;
+		if (diffInt<diffFloat) diffInt++;
+		for ( i = 0; i < diffInt; i++)
+		{
+			 healthDiff= player.health-i * 30;
+			if (healthDiff > 0)
+			{
+				if (healthDiff > 20)	heartSprite[i].setTexture(heartFull);
+				else if (healthDiff <= 20 && healthDiff > 10) heartSprite[i].setTexture(heartHalf);
+				else if (healthDiff <= 10 && healthDiff>0) heartSprite[i].setTexture(heartEmpty);
+				heartSprite[i].setPosition(i * 20+10, 0);
+			}
+			else heartSprite[i].setPosition(-300, -3000);
+			//printf("health diff[%d] %d float diff  %lf  diffInt %d\n", i, healthDiff,diffFloat,diffInt);
+		}
+		if (player.health <= 0 && INVI("reLife") <= 0)
+		{
+			// restarts game
+			reset(game);
+		}
+		else if (INVI("reLife") > 0 && player.health <= 0)
+		{
+			player.health = 60;
+			player.setPosition(windowWidth / 2.0, windowHeight / 2.0 + 50);
+			player.setDirec(Direction::DOWN);
+			INVI("reLife")--;
+		}
+
+		/*if (player.health <= 140 && player.health > 130)	heart1.setTexture(&heartHalf);
 		else if (player.health <= 130 && player.health > 120)	heart1.setTexture(&heartEmpty);
 		else if (player.health <= 120 && player.health > 110)	heart1.setPosition(-500, 0);
 		else if (player.health <= 110 && player.health > 100)	heart2.setTexture(&heartHalf);
@@ -207,12 +274,19 @@ void Boss2::Update(Engine * game, double dt)
 		else if (player.health <= 30 && player.health > 20)		heart4.setPosition(-500, 0);
 		else if (player.health <= 20 && player.health > 10)		heart5.setTexture(&heartHalf);
 		else if (player.health <= 10 && player.health > 0)		heart5.setTexture(&heartEmpty);
-		else if (player.health <= 0)
+		else if (player.health <= 0 && INVI("reLife")<=0)
 		{
 			// restarts game
 			reset(game);
 		}
-
+		else if (INVI("reLife") > 0 && player.health <= 0)
+		{
+			player.health = 60;
+			player.setPosition(windowWidth / 2.0, windowHeight / 2.0 + 50);
+			player.setDirec(Direction::DOWN);
+			INVI("reLife")--;
+		}
+		*/
 		if (player.health > 0)
 		{
 			/*if (Keyboard::isKeyPressed(Keyboard::Up))
@@ -270,30 +344,33 @@ void Boss2::Update(Engine * game, double dt)
 			}
 			for (int i = 0; i < zombies.size(); i++)
 			{
-				if (player.getPosition().y<390 && zombies[i].object.getPosition().y>295&&zombies[i].object.getPosition().x<985)
-					zombies[i].object.move(zombieSpeed * dt*dtMul*2, 0);
-				else if (player.getPosition().y > 295 && zombies[i].object.getPosition().y<390 && zombies[i].object.getPosition().x < 985)
-					zombies[i].object.move(zombieSpeed * dt*dtMul*2, 0);
-				else
+				if (!timeFreeze)
 				{
-					if (zombies[i].object.getPosition().x > player.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
-					if (zombies[i].object.getPosition().x < player.getPosition().x) zombies[i].object.move(zombieSpeed*dt*dtMul, 0);
-					if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
-					if (zombies[i].object.getPosition().y < player.getPosition().y) zombies[i].object.move(0, zombieSpeed*dt*dtMul);
-					//if (zombies[i].object.getPosition().x < 0 || zombies[i].object.getPosition().y < 0 || zombies[i].object.getPosition().x >windowWidth || zombies[i].object.getPosition().y > windowHeight)
-				}
-				if (zombies[i].object.getPosition().x < 984 && zombies[i].object.getPosition().y>291 && zombies[i].object.getPosition().y < 389)
-				{
-					zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
-					if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
-					else zombies[i].object.move(0, zombieSpeed*dt*dtMul);
+					if (player.getPosition().y < 390 && zombies[i].object.getPosition().y>295 && zombies[i].object.getPosition().x < 985)
+						zombies[i].object.move(zombieSpeed * dt*dtMul * 2, 0);
+					else if (player.getPosition().y > 295 && zombies[i].object.getPosition().y < 390 && zombies[i].object.getPosition().x < 985)
+						zombies[i].object.move(zombieSpeed * dt*dtMul * 2, 0);
+					else
+					{
+						if (zombies[i].object.getPosition().x > player.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
+						if (zombies[i].object.getPosition().x < player.getPosition().x) zombies[i].object.move(zombieSpeed*dt*dtMul, 0);
+						if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
+						if (zombies[i].object.getPosition().y < player.getPosition().y) zombies[i].object.move(0, zombieSpeed*dt*dtMul);
+						//if (zombies[i].object.getPosition().x < 0 || zombies[i].object.getPosition().y < 0 || zombies[i].object.getPosition().x >windowWidth || zombies[i].object.getPosition().y > windowHeight)
+					}
+					if (zombies[i].object.getPosition().x < 984 && zombies[i].object.getPosition().y>291 && zombies[i].object.getPosition().y < 389)
+					{
+						zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
+						if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
+						else zombies[i].object.move(0, zombieSpeed*dt*dtMul);
+					}
 				}
 			}
 			if (zombieEatStep.getElapsedTime().asMilliseconds() > 10)
 			{
 				for (int i = 0; i < zombies.size(); i++)
 				{
-					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()))
+					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()) && !invinciblePerk && !timeFreeze)
 					{
 						player.health -= 1 * dt*dtMul;
 						scoreNeg += dt * dtMul;
@@ -358,15 +435,16 @@ void Boss2::Draw(RenderWindow * app)
 		app->draw(player.bullets[i].object);
 
 
-	app->draw(heart1);
+	/*app->draw(heart1);
 	app->draw(heart2);
 	app->draw(heart3);
 	app->draw(heart4);
-	app->draw(heart5);
+	app->draw(heart5);*/
 	app->draw(scoreCard);
 	app->draw(ScoreText);
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
+	for (i = 0; i < diffInt; i++) app->draw(heartSprite[i]);
 	
 	
 };

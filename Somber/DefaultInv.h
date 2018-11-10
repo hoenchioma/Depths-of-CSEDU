@@ -16,7 +16,7 @@ void makeDefault(Inventory& inv)
 		{"invincible", 1},
 		{"healthBoost", 0},
 		{"reLife", 1},
-		{"timeFreeze", 0},
+		{"timeFreeze", 1},
 		{"phaze", 0}
 	};
 	inv.doubleVal =
