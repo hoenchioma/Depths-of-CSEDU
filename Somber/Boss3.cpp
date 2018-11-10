@@ -1,6 +1,6 @@
 #include "Boss3.h"
 
-//#include "DefaultInv.h"
+#include "DefaultInv.h"
 
 using namespace std;
 using namespace sf;
@@ -37,6 +37,12 @@ void Boss3::LoadRes()
 	timeText.resLoad();
 
 	invShow.loadRes();
+
+	hissBuff.loadFromFile("res/Sounds/snakehiss2.wav");
+	snakehiss.setBuffer(hissBuff);
+
+	hitBuff.loadFromFile("res/Sounds/snakehit.wav");
+	snakehit.setBuffer(hitBuff);
 }
 
 void Boss3::Init(Engine * game)
@@ -83,9 +89,9 @@ void Boss3::Init(Engine * game)
 	snek.preCalculateBFS(mainChar.getPosition());
 
 	// so that it doesn't go out of the boundary
-	mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
+	if (!InitOnce) mainChar.setBoundary(0, 0, CanvasWidth, CanvasHeight);
 	// so that it can't go over the blocked parts in grid
-	mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
+	if (!InitOnce) mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
 
 	apple.setTexture(appleTex);
 	apple.setOrigin(apple.getTexture()->getSize().x / 2.0, apple.getTexture()->getSize().x / 2.0);
@@ -99,7 +105,7 @@ void Boss3::Init(Engine * game)
 	floor.setPosition(0, 0);
 
 	textBox.Init(game, textBoxFont);
-	textBox.addTextTyped("Hello world!!");
+	textBox.addTextTyped("Escape the snake.\n\nIf you can....\n\nCollect poison apples to hurt the snake");
 
 	menu.Init(game, this, textBoxFont);
 	//menu.turnOn();
@@ -122,6 +128,14 @@ void Boss3::Init(Engine * game)
 
 	GameOver = false;
 	instantWin = false;
+
+	speedB = false;
+	reLifeB = false;
+	timeFreezeB = false;
+	phaseB = false;
+	phaseBOnce = false;
+
+	InitOnce = true;
 
 	//snek.time.pause();
 }
@@ -146,6 +160,13 @@ void Boss3::Pause()
 	mainChar.pause();
 	textBox.time.pause();
 	timeText.time.pause();
+
+	speedT.pause();
+	reLifeT.pause();
+	timeFreezeT.pause();
+	phaseT.pause();
+
+	hissTime.pause();
 }
 
 void Boss3::Resume()
@@ -156,6 +177,13 @@ void Boss3::Resume()
 	mainChar.resume();
 	textBox.time.resume();
 	timeText.time.resume();
+
+	speedT.resume();
+	reLifeT.resume();
+	timeFreezeT.resume();
+	phaseT.resume();
+
+	hissTime.resume();
 }
 
 void Boss3::togglePause()
@@ -175,6 +203,30 @@ void Boss3::HandleEvents(Engine * game, sf::Event * event)
 			break;
 		case Keyboard::C:
 			instantWin = true;
+			break;
+		case Keyboard::Num1:
+			if (INVI("speed"))
+			{
+				speedB = true;
+				speedT.restart();
+				invShow.activate("speed");
+			}
+			break;
+		case Keyboard::Num6:
+			if (INVI("timeFreeze"))
+			{
+				timeFreezeB = true;
+				timeFreezeT.restart();
+				invShow.activate("timeFreeze");
+			}
+			break;
+		case Keyboard::Num7:
+			if (INVI("phase"))
+			{
+				phaseB = true;
+				phaseT.restart();
+				invShow.activate("phase");
+			}
 			break;
 		default:
 			break;
@@ -263,6 +315,7 @@ void Boss3::Update(Engine * game, double dt)
 
 		if (eaten)
 		{
+			snakehit.play();
 			eaten = false;
 			Pause();
 			menu.turnOn();
@@ -273,7 +326,68 @@ void Boss3::Update(Engine * game, double dt)
 
 		timeText.update();
 
+		/////////// perks ///////////////
+		if (speedB)
+		{
+			if (speedT.getElapsedTime().asSeconds() < 10)
+			{
+				mainChar.setVel(700);
+				invShow.setProgress("speed", 1.0 - speedT.getElapsedTime().asSeconds() / 10.0);
+			}
+			else
+			{
+				speedB = false;
+				mainChar.setVel(300);
+				invShow.deActivate("speed");
+				INVI("speed")--;
+			}
+		}
+
+		if (timeFreezeB)
+		{
+			if (timeFreezeT.getElapsedTime().asSeconds() < 10)
+			{
+				snek.time.pause();
+				invShow.setProgress("timeFreeze", 1.0 - timeFreezeT.getElapsedTime().asSeconds() / 10.0);
+			}
+			else
+			{
+				timeFreezeB = false;
+				snek.time.resume();
+				invShow.deActivate("timeFreeze");
+				INVI("timeFreeze")--;
+			}
+		}
+
+		if (phaseB)
+		{
+			if (phaseT.getElapsedTime().asSeconds() < 10)
+			{
+				if (!phaseBOnce)
+				{
+					mainChar.dontMovePop();
+					phaseBOnce = true;
+				}
+				invShow.setProgress("phase", 1.0 - phaseT.getElapsedTime().asSeconds() / 10.0);
+			}
+			else
+			{
+				phaseB = false;
+				phaseBOnce = false;
+				mainChar.dontMoveIf([&]() {return grid.at(grid.realToGrid(mainChar.getPosition())); });
+				invShow.deActivate("phase");
+				INVI("phase")--;
+			}
+		}
+
 		invShow.update();
+
+		// sound effects
+		if (hissTime.getElapsedTime().asSeconds() > 10 - rand()%3)
+		{
+			hissTime.restart();
+			snakehiss.play();
+		}
 	}
 	if (GameOver && Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 }
@@ -291,7 +405,8 @@ void Boss3::Draw(sf::RenderWindow * app)
 
 	walls.drawTo2(app);
 
-	timeText.drawTo(app);
+	if (game->app->getView().getViewport().width > 0.5)
+		timeText.drawTo(app);
 
 	textBox.draw();
 	invShow.draw(app);
