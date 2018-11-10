@@ -27,6 +27,12 @@ void Boss3::LoadRes()
 	loadFromFile(jointTex, "res/snek_joint2.png");
 
 	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
+	highScoreFont.loadFromFile("res/Font/unispace bd.ttf");
+
+	highestScoreTex.loadFromFile("res/HighScoreTag.png");
+	scoreCardTex.loadFromFile("res/scoreCard.png");
+
+	timeText.resLoad();
 }
 
 void Boss3::Init(Engine * game)
@@ -75,10 +81,29 @@ void Boss3::Init(Engine * game)
 	floor.setPosition(0, 0);
 
 	textBox.Init(game, textBoxFont);
-	textBox.addTextTyped("Hello world, you guys are the best. I'll always be in debt to you :')");
+	textBox.addTextTyped("Hello world!!");
 
 	menu.Init(game, this, textBoxFont);
 	//menu.turnOn();
+
+	timeText.Init(game);
+
+	////////// score and high score /////////////
+	scoreToText.setFont(highScoreFont);
+	topScoreText.setFont(highScoreFont);
+	scoreToText.setCharacterSize(20);
+	topScoreText.setCharacterSize(30);
+	scoreToText.setPosition(1e6, 1e6);
+	topScoreText.setPosition(1e6, 1e6);
+	
+	highestScoreTag.setPosition(1e6, 1e6);
+	scoreCard.setPosition(1e6, 1e6);
+
+	highestScoreTag.setTexture(highestScoreTex);
+	scoreCard.setTexture(scoreCardTex);
+
+	GameOver = false;
+	instantWin = false;
 
 	//snek.time.pause();
 }
@@ -87,7 +112,9 @@ void Boss3::Cleanup()
 {
 	resetView(game->gameView);
 	this->game->miniMapOn = false;
+	_fullScreen = false;
 	menu.turnOff();
+	textBox.turnOn();
 	textBox.setText("");
 	Resume();
 }
@@ -95,17 +122,21 @@ void Boss3::Cleanup()
 void Boss3::Pause()
 {
 	pause = true;
+
 	snek.time.pause();
 	mainChar.pause();
 	textBox.time.pause();
+	timeText.time.pause();
 }
 
 void Boss3::Resume()
 {
 	pause = false;
+
 	snek.time.resume();
 	mainChar.resume();
 	textBox.time.resume();
+	timeText.time.resume();
 }
 
 void Boss3::togglePause()
@@ -123,9 +154,9 @@ void Boss3::HandleEvents(Engine * game, sf::Event * event)
 		case Keyboard::Space:
 			togglePause();
 			break;
-		/*case Keyboard::C:
-			snek.cut(10);
-			break;*/
+		case Keyboard::C:
+			instantWin = true;
+			break;
 		default:
 			break;
 		}
@@ -143,9 +174,63 @@ void Boss3::Update(Engine * game, double dt)
 
 		centreView(game->gameView, mainChar.getPosition(), Vector2f(CanvasWidth, CanvasHeight));
 
-		if (mainChar.intersects(apple.getGlobalBounds()))
+		if (mainChar.intersects(apple.getGlobalBounds()) or instantWin)
 		{
-			if (snek.getLength() - 10 <= 0) popScene(game);
+			if (snek.getLength() - 10 <= 0 or instantWin)
+			{
+				//////// return to previous scene /////////
+				////////// score and high score ///////////
+				_fullScreen = true;
+				game->fullScreen.reset(FloatRect(0, 0, game->width, game->height));
+				textBox.turnOff();
+				Pause();
+
+				scoreToText.setCharacterSize(50);
+				scoreToText.setPosition(500, 200);
+				scoreToText.setString(timeText.getStr());
+				scoreCard.setPosition(0, 0);
+
+				int savedScoreTime = -1;
+				bool newHighScore = false;
+
+				// check and read high score from file
+				ifstream file("save/Boss3ScoreFile.txt");
+				if (file.good())
+				{
+					file >> savedScoreTime;
+					if (timeText.getTime() < savedScoreTime)
+						newHighScore = true;
+				}
+				else newHighScore = true;
+				file.close();
+
+				// save new score to file
+				if (newHighScore)
+				{
+					ofstream fileOut("save/Boss3ScoreFile.txt");
+					fileOut << timeText.getTime() << "\n";
+					fileOut.close();
+				}
+				
+				if (!newHighScore)
+				{
+					char strrr[50];
+					sprintf_s(strrr, "TOP TIME: %02d:%02d", savedScoreTime / 60, savedScoreTime % 60);
+					topScoreText.setString(strrr);
+				}
+
+				if (!newHighScore)
+				{
+					topScoreText.setPosition(530, 300);
+				}
+				else
+				{
+					highestScoreTag.setPosition(350, 300);
+				}
+
+				GameOver = true;
+				instantWin = false;
+			}
 			else
 			{
 				apple.setPosition(grid.toPoint(grid.randomPoint()));
@@ -153,6 +238,7 @@ void Boss3::Update(Engine * game, double dt)
 				snek.setDelay(snek.getDelay() - 0.03);
 			}
 		}
+
 
 		bool eaten = snek.update(dt, mainChar.getPosition());
 
@@ -165,7 +251,10 @@ void Boss3::Update(Engine * game, double dt)
 		//if (grid.realToGrid(mainChar.getPosition()) == GridPoint(grid.sizeX - 1, grid.sizeY - 1))
 			//popScene(game);
 		textBox.update();
+
+		timeText.update();
 	}
+	if (GameOver && Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 }
 
 void Boss3::Draw(sf::RenderWindow * app)
@@ -181,8 +270,16 @@ void Boss3::Draw(sf::RenderWindow * app)
 
 	walls.drawTo2(app);
 
+	timeText.drawTo(app);
+
 	textBox.draw();
 	menu.draw(app);
+
+	/////// score and high score ////////
+	app->draw(scoreCard);
+	app->draw(highestScoreTag);
+	app->draw(scoreToText);
+	app->draw(topScoreText);
 
 	/************************ TESTING ZONE **************************
 	CircleShape test(5);

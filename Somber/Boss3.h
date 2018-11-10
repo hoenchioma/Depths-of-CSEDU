@@ -13,6 +13,7 @@
 #include "Walls.h"
 #include "TextBox.h"
 #include "RestartMenu.h"
+#include "TimeText.h"
 
 class Boss3 : public Scene
 {
@@ -71,4 +72,21 @@ private:
 	sf::Sprite floor;
 
 	RestartMenu menu;
+
+	TimeText timeText;
+
+	// score and high score card
+	sf::Texture highestScoreTex;
+	sf::Texture scoreCardTex;
+	sf::Font highScoreFont;
+
+	sf::Sprite highestScoreTag;
+	sf::Sprite scoreCard;
+
+	sf::Text scoreToText;
+	sf::Text topScoreText;
+
+	// game control
+	bool GameOver;
+	bool instantWin;
 };
