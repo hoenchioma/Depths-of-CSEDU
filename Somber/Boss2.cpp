@@ -311,17 +311,28 @@ void Boss2::Update(Engine * game, double dt)
 			{
 				if (!timeFreezePerk)
 				{
-					if (player.getPosition().y < 390 && zombies[i].getPosition().y>295 && zombies[i].getPosition().x < 985)
+					if ((player.getPosition().y < 390 && zombies[i].getPosition().y>295 && zombies[i].getPosition().x < 985) || (player.getPosition().y > 295 && zombies[i].getPosition().y < 390 && zombies[i].getPosition().x < 985))
+					{
 						zombies[i].move(zombieSpeed * dt*dtMul * 2, 0);
-					else if (player.getPosition().y > 295 && zombies[i].getPosition().y < 390 && zombies[i].getPosition().x < 985)
-						zombies[i].move(zombieSpeed * dt*dtMul * 2, 0);
+						if (zombies[i].getPosition().y > 291 && zombies[i].getPosition().y < 390)
+						{
+							if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].mode = 0;
+							else  zombies[i].mode = 1;
+						}
+						else zombies[i].mode = 1;
+
+					}
+					
 					else
 					{
 						if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].move(-zombieSpeed * dt*dtMul, 0);
 						if (zombies[i].getPosition().x < player.getPosition().x) zombies[i].move(zombieSpeed*dt*dtMul, 0);
 						if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
 						if (zombies[i].getPosition().y < player.getPosition().y) zombies[i].move(0, zombieSpeed*dt*dtMul);
-						//if (zombies[i].getPosition().x < 0 || zombies[i].getPosition().y < 0 || zombies[i].getPosition().x >windowWidth || zombies[i].getPosition().y > windowHeight)
+						
+
+						if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].mode = 0;
+						else  zombies[i].mode = 1;
 					}
 					if (zombies[i].getPosition().x < 984 && zombies[i].getPosition().y>291 && zombies[i].getPosition().y < 389)
 					{
@@ -398,8 +409,8 @@ void Boss2::Update(Engine * game, double dt)
 			else
 			{
 				//if (abs(zombies[i].getPosition().x > zombies[i].prevPosX) < 5) continue;
-				if (zombies[i].getPosition().x > zombies[i].prevPosX) zombies[i].mode = 1;
-				else zombies[i].mode = 0;
+				//if (zombies[i].getPosition().x > zombies[i].prevPosX) zombies[i].mode = 1;
+				//else zombies[i].mode = 0;
 			}
 		}
 		//if (!zombies.empty()) cout << zombies[0].getPosition().x << " " << zombies[0].prevPosX << endl;

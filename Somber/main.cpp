@@ -7,6 +7,7 @@
 #include "MainMenu.h"
 #include "OptionMenu.h"
 #include "PauseMenu.h"
+#include "Floor2.h"
 
 #include <ctime>
 
@@ -28,6 +29,7 @@ int main()
 	Engine game(&app, gameWidth, gameHeight);
 
 	game.pushScene(MainMenu::getInstance());
+	game.pushScene(Floor2::getInstance());
 	//game.pushScene(PauseMenu::getInstance());
 	//game.pushScene(OptionMenu::getInstance());
 	//game.pushScene(Floor1::getInstance());

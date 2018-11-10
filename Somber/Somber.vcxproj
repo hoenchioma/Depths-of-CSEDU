@@ -189,6 +189,7 @@
     <ClInclude Include="FuseInfo.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridPoint.h" />
+    <ClInclude Include="Floor2.h" />
     <ClInclude Include="InvShow.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Maze.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="MainChar.cpp" />
     <ClCompile Include="RestartMenu.cpp" />
     <ClCompile Include="Snek.cpp" />
+    <ClCompile Include="Floor2.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="TimeText.cpp" />
     <ClCompile Include="Undead.cpp" />

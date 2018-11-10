@@ -76,6 +76,12 @@
     <Filter Include="Header Files\EngineX\Core">
       <UniqueIdentifier>{7d64369a-ef46-46f3-a3fa-23ce3e87c402}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Floor2">
+      <UniqueIdentifier>{64843d1e-06f9-400f-b69b-f614d66eb194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Floor2">
+      <UniqueIdentifier>{9311ee36-2907-4de0-9d92-2635bb41e6b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -192,6 +198,9 @@
     <ClInclude Include="PauseMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Floor2.h">
+      <Filter>Header Files\Floor2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -271,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="PauseMenu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor2.cpp">
+      <Filter>Source Files\Floor2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
