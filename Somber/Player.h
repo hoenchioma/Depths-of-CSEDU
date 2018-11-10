@@ -14,7 +14,7 @@ public:
 	Player() {}
 	~Player() {}
 
-	int health = 150;
+	float health = 150;
 	//sf::Sprite object;
 	std::vector<Bullet> bullets;
 	/*void Init(sf::Texture *texture)

@@ -90,6 +90,7 @@ private:
 	int healthDiff;
 	int diffInt;
 	float diffFloat;
+	float preUpdateHealth;
 
 	sf::Sprite heartSprite[10];
 	sf::Sprite highestScoreTag;
@@ -120,16 +121,13 @@ private:
 	eClock invinciblePerkTime;
 	eClock timeFreezeTime;
 	
-	/*sf::RectangleShape heart1;
-	sf::RectangleShape heart2;
-	sf::RectangleShape heart3;
-	sf::RectangleShape heart4;
-	sf::RectangleShape heart5;*/
-	//sf::Vector2f position = player.getPosition();
+
 
 
 	sf::SoundBuffer perkBuffer;
 	sf::Sound perkSound;
+	sf::SoundBuffer playerHurtBuffer;
+	sf::Sound playerHurt;
 
 	sf::Font font;
 	sf::Text scoreToText;

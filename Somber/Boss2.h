@@ -71,6 +71,7 @@ private:
 	int healthDiff;
 	int diffInt;
 	float diffFloat;
+	float preUpdateHealth;
 
 
 
@@ -131,7 +132,9 @@ private:
 	
 	// bullet sound
 	sf::SoundBuffer bulletSoundBuf;
+	sf::SoundBuffer playerHurtBuffer;
 	sf::Sound bulletSound;
+	sf::Sound playerHurt;
 
 	// zombie sound
 	std::map <std::string, sf::SoundBuffer> zombieSoundBuf;

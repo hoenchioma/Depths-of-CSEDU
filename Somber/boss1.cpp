@@ -56,6 +56,7 @@ void Boss1::LoadRes()
 	fuse[4].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
 	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
+	playerHurtBuffer.loadFromFile("res/Sounds/playerHurt.wav");
 }
 
 void Boss1::Init(Engine* game)
@@ -220,6 +221,8 @@ void Boss1::Init(Engine* game)
 	////////sound
 	perkSound.setBuffer(perkBuffer);
 	perkSound.setVolume(15);
+	playerHurt.setBuffer(playerHurtBuffer);
+	playerHurt.setVolume(15);
 
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
@@ -347,12 +350,14 @@ void Boss1::Update(Engine * game, double dt)
 		player.update(dt);
 
 		//centreView(game->gameView, player.getPosition(), Vector2f(windowWidth, windowHeight));
+		preUpdateHealth = spriteHealth;
 		for (i = 0; i < 4; i++)
 		{
 			if (!invinciblePerk && (centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, player.getPosition().x + spriteSize, player.getPosition().y + spriteSize) < spotlightDamageRange))
 			{
 
 				spriteHealth -= lightDamage * dt;
+				if (playerHurt.getStatus() != Sound::Status::Playing) playerHurt.play();
 			}
 
 			if (lights[i].x > windowWidth)								lights[i].dirX = LEFT;
@@ -366,11 +371,8 @@ void Boss1::Update(Engine * game, double dt)
 				lights[i].y += speedSpotlight * lights[i].dirY *dt;
 				lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
 			}
-
-
-			
-
 		}
+		if (preUpdateHealth == spriteHealth) playerHurt.stop();
 			
 			//////// restarts level ///////////
 			

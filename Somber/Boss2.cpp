@@ -31,6 +31,7 @@ void Boss2::LoadRes()
 	midPCTex.loadFromFile("res/boss2MiddlePC.png"); 
 	centreTableTex.loadFromFile("res/centrePC.png");
 	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
+	playerHurtBuffer.loadFromFile("res/Sounds/playerHurt.wav");
 }
 
 void Boss2::Init(Engine* game)
@@ -40,8 +41,6 @@ void Boss2::Init(Engine* game)
 	Boss2ScoreFileIn.open("save/Boss2ScoreFile.txt");
 	Boss2ScoreFileIn >> topScore;
 	Boss2ScoreFileIn.close();
-	perkSound.setBuffer(perkBuffer);
-	perkSound.setVolume(10);
 
 	fileClose = 0;
 	midPCTex.setSmooth(true);
@@ -104,8 +103,12 @@ void Boss2::Init(Engine* game)
 	exitTimer.restart();
 
 	// sound
+	perkSound.setBuffer(perkBuffer);
+	perkSound.setVolume(15);
 	bulletSound.setBuffer(bulletSoundBuf);
 	bulletSound.setVolume(20);
+	playerHurt.setBuffer(playerHurtBuffer);
+	playerHurt.setVolume(15);
 
 	zombieAttacked.push_back(Sound(zombieSoundBuf["zombie_attacked"]));
 	zombieAttacked.back().setVolume(50);
@@ -309,8 +312,10 @@ void Boss2::Update(Engine * game, double dt)
 					}
 				}
 			}
+			
 			if (zombieEatStep.getElapsedTime().asMilliseconds() > 10)
 			{
+				preUpdateHealth = player.health;
 				for (int i = 0; i < zombies.size(); i++)
 				{
 					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()) && !invinciblePerk && !timeFreezePerk)
@@ -324,8 +329,10 @@ void Boss2::Update(Engine * game, double dt)
 						}
 						//zombies.erase(zombies.begin() + i);
 						zombieEatStep.restart();
+						if (playerHurt.getStatus() != Sound::Status::Playing) playerHurt.play();
 					}
 				}
+				if (preUpdateHealth == player.health) playerHurt.stop();
 			}
 		}
 
