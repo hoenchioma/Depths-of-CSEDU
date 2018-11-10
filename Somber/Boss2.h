@@ -17,6 +17,9 @@
 #include "Undead.h"
 #include "EngineX/eClock.h"
 
+#include "InvShow.h"
+#include "TextBox.h"
+
 #include <fstream>
 
 
@@ -148,6 +151,13 @@ private:
 	sf::Texture zombieRunTexR[3];
 
 	bool beingEaten;
+
+	sf::Font textBoxFont;
+	TextBox textBox;
+
+	InvShow invShow;
+
+	Engine* game;
 
 
 	//eClock bulletSoundOffSet;

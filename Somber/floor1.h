@@ -11,11 +11,13 @@
 #include "Door.h"
 #include "Coin.h"
 #include "Balcony.h"
+#include "InvShow.h"
+#include "TextBox.h"
 
 class Floor1: public Scene
 {
 public:
-	~Floor1() { this->Cleanup(); }
+	~Floor1() {}
 
 	bool _immortal = true;
 	
@@ -66,4 +68,11 @@ private:
 	sf::Texture balconyUnder;
 
 	bool enteringdoor = false;
+
+	sf::Font textBoxFont;
+	TextBox textBox;
+
+	InvShow invShow;
+
+	Engine* game;
 };

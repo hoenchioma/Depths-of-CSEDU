@@ -242,7 +242,7 @@ void Boss1::Cleanup()
 	textBox.setText("");
 	textBox.turnOn();
 
-	this->game->miniMapOn = false;
+	//this->game->miniMapOn = false;
 	_fullScreen = false;
 	game->fullScreen.reset(FloatRect(0, 0, game->fullWidth, game->fullHeight));
 
