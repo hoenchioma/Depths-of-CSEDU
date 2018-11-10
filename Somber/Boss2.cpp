@@ -32,6 +32,20 @@ void Boss2::LoadRes()
 	centreTableTex.loadFromFile("res/centrePC.png");
 	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 	playerHurtBuffer.loadFromFile("res/Sounds/playerHurt.wav");
+
+	loadFromFile(zombieAttackTexL[0], "res/Zombies 1/zombie1AttackLeft.png");
+	loadFromFile(zombieAttackTexL[1], "res/Zombies 2/zombie2AttackLeft.png");
+	loadFromFile(zombieAttackTexL[2], "res/Zombies 3/zombie3AttackLeft.png");
+	loadFromFile(zombieAttackTexR[0], "res/Zombies 1/zombie1AttackRight.png");
+	loadFromFile(zombieAttackTexR[1], "res/Zombies 2/zombie2AttackRight.png");
+	loadFromFile(zombieAttackTexR[2], "res/Zombies 3/zombie3AttackRight.png");
+	
+	loadFromFile(zombieRunTexL[0], "res/Zombies 1/zombie1RunLeft.png");
+	loadFromFile(zombieRunTexL[1], "res/Zombies 2/zombie2RunLeft.png");
+	loadFromFile(zombieRunTexL[2], "res/Zombies 3/zombie3RunLeft.png");
+	loadFromFile(zombieRunTexR[0], "res/Zombies 1/zombie1RunRight.png");
+	loadFromFile(zombieRunTexR[1], "res/Zombies 2/zombie2RunRight.png");
+	loadFromFile(zombieRunTexR[2], "res/Zombies 3/zombie3RunRight.png");
 }
 
 void Boss2::Init(Engine* game)
@@ -134,6 +148,8 @@ void Boss2::Pause()
 	zombieEatStep.pause();
 	exitTimer.pause();
 
+	for (auto& i : zombies) i.pause();
+
 	// this function is going to be called when the game is paused
 }
 
@@ -142,6 +158,8 @@ void Boss2::Resume()
 	pause = false;
 	zombieEatStep.resume();
 	exitTimer.resume();
+
+	for (auto& i : zombies) i.resume();
 	// this function is going to be called when the game is resumed
 }
 
@@ -265,7 +283,7 @@ void Boss2::Update(Engine * game, double dt)
 				}
 				for (int j = 0; j < zombies.size(); j++)
 				{
-					if (player.bullets[i].object.getGlobalBounds().intersects(zombies[j].object.getGlobalBounds()))
+					if (player.bullets[i].object.getGlobalBounds().intersects(zombies[j].getGlobalBounds()))
 					{
 						Score += 10;
 						zombieAttacked[rand() % zombieAttacked.size()].play();
@@ -285,30 +303,31 @@ void Boss2::Update(Engine * game, double dt)
 			if (spawnTime < 80) spawnTime += 1 * dt*dtMul;
 			if (spawnTime >= 80)
 			{
-				zombies.push_back(Undead(&undeadTexture1, &undeadTexture2, &undeadTexture3));
+				//zombies.push_back(Undead(&undeadTexture1, &undeadTexture2, &undeadTexture3));
+				zombies.push_back(Undead(zombieRunTexL, zombieRunTexR, zombieAttackTexL, zombieAttackTexR));
 				spawnTime = 0;
 			}
 			for (int i = 0; i < zombies.size(); i++)
 			{
 				if (!timeFreezePerk)
 				{
-					if (player.getPosition().y < 390 && zombies[i].object.getPosition().y>295 && zombies[i].object.getPosition().x < 985)
-						zombies[i].object.move(zombieSpeed * dt*dtMul * 2, 0);
-					else if (player.getPosition().y > 295 && zombies[i].object.getPosition().y < 390 && zombies[i].object.getPosition().x < 985)
-						zombies[i].object.move(zombieSpeed * dt*dtMul * 2, 0);
+					if (player.getPosition().y < 390 && zombies[i].getPosition().y>295 && zombies[i].getPosition().x < 985)
+						zombies[i].move(zombieSpeed * dt*dtMul * 2, 0);
+					else if (player.getPosition().y > 295 && zombies[i].getPosition().y < 390 && zombies[i].getPosition().x < 985)
+						zombies[i].move(zombieSpeed * dt*dtMul * 2, 0);
 					else
 					{
-						if (zombies[i].object.getPosition().x > player.getPosition().x) zombies[i].object.move(-zombieSpeed * dt*dtMul, 0);
-						if (zombies[i].object.getPosition().x < player.getPosition().x) zombies[i].object.move(zombieSpeed*dt*dtMul, 0);
-						if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
-						if (zombies[i].object.getPosition().y < player.getPosition().y) zombies[i].object.move(0, zombieSpeed*dt*dtMul);
-						//if (zombies[i].object.getPosition().x < 0 || zombies[i].object.getPosition().y < 0 || zombies[i].object.getPosition().x >windowWidth || zombies[i].object.getPosition().y > windowHeight)
+						if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].move(-zombieSpeed * dt*dtMul, 0);
+						if (zombies[i].getPosition().x < player.getPosition().x) zombies[i].move(zombieSpeed*dt*dtMul, 0);
+						if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
+						if (zombies[i].getPosition().y < player.getPosition().y) zombies[i].move(0, zombieSpeed*dt*dtMul);
+						//if (zombies[i].getPosition().x < 0 || zombies[i].getPosition().y < 0 || zombies[i].getPosition().x >windowWidth || zombies[i].getPosition().y > windowHeight)
 					}
-					if (zombies[i].object.getPosition().x < 984 && zombies[i].object.getPosition().y>291 && zombies[i].object.getPosition().y < 389)
+					if (zombies[i].getPosition().x < 984 && zombies[i].getPosition().y>291 && zombies[i].getPosition().y < 389)
 					{
-						zombies[i].object.move(zombieSpeed * dt*dtMul, 0);
-						if (zombies[i].object.getPosition().y > player.getPosition().y) zombies[i].object.move(0, -zombieSpeed * dt*dtMul);
-						else zombies[i].object.move(0, zombieSpeed*dt*dtMul);
+						zombies[i].move(zombieSpeed * dt*dtMul, 0);
+						if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
+						else zombies[i].move(0, zombieSpeed*dt*dtMul);
 					}
 				}
 			}
@@ -318,7 +337,7 @@ void Boss2::Update(Engine * game, double dt)
 				preUpdateHealth = player.health;
 				for (int i = 0; i < zombies.size(); i++)
 				{
-					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()) && !invinciblePerk && !timeFreezePerk)
+					if (player.getPoly().intersects(zombies[i].getGlobalBounds()) && !invinciblePerk && !timeFreezePerk)
 					{
 						player.health -= 1 * dt*dtMul;
 						scoreNeg += dt * dtMul;
@@ -330,7 +349,10 @@ void Boss2::Update(Engine * game, double dt)
 						//zombies.erase(zombies.begin() + i);
 						zombieEatStep.restart();
 						if (playerHurt.getStatus() != Sound::Status::Playing) playerHurt.play();
+
+						zombies[i].eating = true;
 					}
+					else zombies[i].eating = false;
 				}
 				if (preUpdateHealth == player.health) playerHurt.stop();
 			}
@@ -366,6 +388,21 @@ void Boss2::Update(Engine * game, double dt)
 					popScene(game);
 			}
 		}
+		for (int i = 0; i < zombies.size(); i++)
+		{
+			if (zombies[i].eating)
+			{
+				if (zombies[i].mode == 0) zombies[i].mode = 2;
+				else zombies[i].mode = 3;
+			}
+			else
+			{
+				//if (abs(zombies[i].getPosition().x > zombies[i].prevPosX) < 5) continue;
+				if (zombies[i].getPosition().x > zombies[i].prevPosX) zombies[i].mode = 1;
+				else zombies[i].mode = 0;
+			}
+		}
+		//if (!zombies.empty()) cout << zombies[0].getPosition().x << " " << zombies[0].prevPosX << endl;
 	}
 }
 
@@ -377,7 +414,7 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(door);
 	player.drawTo(app);
 	for (int i = 0; i < zombies.size(); i++)
-		app->draw(zombies[i].object);
+		zombies[i].drawTo(app);
 	app->draw(centreTable);
 	app->draw(midPC);
 	app->draw(bottomPC);
@@ -389,6 +426,4 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
 	for (i = 0; i < diffInt; i++) app->draw(heartSprite[i]);
-	
-	
 };

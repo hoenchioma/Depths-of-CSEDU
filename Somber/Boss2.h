@@ -141,6 +141,14 @@ private:
 	std::vector <sf::Sound> zombieSound;
 	std::vector <sf::Sound> zombieAttacked;
 
+	// zombie tex
+	sf::Texture zombieAttackTexL[3];
+	sf::Texture zombieAttackTexR[3];
+	sf::Texture zombieRunTexL[3];
+	sf::Texture zombieRunTexR[3];
+
+	bool beingEaten;
+
 
 	//eClock bulletSoundOffSet;
 
