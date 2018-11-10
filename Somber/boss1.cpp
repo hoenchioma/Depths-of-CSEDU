@@ -54,7 +54,7 @@ void Boss1::LoadRes()
 	fuse[4].fuseOpenTex.loadFromFile("res/fuseBottomOpen.png");
 	fuse[3].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
 	fuse[4].fuseCloseTex.loadFromFile("res/fuseBottomClose.png");
-
+	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
 }
 
@@ -115,7 +115,7 @@ void Boss1::Init(Engine* game)
 
 	speedPerk = 0;
 	invinciblePerk = 0;
-	timeFreeze = 0;
+	timeFreezePerk = 0;
 
 	scoreToText.setFont(font);
 	fuseNumber.setFont(font);
@@ -182,28 +182,6 @@ void Boss1::Init(Engine* game)
 	bot4Side.setPosition(3000, 3000);
 	bot3Side.setPosition(3000, 3000);
 
-
-
-	/*art1.setSize(Vector2f(heartDim, heartDim));
-	heart2.setSize(Vector2f(heartDim, heartDim));
-	heart3.setSize(Vector2f(heartDim, heartDim));
-	heart4.setSize(Vector2f(heartDim, heartDim));
-	heart5.setSize(Vector2f(heartDim, heartDim));
-	heart1.setOutlineColor(sf::Color::Transparent);
-	heart2.setOutlineColor(sf::Color::Transparent);
-	heart3.setOutlineColor(sf::Color::Transparent);
-	heart4.setOutlineColor(sf::Color::Transparent);
-	heart5.setOutlineColor(sf::Color::Transparent);
-	heart5.setPosition(5, 5);
-	heart4.setPosition(heartDim + 7, 5);
-	heart3.setPosition(2 * heartDim + 9, 5);
-	heart2.setPosition(3 * heartDim + 11, 5);
-	heart1.setPosition(4 * heartDim + 13, 5);
-	heart1.setTexture(&heartFull);
-	heart2.setTexture(&heartFull);
-	heart3.setTexture(&heartFull);
-	heart4.setTexture(&heartFull);
-	heart5.setTexture(&heartFull);*/
 	for (i = 0; i < 7; i++)
 	{
 		fuse[i].fuseBox.setTexture(fuse[i].fuseCloseTex);
@@ -237,6 +215,11 @@ void Boss1::Init(Engine* game)
 	///////// minimap ////////////
 	game->miniMapOn = true;
 	game->miniMap.reset(sf::FloatRect(0, 0, windowWidth, windowHeight));
+
+
+	////////sound
+	perkSound.setBuffer(perkBuffer);
+	perkSound.setVolume(15);
 
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
@@ -308,6 +291,7 @@ void Boss1::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if ((speedPerk || invinciblePerk || timeFreezePerk) && perkSound.getStatus() != Sound::Status::Playing) perkSound.play();
 
 		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed")>0 && !speedPerk)
 		{
@@ -328,18 +312,18 @@ void Boss1::Update(Engine * game, double dt)
 		}
 		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
 
-		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreeze)
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
-			timeFreeze = 1;
+			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
 		}
 		
-		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreeze) timeFreeze = 0;
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk) timeFreezePerk = 0;
 
 		if(!gameOverFlag)
 		{
-			if(!timeFreeze)timeStore += dt;
+			if(!timeFreezePerk)timeStore += dt;
 			if (timeStore >= 60)
 			{
 				timeStore = 0;
@@ -376,7 +360,7 @@ void Boss1::Update(Engine * game, double dt)
 			if (lights[i].y > windowHeight)								lights[i].dirY = UP;
 			else if (lights[i].y < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirY = DOWN;
 
-			if(!timeFreeze)
+			if(!timeFreezePerk)
 			{
 				lights[i].x += speedSpotlight * lights[i].dirX *dt;
 				lights[i].y += speedSpotlight * lights[i].dirY *dt;
@@ -387,31 +371,10 @@ void Boss1::Update(Engine * game, double dt)
 			
 
 		}
-
-		/*if (spriteHealth <= 140 && spriteHealth > 130) heart1.setTexture(&heartHalf);
-		else if (spriteHealth <= 130 && spriteHealth > 120) heart1.setTexture(&heartEmpty);
-		else if (spriteHealth <= 120 && spriteHealth > 110) heart1.setPosition(-500, 0);
-		else if (spriteHealth <= 110 && spriteHealth > 100) heart2.setTexture(&heartHalf);
-		else if (spriteHealth <= 100 && spriteHealth > 90) heart2.setTexture(&heartEmpty);
-		else if (spriteHealth <= 90 && spriteHealth > 80) heart2.setPosition(-500, 0);
-		else if (spriteHealth <= 80 && spriteHealth > 70) heart3.setTexture(&heartHalf);
-		else if (spriteHealth <= 70 && spriteHealth > 60) heart3.setTexture(&heartEmpty);
-		else if (spriteHealth <= 60 && spriteHealth > 50) heart3.setPosition(-500, 0);
-		else if (spriteHealth <= 50 && spriteHealth > 40) heart4.setTexture(&heartHalf);
-		else if (spriteHealth <= 40 && spriteHealth > 30) heart4.setTexture(&heartEmpty);
-		else if (spriteHealth <= 30 && spriteHealth > 20) heart4.setPosition(-500, 0);
-		else if (spriteHealth <= 20 && spriteHealth > 10) heart5.setTexture(&heartHalf);
-		else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
-		else if (spriteHealth <= 0 && INVI("reLife") <= 0)
-		{
 			
 			//////// restarts level ///////////
-			heart5.setPosition(-500, 0);
-			spriteHealth = 150;
 			
-			Pause();
-			menu.turnOn();
-		}	*/	
+		
 		diffInt = spriteHealth/ 30;
 		diffFloat = spriteHealth / 30.0;
 		if (diffInt < diffFloat) diffInt++;
@@ -427,7 +390,6 @@ void Boss1::Update(Engine * game, double dt)
 				heartSprite[i].setPosition(i * 20 + 10, 0);
 			}
 			else heartSprite[i].setPosition(-300, -3000);
-			//printf("health diff[%d] %d\n",i,healthDiff);
 		}
 
 

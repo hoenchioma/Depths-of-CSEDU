@@ -9,6 +9,7 @@
 #include "TextBox.h"
 #include "RestartMenu.h"
 #include <fstream>
+#include <SFML/Audio.hpp>
 
 class TableEEE
 {
@@ -84,7 +85,7 @@ private:
 	bool fileClose;
 	bool speedPerk;
 	bool invinciblePerk;
-	bool timeFreeze;
+	bool timeFreezePerk;
 	int perkTime = 10;
 	int healthDiff;
 	int diffInt;
@@ -126,6 +127,9 @@ private:
 	sf::RectangleShape heart5;*/
 	//sf::Vector2f position = player.getPosition();
 
+
+	sf::SoundBuffer perkBuffer;
+	sf::Sound perkSound;
 
 	sf::Font font;
 	sf::Text scoreToText;

@@ -65,7 +65,7 @@ private:
 
 	bool speedPerk;
 	bool invinciblePerk;
-	bool timeFreeze;
+	bool timeFreezePerk;
 	int perkTime = 10;
 	int i;
 	int healthDiff;
@@ -101,6 +101,9 @@ private:
 	eClock speedPerkTime;
 	eClock invinciblePerkTime;
 	eClock timeFreezeTime;
+
+	sf::SoundBuffer perkBuffer;
+	sf::Sound perkSound;
 	
 
 	sf::Sprite heartSprite[10];

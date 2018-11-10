@@ -30,6 +30,7 @@ void Boss2::LoadRes()
 	floorTex.loadFromFile("res/floorBoss2.png");
 	midPCTex.loadFromFile("res/boss2MiddlePC.png"); 
 	centreTableTex.loadFromFile("res/centrePC.png");
+	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 }
 
 void Boss2::Init(Engine* game)
@@ -39,7 +40,8 @@ void Boss2::Init(Engine* game)
 	Boss2ScoreFileIn.open("save/Boss2ScoreFile.txt");
 	Boss2ScoreFileIn >> topScore;
 	Boss2ScoreFileIn.close();
-
+	perkSound.setBuffer(perkBuffer);
+	perkSound.setVolume(10);
 
 	fileClose = 0;
 	midPCTex.setSmooth(true);
@@ -76,35 +78,10 @@ void Boss2::Init(Engine* game)
 
 	speedPerk = 0;
 	invinciblePerk = 0;
-	timeFreeze = 0;
+	timeFreezePerk = 0;
 
 	// life variables
 	heartDim = 16;
-
-	/*heart1.setSize(Vector2f(heartDim, heartDim));
-	//heart2.setSize(Vector2f(heartDim, heartDim));
-	//heart3.setSize(Vector2f(heartDim, heartDim));
-	//heart4.setSize(Vector2f(heartDim, heartDim));
-	//heart5.setSize(Vector2f(heartDim, heartDim));
-
-	//heart1.setOutlineColor(sf::Color::Transparent);
-	heart2.setOutlineColor(sf::Color::Transparent);
-	heart3.setOutlineColor(sf::Color::Transparent);
-	heart4.setOutlineColor(sf::Color::Transparent);
-	heart5.setOutlineColor(sf::Color::Transparent);
-
-	heart5.setPosition(5, 5);
-	heart4.setPosition(heartDim + 7, 5);
-	heart3.setPosition(2 * heartDim + 9, 5);
-	heart2.setPosition(3 * heartDim + 11, 5);
-	heart1.setPosition(4 * heartDim + 13, 5);
-
-	heart1.setTexture(&heartFull);
-	heart2.setTexture(&heartFull);
-	heart3.setTexture(&heartFull);
-	heart4.setTexture(&heartFull);
-	heart5.setTexture(&heartFull);*/
-
 
 	ScoreText.setFont(font);
 	topScoreText.setFont(font);
@@ -192,6 +169,8 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if ((speedPerk || invinciblePerk || timeFreezePerk )&&perkSound.getStatus()!=Sound::Status::Playing) perkSound.play();
+		
 		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed") > 0 && !speedPerk)
 		{
 			player.setVel(800);
@@ -210,17 +189,17 @@ void Boss2::Update(Engine * game, double dt)
 		}
 		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
 
-		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreeze)
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
-			timeFreeze = 1;
+			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
 			exitTimer.pause();
 		}
 
-		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreeze)
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk)
 		{
-			timeFreeze = 0;
+			timeFreezePerk = 0;
 			exitTimer.resume();
 		}
 
@@ -245,7 +224,6 @@ void Boss2::Update(Engine * game, double dt)
 				heartSprite[i].setPosition(i * 20+10, 0);
 			}
 			else heartSprite[i].setPosition(-300, -3000);
-			//printf("health diff[%d] %d float diff  %lf  diffInt %d\n", i, healthDiff,diffFloat,diffInt);
 		}
 		if (player.health <= 0 && INVI("reLife") <= 0)
 		{
@@ -260,43 +238,8 @@ void Boss2::Update(Engine * game, double dt)
 			INVI("reLife")--;
 		}
 
-		/*if (player.health <= 140 && player.health > 130)	heart1.setTexture(&heartHalf);
-		else if (player.health <= 130 && player.health > 120)	heart1.setTexture(&heartEmpty);
-		else if (player.health <= 120 && player.health > 110)	heart1.setPosition(-500, 0);
-		else if (player.health <= 110 && player.health > 100)	heart2.setTexture(&heartHalf);
-		else if (player.health <= 100 && player.health > 90)		heart2.setTexture(&heartEmpty);
-		else if (player.health <= 90 && player.health > 80)		heart2.setPosition(-500, 0);
-		else if (player.health <= 80 && player.health > 70)		heart3.setTexture(&heartHalf);
-		else if (player.health <= 70 && player.health > 60)		heart3.setTexture(&heartEmpty);
-		else if (player.health <= 60 && player.health > 50)		heart3.setPosition(-500, 0);
-		else if (player.health <= 50 && player.health > 40)		heart4.setTexture(&heartHalf);
-		else if (player.health <= 40 && player.health > 30)		heart4.setTexture(&heartEmpty);
-		else if (player.health <= 30 && player.health > 20)		heart4.setPosition(-500, 0);
-		else if (player.health <= 20 && player.health > 10)		heart5.setTexture(&heartHalf);
-		else if (player.health <= 10 && player.health > 0)		heart5.setTexture(&heartEmpty);
-		else if (player.health <= 0 && INVI("reLife")<=0)
-		{
-			// restarts game
-			reset(game);
-		}
-		else if (INVI("reLife") > 0 && player.health <= 0)
-		{
-			player.health = 60;
-			player.setPosition(windowWidth / 2.0, windowHeight / 2.0 + 50);
-			player.setDirec(Direction::DOWN);
-			INVI("reLife")--;
-		}
-		*/
 		if (player.health > 0)
 		{
-			/*if (Keyboard::isKeyPressed(Keyboard::Up))
-				player.object.move(0, -speed * dt*dtMul);
-			if (Keyboard::isKeyPressed(Keyboard::Down))
-				player.object.move(0, speed*dt*dtMul);
-			if (Keyboard::isKeyPressed(Keyboard::Left))
-				player.object.move(-speed * dt*dtMul, 0);
-			if (Keyboard::isKeyPressed(Keyboard::Right))
-				player.object.move(speed*dt*dtMul, 0);*/
 
 			player.keyHandle();
 			player.update(dt);
@@ -344,7 +287,7 @@ void Boss2::Update(Engine * game, double dt)
 			}
 			for (int i = 0; i < zombies.size(); i++)
 			{
-				if (!timeFreeze)
+				if (!timeFreezePerk)
 				{
 					if (player.getPosition().y < 390 && zombies[i].object.getPosition().y>295 && zombies[i].object.getPosition().x < 985)
 						zombies[i].object.move(zombieSpeed * dt*dtMul * 2, 0);
@@ -370,7 +313,7 @@ void Boss2::Update(Engine * game, double dt)
 			{
 				for (int i = 0; i < zombies.size(); i++)
 				{
-					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()) && !invinciblePerk && !timeFreeze)
+					if (player.getPoly().intersects(zombies[i].object.getGlobalBounds()) && !invinciblePerk && !timeFreezePerk)
 					{
 						player.health -= 1 * dt*dtMul;
 						scoreNeg += dt * dtMul;
@@ -434,12 +377,6 @@ void Boss2::Draw(RenderWindow * app)
 	for (int i = 0; i < player.bullets.size(); i++)
 		app->draw(player.bullets[i].object);
 
-
-	/*app->draw(heart1);
-	app->draw(heart2);
-	app->draw(heart3);
-	app->draw(heart4);
-	app->draw(heart5);*/
 	app->draw(scoreCard);
 	app->draw(ScoreText);
 	app->draw(topScoreText);
