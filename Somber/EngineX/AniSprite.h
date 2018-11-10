@@ -26,6 +26,7 @@ public:
 
 	//add the whole animation sequence
 	//this method overwrites earlier frames
+	//@param in_x and in_y are the left and top of the sprite sheet
 	void addSheet(dir direc, int width, int height, int in_x = 0, int in_y = 0);
 	// sets the default frame (shown when paused)
 	void setDefault(sf::IntRect rect);
