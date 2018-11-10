@@ -75,6 +75,7 @@ private:
 	int diffInt;
 	float diffFloat;
 	float preUpdateHealth;
+	float gameTime = 60;
 
 
 

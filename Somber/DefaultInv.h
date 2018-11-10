@@ -16,7 +16,7 @@ static void makeDefault(Inventory& inv)
 		// perks
 		{"speed",		0},
 		{"invincible",	0},
-		{"healthBoost", 2},
+		{"healthBoost", 0},
 		{"bandage",		0},
 		{"reLife",		0},
 		{"timeFreeze",	0},

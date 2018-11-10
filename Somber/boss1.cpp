@@ -297,6 +297,11 @@ void Boss1::HandleEvents(Engine * game, Event * event)
 
 void Boss1::Update(Engine * game, double dt)
 {
+	if (Keyboard::isKeyPressed(Keyboard::C))
+	{
+		for (i = 0; i < 7; i++) fuse[i].health = 0;
+		player.setPosition(game->width - 50, 60);
+	}
 	if (!pause)
 	{
 		if ((speedPerk || invinciblePerk || timeFreezePerk) && perkSound.getStatus() != Sound::Status::Playing) perkSound.play();

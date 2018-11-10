@@ -105,7 +105,7 @@ void Boss2::Init(Engine* game)
 	player.setBoundary(40, 55, windowWidth - 50, windowHeight - 90);
 
 	target.setTexture(crosshair);
-	target.setScale(0.1, 0.1);
+	target.setScale(0.2, 0.2);
 	sf::Mouse mouse;
 	Score = 0;
 	scoreNeg = 0;
@@ -229,6 +229,12 @@ void Boss2::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
+		if (Keyboard::isKeyPressed(Keyboard::C))
+		{
+			zombies.clear();
+			gameTime = 1;
+			player.setPosition(100,70);
+		}
 		if ((speedPerk || invinciblePerk || timeFreezePerk )&&perkSound.getStatus()!=Sound::Status::Playing) perkSound.play();
 		
 		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed") > 0 && !speedPerk)
@@ -237,6 +243,7 @@ void Boss2::Update(Engine * game, double dt)
 			speedPerk = 1;
 			INVI("speed")--;
 			speedPerkTime.restart();
+			invShow.activate("speed");
 
 		}
 		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300);
@@ -414,7 +421,7 @@ void Boss2::Update(Engine * game, double dt)
 		}
 
 		// Exit level
-		if (exitTimer.getElapsedTime().asSeconds() > 60.0)
+		if (exitTimer.getElapsedTime().asSeconds() > gameTime)
 		{
 			door.setTextureRect(IntRect(doorTex.getSize().x / 2, 0, doorTex.getSize().x / 2, doorTex.getSize().y));
 			//.setPosition(0, windowHeight - 60);
@@ -468,7 +475,7 @@ void Boss2::Update(Engine * game, double dt)
 void Boss2::Draw(RenderWindow * app)
 {
 	app->draw(floor);
-	app->draw(target);
+	
 	app->draw(door);
 	player.drawTo(app);
 	for (int i = 0; i < zombies.size(); i++)
@@ -478,12 +485,13 @@ void Boss2::Draw(RenderWindow * app)
 	app->draw(bottomPC);
 	for (int i = 0; i < player.bullets.size(); i++)
 		app->draw(player.bullets[i].object);
-
+	app->draw(target);
 	app->draw(scoreCard);
 	app->draw(ScoreText);
 	app->draw(topScoreText);
 	app->draw(highestScoreTag);
 	for (i = 0; i < diffInt; i++) app->draw(heartSprite[i]);
+	
 
 	textBox.draw();
 	invShow.draw(app);
