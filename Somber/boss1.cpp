@@ -208,7 +208,7 @@ void Boss1::Init(Engine* game)
 
 	///////// textBox /////////////
 	textBox.Init(game, textBoxFont);
-	textBox.addTextTyped("Hello world!!");
+	textBox.addTextTyped("Escape the room by fixing the fuseboxes set on the walls of the room.\n \nAvoid the lights if you want to survive.\n \nXD");
 
 	///////// restart menu ///////////
 	menu.Init(game, this, textBoxFont);
@@ -227,6 +227,11 @@ void Boss1::Init(Engine* game)
 #ifdef _DEBUG
 	cout << "boss1 scene initialized" << endl;
 #endif // _DEBUG
+
+
+
+
+
 }
 
 void Boss1::Cleanup()
