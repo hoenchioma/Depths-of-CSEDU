@@ -32,6 +32,9 @@ public:
 	// replace the current text
 	void setText(std::string str);
 
+	inline void turnOn() { on = true; }
+	inline void turnOff() { on = false; }
+
 	tgui::TextBox::Ptr box;
 
 	float delay = DEFAULT_DELAY;
@@ -42,5 +45,7 @@ private:
 	bool once = false;
 
 	std::queue <char> textQ;
+
+	bool on = true;
 };
 

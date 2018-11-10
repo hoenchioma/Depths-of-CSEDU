@@ -21,6 +21,7 @@ void RestartMenu::Init(Engine * game, Scene * scene, const sf::Font& font)
 	{
 		gui.setTarget(*game->app);
 		tgui::Theme theme{ "extra/tgui_themes/BabyBlue.txt" };
+		tgui::Theme theme2{ "extra/tgui_themes/Custom.txt" };
 
 		auto back = tgui::Picture::create("res/back_darken.png");
 		back->setPosition(0, 0);
@@ -66,6 +67,7 @@ void RestartMenu::Init(Engine * game, Scene * scene, const sf::Font& font)
 			game->fullWidth / 2.0 - label->getSize().x / 2.0,
 			game->fullHeight / 2.0 - label->getSize().y / 2.0 - 90
 		);
+		label->setRenderer(theme2.getRenderer("label"));
 		gui.add(label);
 
 		once = true;

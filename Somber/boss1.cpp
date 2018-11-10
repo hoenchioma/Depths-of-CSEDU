@@ -242,10 +242,16 @@ void Boss1::Init(Engine* game)
 void Boss1::Cleanup()
 {
 	resetView(*_gameViewtemp);
-	this->game->miniMapOn = false;
+
 	menu.turnOff();
 	textBox.setText("");
-	Resume();
+	textBox.turnOn();
+
+	this->game->miniMapOn = false;
+	_fullScreen = false;
+	game->fullScreen.reset(FloatRect(0, 0, game->fullWidth, game->fullHeight));
+
+	//Resume();
 }
 
 void Boss1::Pause()
@@ -392,6 +398,10 @@ void Boss1::Update(Engine * game, double dt)
 			if (player.intersects(door.getGlobalBounds()))
 			{
 				//////// return to previous scene /////////
+				_fullScreen = true;
+				game->fullScreen.reset(FloatRect(0, 0, windowWidth, windowHeight));
+				textBox.turnOff();
+
 				for (i = 0; i < 4; i++) 
 				{
 					lights[i].x = 3000; 

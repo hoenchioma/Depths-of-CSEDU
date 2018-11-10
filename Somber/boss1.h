@@ -21,7 +21,7 @@ public:
 class Boss1 : public Scene
 {
 public:
-	~Boss1() { this->Cleanup(); }
+	~Boss1() {}
 
 	void LoadRes();
 	void Init(Engine* game);

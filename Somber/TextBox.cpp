@@ -71,7 +71,7 @@ void TextBox::update()
 
 void TextBox::draw()
 {
-	gui.draw();
+	if (on) gui.draw();
 }
 
 void TextBox::addText(std::string str)

@@ -73,7 +73,7 @@ EditBox {
 }
 
 Label {
-    TextColor = rgb(190, 190, 190);
+    TextColor = White;
 }
 
 ListBox {
