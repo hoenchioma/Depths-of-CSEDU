@@ -34,6 +34,7 @@ private:
 	std::map <std::string, sf::Texture> iconTex;
 	std::map <std::string, sf::Sprite> icon;
 	std::map <std::string, sf::Text> iconNum;
+	std::map <std::string, sf::Text> iconKey;
 	std::map <std::string, bool> iconActive;
 	std::map <std::string, sf::RectangleShape> iconRect;
 

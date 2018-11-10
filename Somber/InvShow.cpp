@@ -14,6 +14,19 @@ std::map <std::string, Point> iconLoc =
 	//{"keys",		{ 38, 720}}
 };
 
+std::map <std::string, int> iconInd =
+{
+	{"speed",		1},
+	{"invincible",	2},
+	{"healthBoost",	3},
+	{"bandage",		4},
+	{"reLife",		5},
+	{"timeFreeze",	6},
+	{"phase",		7},
+	//{{278, 329}},
+	//{"keys",		{ 38, 720}}
+};
+
 
 InvShow::InvShow()
 {
@@ -55,6 +68,10 @@ void InvShow::Init(Engine * game)
 		temp.setPosition(getDefaultLoc() + iconLoc[i.first] + Point(63, 0));
 		iconNum.insert({ i.first, temp });
 
+		temp.setPosition(getDefaultLoc() + iconLoc[i.first] + Point(63, 57));
+		temp.setString(std::to_string(iconInd[i.first]));
+		iconKey.insert({ i.first, temp });
+
 		iconRect[i.first] = sf::RectangleShape(sf::Vector2f(INV_CELL_SIZE_X, INV_CELL_SIZE_Y));
 		iconRect[i.first].setPosition(getDefaultLoc() + iconLoc[i.first]);
 		iconRect[i.first].setFillColor(sf::Color::Green);
@@ -89,6 +106,7 @@ void InvShow::draw(sf::RenderWindow * app)
 	for (const auto& i : icon)		app->draw(i.second);
 	for (const auto& i : iconRect)	app->draw(i.second);
 	for (const auto& i : iconNum)	app->draw(i.second);
+	for (const auto& i : iconKey)	app->draw(i.second);
 }
 
 void InvShow::setProgress(const std::string str, float prog)

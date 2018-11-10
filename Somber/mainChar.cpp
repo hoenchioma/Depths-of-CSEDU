@@ -198,6 +198,11 @@ void MainChar::dontMoveIf(std::function<bool(void)> comp)
 	dontDo.push_back(comp);
 }
 
+void MainChar::dontMovePop()
+{
+	dontDo.pop_back();
+}
+
 void MainChar::update(float dt)
 {
 	if (running)

@@ -56,6 +56,7 @@ public:
 	void dontIntersect(Polygon a);
 	// add a bool function to the dontDo list (things the char is not allowed to do)
 	void dontMoveIf(std::function <bool ()> comp);
+	void dontMovePop();
 
 	void update(float dt);
 

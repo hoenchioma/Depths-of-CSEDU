@@ -30,3 +30,14 @@ static void makeDefault(Inventory& inv)
 		{"locationY", 0.0},
 	};
 }
+
+static const std::vector <std::string> perkName =
+{
+	"speed",
+	"invincible",
+	"healthBoost",
+	"bandage",
+	"reLife",
+	"timeFreeze",
+	"phase"
+};

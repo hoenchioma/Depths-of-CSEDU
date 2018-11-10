@@ -11,7 +11,7 @@
 
 #include "EngineX/EngineX.h"
 
-#define DEFAULT_DELAY 0.05
+#define DEFAULT_DELAY 0.08
 
 class TextBox
 {

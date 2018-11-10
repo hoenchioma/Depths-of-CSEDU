@@ -49,6 +49,8 @@ private:
 	const int CanvasWidth = 2000;
 	const int CanvasHeight = 2000;
 
+	bool InitOnce = false;
+
 	sf::Texture characterSpriteSheet;
 
 	MainChar mainChar;
@@ -77,6 +79,7 @@ private:
 	RestartMenu menu;
 
 	TimeText timeText;
+	sf::View timeView;
 
 	// score and high score card
 	sf::Texture highestScoreTex;
@@ -92,4 +95,24 @@ private:
 	// game control
 	bool GameOver;
 	bool instantWin;
+
+	// perks
+	eClock speedT;
+	eClock reLifeT;
+	eClock timeFreezeT;
+	eClock phaseT;
+
+	bool speedB;
+	bool reLifeB;
+	bool timeFreezeB;
+	bool phaseB;
+	bool phaseBOnce;
+
+	// sound effects
+	sf::Sound snakehiss;
+	sf::SoundBuffer hissBuff;
+	eClock hissTime;
+
+	sf::Sound snakehit;
+	sf::SoundBuffer hitBuff;
 };
