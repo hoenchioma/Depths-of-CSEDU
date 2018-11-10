@@ -320,11 +320,16 @@ void Boss1::Update(Engine * game, double dt)
 		}
 		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
 
-		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
+		if (Keyboard::isKeyPressed(Keyboard::Num6) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
 			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose &&INVI("healthBoost") > 0)
+		{
+			spriteHealth += 60;
+			INVI("healthBoost")--;
 		}
 		
 		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk) timeFreezePerk = 0;

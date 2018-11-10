@@ -48,8 +48,8 @@ void MainMenu::Init(Engine* game)
 	quitButton.Init(&QuitButtonAc, &QuitButton, quitX, quitY);
 	background.setTexture(Background);
 	mainMenuSound.setVolume(50);
-	//mainMenuSound.setLoop(true);
-	//mainMenuSound.play();
+	mainMenuSound.setLoop(true);
+	mainMenuSound.play();
 	// initialize variables
 }
 
@@ -130,7 +130,7 @@ void MainMenu::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		if(mainMenuSound.getStatus()!=Sound::Status::Playing) mainMenuSound.play();
+		//if(mainMenuSound.getStatus()!=Sound::Status::Playing) mainMenuSound.play();
 		if (backgroundScale < 1) scaleFlag = 0;
 		if (backgroundScale > 1.05) scaleFlag = 1;
 		if(scaleFlag==0)backgroundScale += .0001*dt*dtMul;

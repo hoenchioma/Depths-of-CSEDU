@@ -155,6 +155,10 @@ void Boss2::Init(Engine* game)
 	player.dontIntersect(sf::FloatRect(0.f,322.f,870,49));
 	player.dontIntersect(sf::FloatRect(160,42,843,28));
 	player.dontIntersect(sf::FloatRect(880,347,108,22));
+
+
+
+	textBox.addTextTyped("Survive the zombie horde as long as you can.\nFortunately, you can shoot the zombies.\nGood luck!");
 }
 
 void Boss2::Cleanup()
@@ -245,12 +249,17 @@ void Boss2::Update(Engine * game, double dt)
 		}
 		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
 
-		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
+		if (Keyboard::isKeyPressed(Keyboard::Num6) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
 			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
 			exitTimer.pause();
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose &&INVI("healthBoost") > 0)
+		{
+			player.health += 60;
+			INVI("healthBoost")--;
 		}
 
 		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk)
