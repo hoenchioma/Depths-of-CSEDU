@@ -5,6 +5,8 @@
 #include "Boss2.h"
 #include "Boss3.h"
 #include "MainMenu.h"
+#include "OptionMenu.h"
+#include "PauseMenu.h"
 
 #include <ctime>
 
@@ -26,6 +28,8 @@ int main()
 	Engine game(&app, gameWidth, gameHeight);
 
 	game.pushScene(MainMenu::getInstance());
+	//game.pushScene(PauseMenu::getInstance());
+	//game.pushScene(OptionMenu::getInstance());
 	//game.pushScene(Floor1::getInstance());
 	//game.pushScene(Boss1::getInstance());
 	//game.pushScene(Boss2::getInstance());
