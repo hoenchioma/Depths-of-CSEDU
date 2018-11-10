@@ -113,6 +113,11 @@ void Boss1::Init(Engine* game)
 	timeStore = 0;
 	timeTextMin = 0;
 
+	speedPerk = 0;
+	invinciblePerk = 0;
+	reLifePerk = 0;
+	timeFreeze = 0;
+
 	scoreToText.setFont(font);
 	fuseNumber.setFont(font);
 	topScoreText.setFont(font);
@@ -305,12 +310,37 @@ void Boss1::Update(Engine * game, double dt)
 	if (!pause)
 	{
 
-		//for (i == 0; i < 7;i++) if((player.intersects(tableDLD[i].object.getGlobalBounds()))) playerIC=
+		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed")>0 && !speedPerk)
+		{
+			player.setVel(800);
+			speedPerk = 1;
+			INVI("speed")--;
+			speedPerkTime.restart();
 
+		}
+		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300);
+
+
+		if (Keyboard::isKeyPressed(Keyboard::Num2) && !fileClose && INVI("invincible") > 0 && !invinciblePerk)
+		{
+			invinciblePerk = 1;
+			invinciblePerkTime.restart();
+			INVI("invincible")--;
+		}
+		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
+
+		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose && INVI("timeFreeze") > 0 && !timeFreeze)
+		{
+			timeFreeze = 1;
+			timeFreezeTime.restart();
+			INVI("timeFreeze")--;
+		}
+		
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreeze) timeFreeze = 0;
 
 		if(!gameOverFlag)
 		{
-			timeStore += dt;
+			if(!timeFreeze)timeStore += dt;
 			if (timeStore >= 60)
 			{
 				timeStore = 0;
@@ -336,18 +366,23 @@ void Boss1::Update(Engine * game, double dt)
 		//centreView(game->gameView, player.getPosition(), Vector2f(windowWidth, windowHeight));
 		for (i = 0; i < 4; i++)
 		{
-			if ((centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, player.getPosition().x + spriteSize, player.getPosition().y + spriteSize) < spotlightDamageRange))
+			if (!invinciblePerk && (centreDis(lights[i].x + RADIUS_SPOTLIGHT, lights[i].y + RADIUS_SPOTLIGHT, player.getPosition().x + spriteSize, player.getPosition().y + spriteSize) < spotlightDamageRange))
+			{
+
 				spriteHealth -= lightDamage * dt;
+			}
 
 			if (lights[i].x > windowWidth)								lights[i].dirX = LEFT;
 			else if (lights[i].x < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirX = RIGHT;
 			if (lights[i].y > windowHeight)								lights[i].dirY = UP;
 			else if (lights[i].y < (-1)*(DIAMETER_SPOTLIGHT + 50))		lights[i].dirY = DOWN;
 
-
-			lights[i].x += speedSpotlight * lights[i].dirX *dt;
-			lights[i].y += speedSpotlight * lights[i].dirY *dt;
-			lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
+			if(!timeFreeze)
+			{
+				lights[i].x += speedSpotlight * lights[i].dirX *dt;
+				lights[i].y += speedSpotlight * lights[i].dirY *dt;
+				lights[i].circleSpot.setPosition(lights[i].x, lights[i].y);
+			}
 
 
 			
@@ -368,8 +403,9 @@ void Boss1::Update(Engine * game, double dt)
 		else if (spriteHealth <= 30 && spriteHealth > 20) heart4.setPosition(-500, 0);
 		else if (spriteHealth <= 20 && spriteHealth > 10) heart5.setTexture(&heartHalf);
 		else if (spriteHealth <= 10 && spriteHealth > 0) heart5.setTexture(&heartEmpty);
-		else if (spriteHealth <= 0)
+		else if (spriteHealth <= 0 && INVI("reLife") <= 0)
 		{
+			
 			//////// restarts level ///////////
 			heart5.setPosition(-500, 0);
 			spriteHealth = 150;
@@ -377,7 +413,13 @@ void Boss1::Update(Engine * game, double dt)
 			Pause();
 			menu.turnOn();
 		}																		
-
+		else if (INVI("reLife") > 0 && spriteHealth<=0)
+		{
+			spriteHealth = 60;
+			player.setPosition(game->width - 50, 60);
+			player.setDirec(Direction::DOWN);
+			INVI("reLife")--;
+		}
 		for (i = 0; i < 7; i++) fuse[i].fuseHealthBar.setSize(sf::Vector2f(fuse[i].health, healthBar));
 
 

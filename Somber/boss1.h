@@ -82,7 +82,12 @@ private:
 	bool gameOverFlag;
 	int topTime;
 	bool fileClose;
-
+	bool speedPerk;
+	bool invinciblePerk;
+	bool reLifePerk;
+	bool timeFreeze;
+	bool relife;
+	int perkTime = 10;
 
 
 	sf::Sprite highestScoreTag;
@@ -109,7 +114,9 @@ private:
 	sf::Texture doorCloseTex;
 	sf::Texture fuseBotSideOpenTex;
 	MainChar player;
-
+	eClock speedPerkTime;
+	eClock invinciblePerkTime;
+	eClock timeFreezeTime;
 	
 	sf::RectangleShape heart1;
 	sf::RectangleShape heart2;
