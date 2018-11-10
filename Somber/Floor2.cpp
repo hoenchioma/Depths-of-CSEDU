@@ -74,7 +74,7 @@ void Floor2::Init(Engine* game)
 	door.setPosition(110, 5);
 	floor2Cover.setTexture(floor2CovTex);
 	floor2Cover.setScale(1.35, 1.35);
-	floor2Cover.setPosition(374, 0);
+	floor2Cover.setPosition(372, 19);
 
 	/////////////// balcony //////////////////////////
 	balcony.Init(
