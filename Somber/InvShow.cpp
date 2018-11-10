@@ -54,6 +54,10 @@ void InvShow::Init(Engine * game)
 
 		temp.setPosition(getDefaultLoc() + iconLoc[i.first] + Point(63, 0));
 		iconNum.insert({ i.first, temp });
+
+		iconRect[i.first] = sf::RectangleShape(sf::Vector2f(INV_CELL_SIZE_X, INV_CELL_SIZE_Y));
+		iconRect[i.first].setPosition(getDefaultLoc() + iconLoc[i.first]);
+		iconRect[i.first].setFillColor(sf::Color::Green);
 	}
 }
 
@@ -71,13 +75,23 @@ void InvShow::update()
 			i.second.setColor(sf::Color(255, 255, 255, 255));
 			iconNum[i.first].setFillColor(sf::Color(255, 255, 255, 255));
 		}
+
 		iconNum[i.first].setString(std::to_string(INVI(i.first)));
+
+		if (!iconActive[i.first]) 
+			iconRect[i.first].setSize(sf::Vector2f(0, INV_CELL_SIZE_Y));
 	}
 }
 
 void InvShow::draw(sf::RenderWindow * app)
 {
 	app->draw(back);
-	for (const auto& i : icon)	app->draw(i.second);
+	for (const auto& i : icon)		app->draw(i.second);
+	for (const auto& i : iconRect)	app->draw(i.second);
 	for (const auto& i : iconNum)	app->draw(i.second);
+}
+
+void InvShow::setProgress(const std::string str, float prog)
+{
+	iconRect[str].setSize(sf::Vector2f(prog * INV_CELL_SIZE_X, INV_CELL_SIZE_Y));
 }

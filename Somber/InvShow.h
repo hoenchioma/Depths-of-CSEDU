@@ -5,6 +5,9 @@
 #define DEFAULT_INV_LOC_X -2e6
 #define DEFAULT_INV_LOC_Y 2e6
 
+#define INV_CELL_SIZE_X 69
+#define INV_CELL_SIZE_Y 63
+
 class InvShow
 {
 public:
@@ -15,6 +18,11 @@ public:
 	void Init(Engine* game);
 	void update();
 	void draw(sf::RenderWindow* app);
+
+	inline void activate(const std::string str) { iconActive[str] = true; }
+	inline void deActivate(const std::string str) { iconActive[str] = false; }
+
+	void setProgress(const std::string str, float prog);
 
 	static inline Point getDefaultLoc() { return { DEFAULT_INV_LOC_X, DEFAULT_INV_LOC_Y }; }
 
