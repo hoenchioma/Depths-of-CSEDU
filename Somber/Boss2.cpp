@@ -36,7 +36,7 @@ void Boss2::Init(Engine* game)
 {
 	game->app->setMouseCursorVisible(false);
 	ifstream Boss2ScoreFileIn;
-	Boss2ScoreFileIn.open("res/file/Boss2ScoreFile.txt");
+	Boss2ScoreFileIn.open("save/Boss2ScoreFile.txt");
 	Boss2ScoreFileIn >> topScore;
 	Boss2ScoreFileIn.close();
 
@@ -326,7 +326,7 @@ void Boss2::Update(Engine * game, double dt)
 					if (!fileClose)
 					{
 						ofstream Boss2ScoreFileOut;
-						Boss2ScoreFileOut.open("res/file/Boss2ScoreFile.txt");
+						Boss2ScoreFileOut.open("save/Boss2ScoreFile.txt");
 						Boss2ScoreFileOut << Score;
 						Boss2ScoreFileOut.close();
 					}

@@ -39,7 +39,7 @@ void Boss1::LoadRes()
 		cout << "can't load empty heart" << endl;
 	}
 	font.loadFromFile("res/Font/unispace bd.ttf");
-	//Boss1ScoreFile.open("res/file/Boss1ScoreFile.txt", ios::in | ios::out);
+	//Boss1ScoreFile.open("save/Boss1ScoreFile.txt", ios::in | ios::out);
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
 	floorTexture.loadFromFile("res/floorBoss1.png");
@@ -65,7 +65,7 @@ void Boss1::Init(Engine* game)
 	this->game = game;
 
 	ifstream Boss1ScoreFileIn;
-	Boss1ScoreFileIn.open("res/file/Boss2ScoreFile.txt");
+	Boss1ScoreFileIn.open("save/Boss2ScoreFile.txt");
 	Boss1ScoreFileIn >> topTime;
 	Boss1ScoreFileIn.close();
 
@@ -398,7 +398,7 @@ void Boss1::Update(Engine * game, double dt)
 					lights[i].y = 3000;
 				}
 				scoreToText.setCharacterSize(50);
-				scoreToText.setPosition(550, 200);
+				scoreToText.setPosition(500, 200);
 				scoreCard.setPosition(0, 0);
 				if (topTime!=0 && topTime <= timeTextMin * 60 + timeTextSec )
 				{
@@ -410,7 +410,7 @@ void Boss1::Update(Engine * game, double dt)
 					if (!fileClose)
 					{
 						ofstream Boss1ScoreFileOut;
-						Boss1ScoreFileOut.open("res/file/Boss1ScoreFile.txt");
+						Boss1ScoreFileOut.open("save/Boss1ScoreFile.txt");
 						Boss1ScoreFileOut << timeTextMin * 60 + timeTextSec;
 						Boss1ScoreFileOut.close();
 					}
