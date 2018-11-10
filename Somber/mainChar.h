@@ -20,6 +20,7 @@ public:
 	Direction getState() { return state; }
 	void setScale(float x, float y);
 	void setScale(sf::Vector2f);
+	inline void setVel(float vel) { this->vel = vel; };
 
 	void pause();
 	void resume();
