@@ -28,10 +28,12 @@ void Boss2::LoadRes()
 	highestScoreTex.loadFromFile("res/HighScoreTag.png");
 	scoreCardTex.loadFromFile("res/scoreCard.png");
 	floorTex.loadFromFile("res/floorBoss2.png");
-	midPCTex.loadFromFile("res/boss2MiddlePC.png"); 
-	centreTableTex.loadFromFile("res/centrePC.png");
+	//midPCTex.loadFromFile("res/boss2MiddlePC.png"); 
+	//centreTableTex.loadFromFile("res/centrePC.png");
 	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 	playerHurtBuffer.loadFromFile("res/Sounds/playerHurt.wav");
+	PC.loadFromFile("res/PC.png");
+	PCInTex.loadFromFile("res/PCInv.png");
 
 	loadFromFile(zombieAttackTexL[0], "res/Zombies 1/zombie1AttackLeft.png");
 	loadFromFile(zombieAttackTexL[1], "res/Zombies 2/zombie2AttackLeft.png");
@@ -54,6 +56,31 @@ void Boss2::LoadRes()
 void Boss2::Init(Engine* game)
 {
 	this->game = game;
+	for (i = 0; i < 40; i++)
+	{
+		pc[i].object.setTexture(PC);
+		pc[i].object.setScale(.25, .25);
+	}
+	for (i = 0; i < 10; i++)
+	{
+		pc[i].object.setPosition( i * 103 + 50,35);
+	}
+	for (i = 10,j=0; i < 20; i++,j++)
+	{
+		pc[i].object.setPosition( j * 103 + 75,90);
+	}
+	for (i = 20,j=0; i < 30; i++,j++)
+	{
+		pc[i].object.setPosition(j * 105 + 50, 600);
+	}
+	for (i = 30, j = 0; i < 40; i++, j++)
+	{
+		pc[i].object.setPosition(j * 105 + 75, 650);
+		pc[i].object.setScale(.3, .3);
+	}
+	pcIn.setTexture(PCInTex);
+	pcIn.setScale(.35, .35);
+	pcIn.setPosition(j * 105 + 75, 630);
 	
 	////////////////// textbox and inv //////////////////////
 	game->miniMapOn = true;
@@ -79,30 +106,30 @@ void Boss2::Init(Engine* game)
 	Boss2ScoreFileIn.close();
 
 	fileClose = 0;
-	midPCTex.setSmooth(true);
+	//midPCTex.setSmooth(true);
 	highestScoreTag.setTexture(highestScoreTex);
 	scoreCard.setTexture(scoreCardTex);
 	scoreCard.setPosition(3000, 3000);
 	highestScoreTag.setPosition(3000, 3000);
 	floor.setTexture(floorTex);
-	midPC.setTexture(midPCTex);
-	bottomPC.setTexture(midPCTex);
-	centreTable.setTexture(centreTableTex);
+	//midPC.setTexture(midPCTex);
+	//bottomPC.setTexture(midPCTex);
+	//centreTable.setTexture(centreTableTex);
 	//centreTable.setScale(.3, .25);
-	centreTable.setPosition(880, 319);
+	//centreTable.setPosition(880, 319);
 	
-	midPC.setPosition(25,300);
-	bottomPC.setPosition(25,windowHeight-42);
+	//midPC.setPosition(25,300);
+	//bottomPC.setPosition(25,windowHeight-42);
 	door.setTexture(doorTex);
 	door.setTextureRect(IntRect(0, 0, doorTex.getSize().x/ 2, doorTex.getSize().y));
 	door.setScale(0.85, 0.75);
-	door.setPosition(50,-10);
+	door.setPosition(windowWidth-100,-10);
 
 	player.Init(playerSpriteSheet, 0.1f, 300.f);
 	player.setScale(1.4, 1.4);
 	player.setPosition(windowWidth / 2.0, windowHeight / 2.0+50);
 
-	player.setBoundary(40, 55, windowWidth - 50, windowHeight - 90);
+	//player.setBoundary(40, 55, windowWidth - 50, windowHeight - 90);
 
 	target.setTexture(crosshair);
 	target.setScale(0.2, 0.2);
@@ -114,6 +141,7 @@ void Boss2::Init(Engine* game)
 	speedPerk = 0;
 	invinciblePerk = 0;
 	timeFreezePerk = 0;
+	perkSoundAc = 0;
 
 	// life variables
 	heartDim = 16;
@@ -152,9 +180,12 @@ void Boss2::Init(Engine* game)
 
 	//Init
 
-	player.dontIntersect(sf::FloatRect(0.f,322.f,870,49));
-	player.dontIntersect(sf::FloatRect(160,42,843,28));
-	player.dontIntersect(sf::FloatRect(880,347,108,22));
+	//player.dontIntersect(sf::FloatRect(0.f,322.f,870,49));
+	//player.dontIntersect(sf::FloatRect(160,42,843,28));
+	//player.dontIntersect(sf::FloatRect(880,347,108,22));
+	player.setBoundary(70, 50, windowWidth - 70, windowHeight - 70);
+	player.dontIntersect(sf::FloatRect(0, 0, windowWidth-200,150));
+	player.dontIntersect(sf::FloatRect(0,windowHeight-100 , windowWidth,130));
 
 
 
@@ -232,10 +263,11 @@ void Boss2::Update(Engine * game, double dt)
 		if (Keyboard::isKeyPressed(Keyboard::C))
 		{
 			zombies.clear();
-			gameTime = 1;
-			player.setPosition(100,70);
+			gameTime = 0;
+			player.setPosition(windowWidth-70,70);
 		}
-		if ((speedPerk || invinciblePerk || timeFreezePerk )&&perkSound.getStatus()!=Sound::Status::Playing) perkSound.play();
+		
+		//else if (!(speedPerk || invinciblePerk || timeFreezePerk)) perkSound.stop();
 		
 		if (Keyboard::isKeyPressed(Keyboard::Num1) && !fileClose && INVI("speed") > 0 && !speedPerk)
 		{
@@ -244,24 +276,49 @@ void Boss2::Update(Engine * game, double dt)
 			INVI("speed")--;
 			speedPerkTime.restart();
 			invShow.activate("speed");
+			perkSoundAc = 1;
 
 		}
-		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300);
-
+		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk)
+		{
+			player.setVel(300);
+			invShow.deActivate("speed");
+			perkSoundAc = 0;
+			//if(perkSound.getStatus()==Sound::Status::Playing)perkSound.stop();
+		}
+		invShow.setProgress("speed", 1.0 - speedPerkTime.getElapsedTime().asSeconds() / 10.0);
 		if (Keyboard::isKeyPressed(Keyboard::Num2) && !fileClose && INVI("invincible") > 0 && !invinciblePerk)
 		{
 			invinciblePerk = 1;
+			invShow.activate("invincible");
 			invinciblePerkTime.restart();
 			INVI("invincible")--;
+			perkSoundAc = 1;
+			
 		}
-		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
+		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk)
+		{
+			invinciblePerk = 0;
+			invShow.deActivate("invincible");
+			perkSoundAc = 0;
+		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Num6) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
 			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
+			invShow.activate("timeFreeze");
 			exitTimer.pause();
+			perkSoundAc = 1;
+		}
+
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk)
+		{
+			timeFreezePerk = 0;
+			exitTimer.resume();
+			invShow.deActivate("timeFreeze");
+			perkSoundAc = 0;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose &&INVI("healthBoost") > 0)
 		{
@@ -269,11 +326,6 @@ void Boss2::Update(Engine * game, double dt)
 			INVI("healthBoost")--;
 		}
 
-		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk)
-		{
-			timeFreezePerk = 0;
-			exitTimer.resume();
-		}
 
 		if (Score < 0) Score = 0;
 		ostringstream numberToString;
@@ -362,35 +414,22 @@ void Boss2::Update(Engine * game, double dt)
 			{
 				if (!timeFreezePerk)
 				{
-					if ((player.getPosition().y < 390 && zombies[i].getPosition().y>295 && zombies[i].getPosition().x < 985) || (player.getPosition().y > 295 && zombies[i].getPosition().y < 390 && zombies[i].getPosition().x < 985))
-					{
-						zombies[i].move(zombieSpeed * dt*dtMul * 2, 0);
-						if (zombies[i].getPosition().y > 291 && zombies[i].getPosition().y < 390)
-						{
-							if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].mode = 0;
-							else  zombies[i].mode = 1;
-						}
-						else zombies[i].mode = 1;
-
-					}
-					
-					else
-					{
-						if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].move(-zombieSpeed * dt*dtMul, 0);
-						if (zombies[i].getPosition().x < player.getPosition().x) zombies[i].move(zombieSpeed*dt*dtMul, 0);
-						if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
-						if (zombies[i].getPosition().y < player.getPosition().y) zombies[i].move(0, zombieSpeed*dt*dtMul);
-						
+					if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].move(-zombieSpeed * dt*dtMul, 0);
+					if (zombies[i].getPosition().x < player.getPosition().x) zombies[i].move(zombieSpeed*dt*dtMul, 0);
+					if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
+					if (zombies[i].getPosition().y < player.getPosition().y) zombies[i].move(0, zombieSpeed*dt*dtMul);
+					if(zombies[i].getPosition().y<150 &&zombies[i].getPosition().x<windowWidth-225) zombies[i].move(0, zombieSpeed*dt*dtMul);
+					if(zombies[i].getPosition().y>windowHeight-175)zombies[i].move(0, -zombieSpeed*dt*dtMul);
 
 						if (zombies[i].getPosition().x > player.getPosition().x) zombies[i].mode = 0;
 						else  zombies[i].mode = 1;
-					}
+					/*}
 					if (zombies[i].getPosition().x < 984 && zombies[i].getPosition().y>291 && zombies[i].getPosition().y < 389)
 					{
 						zombies[i].move(zombieSpeed * dt*dtMul, 0);
 						if (zombies[i].getPosition().y > player.getPosition().y) zombies[i].move(0, -zombieSpeed * dt*dtMul);
 						else zombies[i].move(0, zombieSpeed*dt*dtMul);
-					}
+					}*/
 				}
 			}
 			
@@ -468,6 +507,7 @@ void Boss2::Update(Engine * game, double dt)
 
 		textBox.update();
 		invShow.update();
+		if ((speedPerk || invinciblePerk || timeFreezePerk) && perkSound.getStatus() != Sound::Status::Playing&& perkSoundAc) perkSound.play();
 	}
 }
 
@@ -475,16 +515,18 @@ void Boss2::Update(Engine * game, double dt)
 void Boss2::Draw(RenderWindow * app)
 {
 	app->draw(floor);
-	
+	for(i=0;i<20;i++) app->draw(pc[i].object);
 	app->draw(door);
 	player.drawTo(app);
 	for (int i = 0; i < zombies.size(); i++)
 		zombies[i].drawTo(app);
-	app->draw(centreTable);
-	app->draw(midPC);
-	app->draw(bottomPC);
+	for (i = 20; i < 40; i++) app->draw(pc[i].object);
+	//app->draw(centreTable);
+	//app->draw(midPC);
+	//app->draw(bottomPC);
 	for (int i = 0; i < player.bullets.size(); i++)
 		app->draw(player.bullets[i].object);
+	app->draw(pcIn);
 	app->draw(target);
 	app->draw(scoreCard);
 	app->draw(ScoreText);

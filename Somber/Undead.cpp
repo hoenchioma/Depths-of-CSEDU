@@ -53,19 +53,19 @@ Undead::Undead(sf::Texture runL[], sf::Texture runR[], sf::Texture attL[], sf::T
 
 	// setting the position
 	if (position == 1)
-		setPosition(sf::Vector2f(930, 90));
+		setPosition(sf::Vector2f(150, 150));
 	else if (position == 2)
-		setPosition(sf::Vector2f(755, 580));
+		setPosition(sf::Vector2f(450, 150));
 	else if (position == 3)
-		setPosition(sf::Vector2f(1000, 345));
+		setPosition(sf::Vector2f(950, 150));
 	else if (position == 4)
-		setPosition(sf::Vector2f(570, 90));
+		setPosition(sf::Vector2f(150, 550));
 	else if (position == 5)
-		setPosition(sf::Vector2f(80, 580));
+		setPosition(sf::Vector2f(450, 550));
 	else if (position == 6)
-		setPosition(sf::Vector2f(400, 580));
+		setPosition(sf::Vector2f(950, 550));
 	else if (position == 7)
-		setPosition(sf::Vector2f(210, 90));
+		setPosition(sf::Vector2f(1150, 550));
 
 	setScale(sf::Vector2f(0.5f, 0.5f));
 	// the third type is bigger
