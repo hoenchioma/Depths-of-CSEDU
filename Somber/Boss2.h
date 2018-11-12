@@ -22,10 +22,9 @@
 
 #include <fstream>
 
-
 class PC
 {
-public:
+public:												//class for drawing tables
 	sf::Sprite object;
 };
 
@@ -56,90 +55,80 @@ private:
 	Boss2() {}
 	Boss2(Boss2 const&) = delete;
 	void operator= (Boss2 const&) = delete;
-	bool pause = false;
-	long long int Score;
-	float dtMul = 60;
-	float scoreNeg;
-	int windowWidth = 1280;
-	int windowHeight = 720;
-	float speed = 5;
-	float bulletTime = 60;
-	float zombieSpeed = .5;
-	float spawnTime = 0;
-	float moveTime;
-	int topScore;
+
+	bool pause = false;					//variable declaration
+	bool oonce = false;
+	bool beingEaten;
 	bool fileClose;
 	bool perkSoundAc;
 	bool speedPerk;
 	bool invinciblePerk;
 	bool timeFreezePerk;
+
+	float dtMul = 60;
+	float scoreNeg;
+	float speed = 5;
+	float bulletTime = 60;
+	float zombieSpeed = .5;
+	float spawnTime = 0;
+	float moveTime;
+	float diffFloat;
+	float preUpdateHealth;
+	float gameTime = 60;
+	float heartDim = 16;
+
+	long long int topScore;
+	long long int Score;
+	int windowWidth = 1280;
+	int windowHeight = 720;
 	int perkTime = 10;
 	int i, j;
 	int healthDiff;
 	int diffInt;
-	float diffFloat;
-	float preUpdateHealth;
-	float gameTime = 60;
 
-
-	PC pc[41];
-
-	sf::Sprite target;
+	sf::Sprite target;					//declarations of sprites
 	sf::Sprite highestScoreTag;
-	sf::Sprite  scoreCard;
+	sf::Sprite scoreCard;
 	sf::Sprite floor;
-	//sf::Sprite bottomPC;
-	//sf::Sprite midPC;
 	sf::Sprite pcIn;
+	sf::Sprite heartSprite[10];			//declaration of health sprites
+	sf::Sprite door;
 
-	sf::Texture PC;
+	sf::Texture PCTex;						//declaration of textures
 	sf::Texture PCInTex;
-	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
 	sf::Texture highestScoreTex;
 	sf::Texture scoreCardTex;
-	//sf::Texture playerTexture;
 	sf::Texture playerSpriteSheet;
-	Player player;
-	sf::Texture undeadTexture1;
-	sf::Texture undeadTexture2;
-	sf::Texture undeadTexture3;
+	sf::Texture heartFull;
+	sf::Texture heartHalf;
+	sf::Texture heartEmpty;
 	sf::Texture crosshair;
 	sf::Texture floorTex;
-	//sf::Texture midPCTex;
-	//sf::Texture centreTableTex;
-	sf::Mouse mouse;
+	sf::Texture doorTex;
+	sf::Texture zombieAttackTexL[3];		// zombie textures
+	sf::Texture zombieAttackTexR[3];
+	sf::Texture zombieRunTexL[3];
+	sf::Texture zombieRunTexR[3];
+
+	Player player;						//declaration of player
+	std::vector<Undead>zombies;			//declaration if zombies as vectors
+	PC pc[41];							//declaration of computer table or PCs on screen
 	eClock zombieEatStep;
 	eClock speedPerkTime;
 	eClock invinciblePerkTime;
 	eClock timeFreezeTime;
-
-	sf::SoundBuffer perkBuffer;
-	sf::Sound perkSound;
-
-
-	sf::Sprite heartSprite[10];
-	// life variables
-	float heartDim = 16;
-
-	sf::Texture heartFull;
-	sf::Texture heartHalf;
-	sf::Texture heartEmpty;
-
-	//sf::RectangleShape heart1;
-	//sf::RectangleShape heart2;
-	//sf::RectangleShape heart3;
-	//sf::RectangleShape heart4;
-	//sf::RectangleShape heart5;
-
-	// exit variables
-	sf::Texture doorTex;
-	//sf::Texture doorOpenTex;
-	sf::Sprite door;
-	sf::Font font;
-	sf::Text ScoreText;
-	sf::Text topScoreText;
 	eClock exitTimer;
+
+	sf::SoundBuffer perkBuffer;			//soundBuffer declaration
+	sf::SoundBuffer tempBuf;
+
+	sf::Sound perkSound;				//sound declaration
+
+	sf::Font displayFont;						//font declaration
+	sf::Font textBoxFont;
+	sf::Text ScoreText;					//text declaration
+	sf::Text topScoreText;
 
 	// bullet sound
 	sf::SoundBuffer bulletSoundBuf;
@@ -152,25 +141,13 @@ private:
 	std::vector <sf::Sound> zombieSound;
 	std::vector <sf::Sound> zombieAttacked;
 
-	// zombie tex
-	sf::Texture zombieAttackTexL[3];
-	sf::Texture zombieAttackTexR[3];
-	sf::Texture zombieRunTexL[3];
-	sf::Texture zombieRunTexR[3];
+	sf::Mouse mouse;					//mouse information
 
-	bool beingEaten;
+	TextBox textBox;					//textBox
 
-	sf::Font textBoxFont;
-	TextBox textBox;
+	InvShow invShow;					//Inventory
 
-	InvShow invShow;
-
-	Engine* game;
-
-	bool oonce = false;
-
-
-	//eClock bulletSoundOffSet;
+	Engine* game;						//Engine
 
 	// Declare variables here
 };

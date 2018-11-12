@@ -21,12 +21,12 @@ public:
 		object.setPosition(position);
 		bulletMulX = click.x - position.x;
 		bulletMulY = click.y - position.y;
-		dis = sqrt(pow(bulletMulX, 2) + pow(bulletMulY, 2));
+		dis = sqrt(pow(bulletMulX, 2) + pow(bulletMulY, 2));					//sets bullet y asix and x axis velocity
 		bulletMulX /= dis;
 		bulletMulY /= dis;
 
 		float angle = atan((click.y - position.y) / (click.x - position.x)) * 180 / PIE;
-		object.setRotation(angle);
+		object.setRotation(angle);											//sets bullet texture rotation based on click location
 	}
 	~Bullet() {}
 };

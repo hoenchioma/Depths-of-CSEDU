@@ -30,20 +30,20 @@ void MainMenu::Init(Engine* game)
 	game->fullScreen.reset(sf::FloatRect(0, 0, windowWidth, windowHeight));
 	_fullScreen = true;
 
-	if (ifstream("save/inv.txt")) fileCont = true;
+	if (ifstream("save/inv.txt")) fileCont = true;												//checks for save files if available
 
 	continueButton.Init(&ContinueButtonAvailAc, &ContinueButtonAvail, continueX, continueY);
-	if (fileCont)
+	if (fileCont)																				//sets continue button active textures if fileCount flag is active 
 	{
 		continueButton.object.setTexture(ContinueButtonAvail);
 		continueButton.objectAc.setTexture(ContinueButtonAvailAc);
 	}
 	else
-	{
+	{																							//sets continue button inactive textures if fileCount flag is inactive 
 		continueButton.object.setTexture(ContinueButtonUnavail);
 		continueButton.objectAc.setTexture(ContinueButtonUnavail);
 	}	
-	playButton.Init(&PlayButtonAc,&PlayButton, playX,playY);
+	playButton.Init(&PlayButtonAc,&PlayButton, playX,playY);										//sets button textures and positions
 	optionButton.Init(&OptionButtonAc, &OptionButton, optionX, optionY);
 	quitButton.Init(&QuitButtonAc, &QuitButton, quitX, quitY);
 	background.setTexture(Background);
@@ -98,7 +98,6 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 			game->inv.loadFromFile("save/inv.txt");
 			game->inv.saveToFile("save/test.txt");
 			if (INVI("floor") == 0) pushScene(game, Floor1::getInstance());
-			//else if (INVI("floor") == 1) pushScene(game, Floor2::getInstance());
 		}
 		continueButton.objectAc.setPosition(continueX, continueY);
 	}
@@ -131,7 +130,6 @@ void MainMenu::Update(Engine * game, double dt)
 {
 	if (!pause)
 	{
-		//if(mainMenuSound.getStatus()!=Sound::Status::Playing) mainMenuSound.play();
 		if (backgroundScale < 1) scaleFlag = 0;
 		if (backgroundScale > 1.05) scaleFlag = 1;
 		if(scaleFlag==0)backgroundScale += .0001*dt*dtMul;

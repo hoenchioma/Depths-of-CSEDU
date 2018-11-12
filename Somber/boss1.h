@@ -16,7 +16,6 @@ class TableEEE
 {
 public:
 	sf::Sprite object;
-	//int ICnum;
 };
 
 
@@ -49,17 +48,27 @@ private:
 	void operator= (Boss1 const&) = delete;
 	bool pause = false;
 
-
-	int windowWidth = 1280;
-	int windowHeight = 720;
-	int fuseCount;
-	Spotlight lights[4];
-	float dtMul = 50;
-	float spriteSize = 20;
 	const int LEFT = -1;
 	const int RIGHT = 1;
 	const int UP = -1;
 	const int DOWN = 1;
+
+	int windowWidth = 1280;
+	int windowHeight = 720;
+	int fuseCount;
+	int randLimitW = fuseWidth + 400;
+	int randLimitH = fuseHeight + 400;
+	int i;
+	int timeTextSec;						//stores time in seconds
+	int timeTextMin;						//stores time in minutes
+	int topTime;
+	int timeTotal;
+	int perkTime = 10;
+	int healthDiff;
+	int diffInt;
+										
+	float dtMul = 50;						//multiplier for framerame independency
+	float spriteSize = 20;
 	float speedSpotlight = 3 * dtMul;
 	float fuseHealth = 100;
 	float damageFuse;
@@ -73,26 +82,18 @@ private:
 	float healthBar = 10;
 	float heartDim = 16;
 	float barDis = 40 - fuseWidth / 2;
-	int randLimitW = fuseWidth + 400;
-	int randLimitH = fuseHeight + 400;
-	int i;
-	int timeTextSec;
-	int timeTextMin;
-	double timeStore;
-	int timeTotal;
+	float diffFloat;
+	float preUpdateHealth;
+	float timeStore;
+
 	bool exitFlag;
 	bool gameOverFlag;
-	int topTime;
 	bool fileClose;
 	bool speedPerk;
 	bool invinciblePerk;
 	bool timeFreezePerk;
-	int perkTime = 10;
-	int healthDiff;
-	int diffInt;
-	float diffFloat;
-	float preUpdateHealth;
-
+	bool once = false;
+											//sprites
 	sf::Sprite heartSprite[10];
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
@@ -100,8 +101,7 @@ private:
 	sf::Sprite door;
 	sf::Sprite bot3Side;
 	sf::Sprite bot4Side;
-	FuseInfo fuse[7];
-	TableEEE tableDLD[7],tableBottom;
+											//textures
 	sf::Texture highestScoreTex;
 	sf::Texture scoreCardTex;
 	sf::Texture floorTexture;
@@ -117,47 +117,45 @@ private:
 	sf::Texture doorOpenTex;
 	sf::Texture doorCloseTex;
 	sf::Texture fuseBotSideOpenTex;
+											//declaration of custom classes for boss1
+	FuseInfo fuse[7];						//fuses declaration
+
+	TableEEE tableDLD[7], tableBottom;		//tables declaration
+
+	Spotlight lights[4];
+
 	MainChar player;
+
 	eClock speedPerkTime;
 	eClock invinciblePerkTime;
 	eClock timeFreezeTime;
 	
-
-
-
-	sf::SoundBuffer perkBuffer;
-	sf::Sound perkSound;
+	sf::SoundBuffer perkBuffer;				//soundBuffer declaration
 	sf::SoundBuffer playerHurtBuffer;
+
+	sf::Sound perkSound;					//sound declaration
 	sf::Sound playerHurt;
 
-	sf::Font font;
-	sf::Text scoreToText;
-	//sf::Text secToText;
+	sf::Font displayFont;							//font declaration
+	sf::Font textBoxFont;
+
+	sf::Text scoreToText;					//text declaration
 	sf::Text fuseNumber;
 	sf::Text topScoreText;
 
-	//std::fstream Boss1ScoreFile;
-
-
-	//sf::View view1;
-
-	//sf::RectangleShape* fuseArray[5] = { &fuse1, &fuse2, &fuse3, &fuse4, &fuse5 };
-	//sf::CircleShape* spotlightArray[3] = { &spotlight1, &spotlight2, &spotlight3 };
-
 	sf::Uint8 light;
 
-	// temporarily stores the gameView
-	sf::View* _gameViewtemp;
+	sf::View* _gameViewtemp;           		// temporarily stores the gameView
 
-	Engine* game;
+	Engine* game;							//Engine
 
-	sf::Font textBoxFont;
-	TextBox textBox;
-	RestartMenu menu;
+	TextBox textBox;						//textBox
 
-	bool once = false;
+	RestartMenu menu;						//Restart menu
 
-	InvShow invShow;
+	InvShow invShow;						//Inventory
+
+	// Declare variables here
 };
 
 

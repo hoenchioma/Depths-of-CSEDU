@@ -44,9 +44,9 @@ private:
 
 	sf::Mouse mouse;
 	float dtMul = 60;
+	float backgroundScale = 1.05;
 	int windowWidth = 1280;
 	int windowHeight = 720;
-	float backgroundScale = 1.05;
 	int negPos = -500;
 	int playX = 100;
 	int playY = 360;
