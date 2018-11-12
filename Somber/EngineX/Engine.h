@@ -30,6 +30,8 @@ public:
 
 	Inventory inv;
 
+	bool mute = false;
+
 	// view management
 	sf::View gameView;
 	// reset the views before using them (viewport is already set)
