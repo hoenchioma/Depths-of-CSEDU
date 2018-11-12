@@ -11,8 +11,8 @@ using namespace std;
 
 const float WALL_OFFSET_X = 30;
 const float WALL_OFFSET_Y = 66;
-const float revOffSetX = 11;
-const float revOffSetY = 10;
+const float REV_OFFSET_X = 11;
+const float REV_OFFSET_Y = 10;
 
 void Floor2::LoadRes()
 {
@@ -111,8 +111,8 @@ void Floor2::Init(Engine* game)
 		do
 		{
 			coin.setPosition(
-				wallOffSetX + rand() % (int)(background.getGlobalBounds().width - wallOffSetX - revOffSetX - coin.getSize().x),
-				wallOffSetY + rand() % (int)(background.getGlobalBounds().height - wallOffSetY - revOffSetY - coin.getSize().y)
+				WALL_OFFSET_X + rand() % (int)(background.getGlobalBounds().width - WALL_OFFSET_X - REV_OFFSET_X - coin.getSize().x),
+				WALL_OFFSET_Y + rand() % (int)(background.getGlobalBounds().height - WALL_OFFSET_Y - REV_OFFSET_Y - coin.getSize().y)
 			);
 		} while (Polygon(coin.getGlobalBounds()).intersects(balcony.getPoly()));
 		// randomly generate coins until it spawns outside the balcony region
@@ -191,10 +191,10 @@ void Floor2::Update(Engine * game, double dt)
 		// when the player tries to go out of bounds setPosition s to the boundary point
 		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < WALL_OFFSET_X - 10)
 			mainChar.setPosition(WALL_OFFSET_X - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
-		if (mainChar.getPosition().x > background.getGlobalBounds().width - revOffSetX)
-			mainChar.setPosition(background.getGlobalBounds().width - revOffSetX, mainChar.getPosition().y);
-		if (mainChar.getPosition().y > background.getGlobalBounds().height - revOffSetY)
-			mainChar.setPosition(mainChar.getPosition().x, background.getGlobalBounds().height - revOffSetY);
+		if (mainChar.getPosition().x > background.getGlobalBounds().width - REV_OFFSET_X)
+			mainChar.setPosition(background.getGlobalBounds().width - REV_OFFSET_X, mainChar.getPosition().y);
+		if (mainChar.getPosition().y > background.getGlobalBounds().height - REV_OFFSET_Y)
+			mainChar.setPosition(mainChar.getPosition().x, background.getGlobalBounds().height - REV_OFFSET_Y);
 
 		////////////////// door Logic /////////////////////
 		// special case logic for Door
