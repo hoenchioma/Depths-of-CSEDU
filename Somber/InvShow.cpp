@@ -46,6 +46,7 @@ void InvShow::loadRes()
 		iconTex[i.first].loadFromFile("res/" + i.first + ".png");
 	}
 	loadFromFile(font, "res/Font/unispace bd.ttf");
+	loadFromFile(keyT, "res/keys.png");
 }
 
 void InvShow::Init(Engine * game)
@@ -76,6 +77,8 @@ void InvShow::Init(Engine * game)
 		iconRect[i.first].setPosition(getDefaultLoc() + iconLoc[i.first]);
 		iconRect[i.first].setFillColor(sf::Color::Green);
 	}
+	key.setTexture(keyT);
+	key.setPosition(getDefaultLoc() + Point(38, 720));
 }
 
 void InvShow::update()
@@ -98,6 +101,8 @@ void InvShow::update()
 		if (!iconActive[i.first]) 
 			iconRect[i.first].setSize(sf::Vector2f(0, INV_CELL_SIZE_Y));
 	}
+	if (INVI("keys") == 0) key.setColor(sf::Color(255, 255, 255, 0));
+	else key.setColor(sf::Color(255, 255, 255, 255));
 }
 
 void InvShow::draw(sf::RenderWindow * app)
@@ -107,6 +112,7 @@ void InvShow::draw(sf::RenderWindow * app)
 	for (const auto& i : iconRect)	app->draw(i.second);
 	for (const auto& i : iconNum)	app->draw(i.second);
 	for (const auto& i : iconKey)	app->draw(i.second);
+	app->draw(key);
 }
 
 void InvShow::setProgress(const std::string str, float prog)

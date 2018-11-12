@@ -31,6 +31,9 @@ private:
 	sf::Sprite back;
 	sf::Font font;
 
+	sf::Texture keyT;
+	sf::Sprite key;
+
 	std::map <std::string, sf::Texture> iconTex;
 	std::map <std::string, sf::Sprite> icon;
 	std::map <std::string, sf::Text> iconNum;
