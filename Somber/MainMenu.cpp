@@ -95,7 +95,8 @@ void MainMenu::HandleEvents(Engine * game, Event * event)
 		{
 			mainMenuSound.stop();
 			// if file is corrupt load default
-			if (game->inv.loadFromFile("save/inv.txt")) makeDefault(game->inv);
+			game->inv.loadFromFile("save/inv.txt");
+			game->inv.saveToFile("save/test.txt");
 			if (INVI("floor") == 0) pushScene(game, Floor1::getInstance());
 			//else if (INVI("floor") == 1) pushScene(game, Floor2::getInstance());
 		}

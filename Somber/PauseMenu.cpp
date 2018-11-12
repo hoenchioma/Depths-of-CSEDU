@@ -27,10 +27,11 @@ void PauseMenu::LoadRes()
 
 void PauseMenu::Init(Engine* game)
 {
-	
+	game->app->setMouseCursorVisible(true);
 	
 	game->fullScreen.reset(sf::FloatRect(0, 0, windowWidth, windowHeight));
 	_fullScreen = true;
+	levelAc = false;
 	
 	////////////////////////handle level active or not(by default not)
 
@@ -85,6 +86,7 @@ void PauseMenu::HandleEvents(Engine * game, Event * event)
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
 			PauseMenuSound.stop();
+			popScene(game);
 
 		}/////////////////////////////////resume button
 		resumeButton.objectAc.setPosition(resumeX, resumeY);
@@ -94,8 +96,9 @@ void PauseMenu::HandleEvents(Engine * game, Event * event)
 	{
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-
-	
+			INVI("save") = 1;
+			game->inv.saveToFile("save/inv.txt");
+			game->close();
 		}
 		saveNQuitButton.objectAc.setPosition(saveNQuitX, saveNQuitY);
 	
@@ -108,7 +111,7 @@ void PauseMenu::HandleEvents(Engine * game, Event * event)
 	{
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-													//////////////////////load inv file
+			//////////////////////load inv file
 		}
 		invInfoButton.objectAc.setPosition(invInfoX, invInfoY);
 	}

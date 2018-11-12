@@ -67,6 +67,7 @@ void OptionMenu::HandleEvents(Engine * game, Event * event)
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
 			soundFlag = soundFlag ^ 1;
+			game->mute = !game->mute;
 		}/////////////////////////////////sound button
 	}
 	
