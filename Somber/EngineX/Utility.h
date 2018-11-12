@@ -73,9 +73,21 @@ inline void centreView(sf::View& view, sf::Vector2f pos, sf::FloatRect gameSizeR
 {
 	centreView(view, pos, sf::Vector2f(gameSizeRect.width, gameSizeRect.height));
 }
+
 // resets the camera to the upper left corner
 // use this when initializing scenes
 inline void resetView(sf::View& view)
 {
 	view.setCenter(view.getSize().x / 2.0, view.getSize().y / 2.0);
+}
+
+// centres view even when the character is at the edge of the screen at start
+inline void smartCentre(sf::View& view, sf::Vector2f pos, sf::Vector2f screenSize, sf::Vector2f canvasSize)
+{
+	sf::Vector2f temp = pos;
+	if (temp.x < screenSize.x / 2.0) temp.x = screenSize.x / 2.0;
+	if (temp.y < screenSize.y / 2.0) temp.y = screenSize.y / 2.0;
+	if (temp.x > canvasSize.x - screenSize.x / 2.0) temp.x = canvasSize.x - screenSize.x / 2.0;
+	if (temp.y > canvasSize.y - screenSize.y / 2.0) temp.y = canvasSize.y - screenSize.y / 2.0;
+	view.setCenter(temp);
 }
