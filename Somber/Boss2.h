@@ -23,7 +23,11 @@
 #include <fstream>
 
 
-
+class PC
+{
+public:
+	sf::Sprite object;
+};
 
 class Boss2 : public Scene
 {
@@ -65,12 +69,12 @@ private:
 	float moveTime;
 	int topScore;
 	bool fileClose;
-
+	bool perkSoundAc;
 	bool speedPerk;
 	bool invinciblePerk;
 	bool timeFreezePerk;
 	int perkTime = 10;
-	int i;
+	int i, j;
 	int healthDiff;
 	int diffInt;
 	float diffFloat;
@@ -78,15 +82,18 @@ private:
 	float gameTime = 60;
 
 
+	PC pc[41];
 
 	sf::Sprite target;
 	sf::Sprite highestScoreTag;
 	sf::Sprite  scoreCard;
 	sf::Sprite floor;
-	sf::Sprite bottomPC;
-	sf::Sprite midPC;
+	//sf::Sprite bottomPC;
+	//sf::Sprite midPC;
+	sf::Sprite pcIn;
 
-	sf::Sprite centreTable;
+	sf::Texture PC;
+	sf::Texture PCInTex;
 	std::vector<Undead>zombies;
 	sf::Texture bulletTexture;
 	sf::Texture highestScoreTex;
@@ -99,8 +106,8 @@ private:
 	sf::Texture undeadTexture3;
 	sf::Texture crosshair;
 	sf::Texture floorTex;
-	sf::Texture midPCTex;
-	sf::Texture centreTableTex;
+	//sf::Texture midPCTex;
+	//sf::Texture centreTableTex;
 	sf::Mouse mouse;
 	eClock zombieEatStep;
 	eClock speedPerkTime;
@@ -109,7 +116,7 @@ private:
 
 	sf::SoundBuffer perkBuffer;
 	sf::Sound perkSound;
-	
+
 
 	sf::Sprite heartSprite[10];
 	// life variables
@@ -133,7 +140,7 @@ private:
 	sf::Text ScoreText;
 	sf::Text topScoreText;
 	eClock exitTimer;
-	
+
 	// bullet sound
 	sf::SoundBuffer bulletSoundBuf;
 	sf::SoundBuffer playerHurtBuffer;
@@ -160,9 +167,12 @@ private:
 
 	Engine* game;
 
+	bool oonce = false;
+
 
 	//eClock bulletSoundOffSet;
 
 	// Declare variables here
 };
+
 
