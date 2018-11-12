@@ -58,6 +58,7 @@ void Floor2::Init(Engine* game)
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
 	mainChar.setScale(1.4f, 1.4f);
 	mainChar.dontIntersect(sf::FloatRect(393,0,1000, 320));
+
 	//mainChar.setPosition(game->width / 2.f, game->height / 2.f);
 	mainChar.setPosition(50, 820);
 	mainChar.dontIntersect(&balcony.getPoly());
@@ -98,7 +99,7 @@ void Floor2::Init(Engine* game)
 	);
 	balcony.setScale(1.f);
 
-	/*/////////////////// coins //////////////////////
+	/////////////////// coins //////////////////////
 	for (auto& coin : coins)
 	{
 		coin.setSpriteSheet(coinSpriteSheet);
@@ -119,7 +120,7 @@ void Floor2::Init(Engine* game)
 		coin.setSound(sound);
 		coin.getSound().setVolume(30);
 	}
-	*/
+	
 	/////////////// dark effect /////////////////////////
 	Uint8 light = 150; // the lower this value the more darker
 	door.setColor(Color(light, light, light));
@@ -237,14 +238,14 @@ void Floor2::Update(Engine * game, double dt)
 		centreView(game->gameView, mainChar.getPosition(), background.getGlobalBounds());
 
 		////////////// Coin Logic //////////////////////
-		/*for (auto& coin : coins)
+		for (auto& coin : coins)
 		{
 			if (coin.collected(mainChar))
 			{
 				coinCollected++;
 				// sets the coins way outside the screen
 			}
-		}*/
+		}
 	}
 }
 
@@ -256,7 +257,7 @@ void Floor2::Draw(RenderWindow * app)
 
 	balcony.drawBottom(app);
 	if (!enteringdoor) mainChar.drawTo(app);
-	//for (auto& coin : coins) coin.drawTo(app);
+	for (auto& coin : coins) coin.drawTo(app);
 	balcony.drawTop(app);
 	app->draw(floor2Cover);
 }

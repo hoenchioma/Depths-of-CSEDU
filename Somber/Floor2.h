@@ -9,7 +9,7 @@
 
 #include "MainChar.h"
 #include "Door.h"
-//#include "Coin.h"
+#include "Coin.h"
 #include "Balcony.h"
 
 class Floor2 : public Scene
@@ -57,9 +57,9 @@ private:
 
 	sf::Texture coinSpriteSheet;
 	sf::SoundBuffer sound;
-	//Coin coins[20];
+	Coin coins[20];
 	int coinCollected = 0;
-
+	sf::RectangleShape box;
 	Balcony balcony;
 	sf::Texture balconyTop;
 	sf::Texture balconyBottom;
