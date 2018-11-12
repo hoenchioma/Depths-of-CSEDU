@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "InvShow.h"
+
 
 using namespace sf;
 using namespace std;
@@ -57,13 +59,27 @@ void Boss1::LoadRes()
 	perkBuffer.loadFromFile("res/Sounds/powerUp.wav");
 	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
 	playerHurtBuffer.loadFromFile("res/Sounds/playerHurt.wav");
+
+	invShow.loadRes();
 }
 
 void Boss1::Init(Engine* game)
 {
+	game->app->setMouseCursorVisible(true);
+
 	resetView(game->gameView);
 	_gameViewtemp = &game->gameView;
 	this->game = game;
+
+	// inventory
+	game->inventoryOn = true;
+	game->inventory.reset(sf::FloatRect(
+		InvShow::getDefaultLoc().x,
+		InvShow::getDefaultLoc().y,
+		game->fullWidth * 0.2,
+		game->fullHeight * 0.8
+	));
+	invShow.Init(game);
 
 	ifstream Boss1ScoreFileIn;
 	Boss1ScoreFileIn.open("save/Boss2ScoreFile.txt");
@@ -208,7 +224,7 @@ void Boss1::Init(Engine* game)
 
 	///////// textBox /////////////
 	textBox.Init(game, textBoxFont);
-	textBox.addTextTyped("Escape the room by fixing the fuseboxes set on the walls of the room.\n \nAvoid the lights if you want to survive.\n \nXD");
+	textBox.addTextTyped("Escape the room by fixing the fuseboxes set on the walls of the room.\n\nAvoid the lights if you want to survive.\n\nPress button 'E' for diffusing purposes");
 
 	///////// restart menu ///////////
 	menu.Init(game, this, textBoxFont);
@@ -228,9 +244,11 @@ void Boss1::Init(Engine* game)
 	cout << "boss1 scene initialized" << endl;
 #endif // _DEBUG
 
-
-
-
+	if (game->mute)
+	{
+		perkSound.setVolume(0);
+		playerHurt.setVolume(0);
+	}
 
 }
 
@@ -246,7 +264,9 @@ void Boss1::Cleanup()
 	_fullScreen = false;
 	game->fullScreen.reset(FloatRect(0, 0, game->fullWidth, game->fullHeight));
 
-	//Resume();
+	spriteHealth = 150;
+
+	Resume();
 }
 
 void Boss1::Pause()
@@ -312,9 +332,10 @@ void Boss1::Update(Engine * game, double dt)
 			speedPerk = 1;
 			INVI("speed")--;
 			speedPerkTime.restart();
-
+			invShow.activate("speed");
 		}
-		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300);
+		invShow.setProgress("speed", 1.0 - speedPerkTime.getElapsedTime().asSeconds() / 10.0);
+		if (speedPerkTime.getElapsedTime().asSeconds() > perkTime && speedPerk) player.setVel(300), invShow.deActivate("speed");
 
 
 		if (Keyboard::isKeyPressed(Keyboard::Num2) && !fileClose && INVI("invincible") > 0 && !invinciblePerk)
@@ -322,22 +343,26 @@ void Boss1::Update(Engine * game, double dt)
 			invinciblePerk = 1;
 			invinciblePerkTime.restart();
 			INVI("invincible")--;
+			invShow.activate("invincible");
 		}
-		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0;
+		invShow.setProgress("invincible", 1.0 - invinciblePerkTime.getElapsedTime().asSeconds() / 10.0);
+		if (invinciblePerkTime.getElapsedTime().asSeconds() > perkTime && invinciblePerk) invinciblePerk = 0, invShow.deActivate("invincible");;
 
 		if (Keyboard::isKeyPressed(Keyboard::Num6) && !fileClose && INVI("timeFreeze") > 0 && !timeFreezePerk)
 		{
 			timeFreezePerk = 1;
 			timeFreezeTime.restart();
 			INVI("timeFreeze")--;
+			invShow.activate("timeFreeze");
 		}
+		invShow.setProgress("timeFreeze", 1.0 - timeFreezeTime.getElapsedTime().asSeconds() / 10.0);
 		if (Keyboard::isKeyPressed(Keyboard::Num3) && !fileClose &&INVI("healthBoost") > 0)
 		{
 			spriteHealth += 60;
 			INVI("healthBoost")--;
 		}
 		
-		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk) timeFreezePerk = 0;
+		if (timeFreezeTime.getElapsedTime().asSeconds() > perkTime && timeFreezePerk) timeFreezePerk = 0, invShow.deActivate("timeFreeze");;
 
 		if(!gameOverFlag)
 		{
@@ -471,12 +496,20 @@ void Boss1::Update(Engine * game, double dt)
 				}
 				fileClose = 1;
 				//Boss1ScoreFile.close();
+
+				if (!once)
+				{
+					INVI("keys")++;
+					once = true;
+				}
 				if(Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
 			}
 		}
 
 		// updates the textBox
 		textBox.update();
+
+		invShow.update();
 
 	}
 
@@ -539,6 +572,7 @@ void Boss1::Draw(RenderWindow * app)
 
 
 	textBox.draw();
+	invShow.draw(app);
 	menu.draw(app);
 	// draw to screen
 	// note: use app->draw() instead of app.draw() as it is a pointer

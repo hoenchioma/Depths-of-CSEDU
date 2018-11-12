@@ -10,6 +10,7 @@
 #include "RestartMenu.h"
 #include <fstream>
 #include <SFML/Audio.hpp>
+#include "InvShow.h"
 
 class TableEEE
 {
@@ -153,4 +154,10 @@ private:
 	sf::Font textBoxFont;
 	TextBox textBox;
 	RestartMenu menu;
+
+	bool once = false;
+
+	InvShow invShow;
 };
+
+
