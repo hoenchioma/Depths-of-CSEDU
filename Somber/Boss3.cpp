@@ -47,6 +47,7 @@ void Boss3::LoadRes()
 
 void Boss3::Init(Engine * game)
 {
+	game->app->setMouseCursorVisible(true);
 	this->game = game;
 
 	resetView(game->gameView);
@@ -129,6 +130,7 @@ void Boss3::Init(Engine * game)
 	GameOver = false;
 	instantWin = false;
 
+	// perk variable initialization
 	speedB = false;
 	reLifeB = false;
 	timeFreezeB = false;
@@ -138,6 +140,15 @@ void Boss3::Init(Engine * game)
 	InitOnce = true;
 
 	//snek.time.pause();
+
+	// set all sound volume to zero when mute is on
+	if (game->mute)
+	{
+		snakehiss.setVolume(0);
+		snakehit.setVolume(0);
+	}
+
+	snakehiss.setVolume(0); // muted for annoyance
 }
 
 void Boss3::Cleanup()
@@ -251,6 +262,8 @@ void Boss3::Update(Engine * game, double dt)
 			{
 				//////// return to previous scene /////////
 				////////// score and high score ///////////
+				if (INVI("boss3Complete") == 0) INVI("boss3Complete") = 1;
+
 				_fullScreen = true;
 				game->fullScreen.reset(FloatRect(0, 0, game->width, game->height));
 				textBox.turnOff();
@@ -418,6 +431,8 @@ void Boss3::Draw(sf::RenderWindow * app)
 	app->draw(scoreToText);
 	app->draw(topScoreText);
 
+	// uncomment section to see grid
+	// for debugging purposes
 	/************************ TESTING ZONE **************************
 	CircleShape test(5);
 	test.setOrigin(test.getRadius(), test.getRadius());
