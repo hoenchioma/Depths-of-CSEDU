@@ -58,8 +58,8 @@ private:
 	Door door2;
 
 	sf::Texture coinSpriteSheet;
-	sf::SoundBuffer sound;
-	Coin coins[20];
+	sf::SoundBuffer coinSoundBuff;
+	Coin coins[40];
 	int coinCollected = 0;
 
 	Balcony balcony;
@@ -75,4 +75,7 @@ private:
 	InvShow invShow;
 
 	Engine* game;
+
+	// game successfully completed the game
+	bool endGame = false;
 };

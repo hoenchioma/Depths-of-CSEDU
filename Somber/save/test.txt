@@ -1,0 +1,17 @@
+14 2
+bandage 0
+boss1Complete 0
+boss2Complete 0
+boss3Complete 0
+floor 0
+healthBoost 0
+invincible 0
+keys 0
+phase 2
+reLife 0
+save 1
+snek 0
+speed 2
+timeFreeze 1
+locationX 1288.2
+locationY 925.137

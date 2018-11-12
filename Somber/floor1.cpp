@@ -4,15 +4,22 @@
 #include "Boss1.h"
 #include "Boss2.h"
 
+#include "DefaultInv.h"
+#include "Floor2.h"
+#include "Boss3.h"
+#include "PauseMenu.h"
+
 #include <iostream>
+
 
 using namespace sf;
 using namespace std;
 
-const float wallOffSetX = 30;
-const float wallOffSetY = 66;
-const float revOffSetX = 11;
-const float revOffSetY = 10;
+#define WALL_OFFSET_X 30 // thickness of wall on the left side (X)
+#define WALL_OFFSET_Y 66 // thickness of wall on the left side (Y)
+#define REV_OFFSET_X 11 // thickness of wall on the right side (X)
+#define REV_OFFSET_Y 10 // thickness of wall on the right side (Y)
+#define WALL_OPENING_Y 700 // co-oridinate (Y) where there is an opening in the wall
 
 void Floor1::LoadRes()
 {
@@ -28,7 +35,7 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load coin texture" << endl;
 	}
-	if (!sound.loadFromFile("res/Sounds/coins.wav"))
+	if (!coinSoundBuff.loadFromFile("res/Sounds/coins.wav"))
 	{
 		cerr << "can't load coin sound" << endl;
 	}
@@ -36,6 +43,7 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load door texture" << endl;
 	}
+
 	if (!balconyTop.loadFromFile("res/Balcony_new_top.png"))
 	{
 		cerr << "can't load balcony top texture" << endl;
@@ -44,7 +52,10 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load balcony bottom texture" << endl;
 	}
-	loadFromFile(balconyUnder, "res/Balcony_new_under_black.png");
+	if (!balconyUnder.loadFromFile("res/Balcony_new_under_black.png"))
+	{
+		cerr << "can't load balcony under texture" << endl;
+	}
 
 
 	loadFromFile(textBoxFont, "res/Font/PressStart2P.ttf");
@@ -59,7 +70,7 @@ void Floor1::Init(Engine* game)
 
 	this->game = game;
 
-	////////////////// textbox and inv //////////////////////
+	////////////////// textbox and inventory //////////////////////
 	game->miniMapOn = true;
 	game->miniMap.reset(sf::FloatRect(0, 0, game->width, game->height));
 	// inventory
@@ -73,8 +84,6 @@ void Floor1::Init(Engine* game)
 	invShow.Init(game);
 
 	textBox.Init(game, textBoxFont);
-	//textBox.addTextTyped("Escape the snake.\n\nIf you can....\n\nCollect poison apples to hurt the snake");
-	///////////////////////////////////////////////////////////
 	
 	////////////// main character ////////////////////
 	mainChar.Init(spriteSheet, 0.1f, 300.f);
@@ -114,8 +123,8 @@ void Floor1::Init(Engine* game)
 		balconyBottom, 
 		balconyUnder, 
 		Vector2f(
-			game->width / 2.f + wallOffSetX + 20.f, 
-			game->height / 2.f + wallOffSetY + 85.f
+			game->width / 2.f + WALL_OFFSET_X + 20.f, 
+			game->height / 2.f + WALL_OFFSET_Y + 85.f
 		)
 	);
 	balcony.setScale(1.25f);
@@ -132,14 +141,15 @@ void Floor1::Init(Engine* game)
 		do
 		{
 			coin.setPosition(
-				wallOffSetX + rand() % (int)(background.getGlobalBounds().width - wallOffSetX - revOffSetX - coin.getSize().x),
-				wallOffSetY + rand() % (int)(background.getGlobalBounds().height - wallOffSetY - revOffSetY - coin.getSize().y)
+				WALL_OFFSET_X + rand() % (int)(background.getGlobalBounds().width - WALL_OFFSET_X - REV_OFFSET_X - coin.getSize().x),
+				WALL_OFFSET_Y + rand() % (int)(background.getGlobalBounds().height - WALL_OFFSET_Y - REV_OFFSET_Y - coin.getSize().y)
 			);
 		} while (Polygon(coin.getGlobalBounds()).intersects(balcony.getPoly()));
 		// randomly generate coins until it spawns outside the balcony region
 
-		coin.setSound(sound);
+		coin.setSound(coinSoundBuff);
 		coin.getSound().setVolume(30);
+		if (game->mute) coin.getSound().setVolume(0);
 	}
 
 	/////////////// dark effect /////////////////////////
@@ -150,6 +160,13 @@ void Floor1::Init(Engine* game)
 	background.setColor(Color(light, light, light));
 	balcony.setBrightness(light);
 	///for (auto& coin : coins) coin.setColor(Color(light, light, light));
+
+	/////////////////////// loading from saved game /////////////////////
+	if (INVI("save") == 1) mainChar.setPosition(INVD("locationX"), INVD("locationY"));
+	game->gameView.setCenter(mainChar.getPosition());
+
+	if (INVI("boss1Complete") == 1) door.open();
+	if (INVI("boss2Complete") == 1) door2.open();
 
 	cout << "floor1 scene initialized" << endl;
 }
@@ -192,25 +209,40 @@ void Floor1::HandleEvents(Engine * game, Event * event)
 	{
 		switch (event->key.code)
 		{
-		case Keyboard::Escape:
-			togglePause();
-			break;
 		case Keyboard::E:
+
 			if (mainChar.getGlobalBounds().intersects(door.getGlobalBounds()))
 			{
-				cout << "door Opened" << endl;
 				door.open();
 			}
 			if (mainChar.getGlobalBounds().intersects(door2.getGlobalBounds()))
 			{
-				cout << "door 2 Opened" << endl;
-				door2.open();
+				if (INVI("keys") == 0) textBox.setText("The door is locked.");
+				else
+				{
+					door2.open();
+					INVI("keys")--;
+				}
 			}
-			break;
+			
+		break;
+
+		case Keyboard::Space:
+
+			// save everything before going to pause menu screen
+			INVD("locationX") = mainChar.getPosition().x;
+			INVD("locationY") = mainChar.getPosition().y;
+			if (door.DoorState == Door::state::OPEN) INVI("boss1Complete") = 1;
+			if (door2.DoorState == Door::state::OPEN) INVI("boss2Complete") = 1;
+			pushScene(game, PauseMenu::getInstance());
+
+		break;
+
 		default:
 			break;
 		}
 	}
+
 	textBox.handleEvent(event);
 }
 
@@ -224,14 +256,47 @@ void Floor1::Update(Engine * game, double dt)
 		// Key press & release handle, character movement
 		mainChar.keyHandle();
 
+		//cout << mainChar.getPosition().x << " " << mainChar.getPosition().y << endl;
+
+		// goto Boss3
+		if (mainChar.intersects(FloatRect(0, 700, 10, 200)))
+		{
+			if (INVI("keys") or INVI("snek"))
+			{
+				if (!INVI("snek")) INVI("keys")--;
+				INVI("snek") = 1;
+				pushScene(game, Boss3::getInstance());
+				mainChar.setDirec(RIGHT);
+				mainChar.setPosition(70, 750);
+				enteringdoor = true;
+				//game->gameView.setCenter(mainChar.getPosition());
+			}
+			else
+			{
+				textBox.setText("You need a key!!\n");
+			}
+		}
+		else textBox.setText("");
+
 		// so that the character sprite cannot go out of bounds
 		// when the player tries to go out of bounds setPosition s to the boundary point
-		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < wallOffSetX - 10)
-			mainChar.setPosition(wallOffSetX - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
-		if (mainChar.getPosition().x > background.getGlobalBounds().width - revOffSetX)
-			mainChar.setPosition(background.getGlobalBounds().width - revOffSetX, mainChar.getPosition().y);
-		if (mainChar.getPosition().y > background.getGlobalBounds().height - revOffSetY)
-			mainChar.setPosition(mainChar.getPosition().x, background.getGlobalBounds().height - revOffSetY);
+		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < WALL_OFFSET_X - 10)
+		{
+			if (mainChar.getPosition().y > WALL_OPENING_Y)
+			{
+				if (INVI("keys") == 0)
+				{
+					textBox.setText("You need a key");
+					mainChar.setPosition(WALL_OFFSET_X - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
+				}
+				else {} // entering boss3 is handled above
+			}
+			else mainChar.setPosition(WALL_OFFSET_X - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
+		}
+		if (mainChar.getPosition().x > background.getGlobalBounds().width - REV_OFFSET_X)
+			mainChar.setPosition(background.getGlobalBounds().width - REV_OFFSET_X, mainChar.getPosition().y);
+		if (mainChar.getPosition().y > background.getGlobalBounds().height - REV_OFFSET_Y)
+			mainChar.setPosition(mainChar.getPosition().x, background.getGlobalBounds().height - REV_OFFSET_Y);
 
 		////////////////// door Logic /////////////////////
 		// special case logic for Door
@@ -243,11 +308,14 @@ void Floor1::Update(Engine * game, double dt)
 
 		if (intersection)
 		{
+			//textBox.setText("The door is locked.");
 			if (door.DoorState == Door::state::CLOSED)
 			{
-				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-					mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < WALL_OFFSET_Y + 40)
+					mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y + 40 - mainChar.getSize().y / 2);
 				// 40 so that the character can partially enter the wall for a pseudo 3d effect
+
+				textBox.setText("Press 'E' to open the door.");
 			}
 			if (mainChar.getPosition().y < 50)
 			{
@@ -255,7 +323,7 @@ void Floor1::Update(Engine * game, double dt)
 				pushScene(game, Boss1::getInstance());
 				enteringdoor = true;
 				//sets position outside Door to prevent instant re-entry
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY);
+				mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y);
 				//changes the direction downward for when the player returns to scene
 				mainChar.setDirec(Direction::DOWN);
 			}
@@ -264,25 +332,32 @@ void Floor1::Update(Engine * game, double dt)
 		{
 			if (door2.DoorState == Door::state::CLOSED)
 			{
-				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-					mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < WALL_OFFSET_Y + 40)
+					mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y + 40 - mainChar.getSize().y / 2);
 				// 40 so that the character can partially enter the wall for a pseudo 3d effect
+
+				// show door is locked if they don't have key
+				if (!INVI("boss2Complete")) textBox.setText("The door is locked.");
+				else textBox.setText("Press 'E' to open the door.");
+
+				if (INVI("keys") == 1) textBox.addText("\n\nPress 'E' to unlock the door");
 			}
 			if (mainChar.getPosition().y < 50)
 			{
-				///////// scene change /////////////
+				/////////// scene change /////////////
 				pushScene(game, Boss2::getInstance());
 				enteringdoor = true;
 				//sets position outside Door to prevent instant re-entry
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY);
+				mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y);
 				//changes the direction downward for when the player returns to scene
 				mainChar.setDirec(Direction::DOWN);
 			}
 		}
 		else
 		{
-			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+			//textBox.setText("");
+			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < WALL_OFFSET_Y + 40)
+				mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y + 40 - mainChar.getSize().y / 2);
 			// 40 so that the character can partially enter the wall for a pseudo 3d effect
 		}
 		
@@ -291,7 +366,18 @@ void Floor1::Update(Engine * game, double dt)
 
 		///////////////// View Logic /////////////////////
 		// so that camera/view doesn't go out of bounds
-		centreView(game->gameView, mainChar.getPosition(), background.getGlobalBounds());
+
+		/*centreView(game->gameView, mainChar.getPosition(), background.getGlobalBounds());*/
+
+		smartCentre(
+			game->gameView, 
+			mainChar.getPosition(), 
+			Vector2f(game->width, game->height), 
+			Vector2f(
+				background.getGlobalBounds().width,
+				background.getGlobalBounds().height
+			)
+		);
 
 		////////////// Coin Logic //////////////////////
 		for (auto& coin : coins)
@@ -299,8 +385,26 @@ void Floor1::Update(Engine * game, double dt)
 			if (coin.collected(mainChar))
 			{
 				coinCollected++;
+				if (coinCollected % 5 == 0)
+				{
+					// unlocks random perk
+					INVI(perkName[rand() % perkName.size()])++;
+				}
 				// sets the coins way outside the screen
 			}
+		}
+
+		/////////////// has successfully completed the game////////////////
+		if (INVI("boss3Complete") == 1 && !endGame)
+		{
+			//cout << "EndGame" << endl;
+			textBox.turnOn();
+			textBox.addTextTyped(
+				"You have successfully completed this journey. \n\n \
+				You are free to go.\n\n \
+				Or you may stay and enjoy my contraptions a little more ;)"
+			);
+			endGame = true;
 		}
 
 		textBox.update();
@@ -315,6 +419,7 @@ void Floor1::Draw(RenderWindow * app)
 	door.drawTo(app);
 	door2.drawTo(app);
 
+	// draw bottom below and top above character for a pseudo 3d effect
 	balcony.drawBottom(app);
 	if (!enteringdoor) mainChar.drawTo(app);
 	for (auto& coin : coins) coin.drawTo(app);

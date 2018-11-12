@@ -9,8 +9,8 @@
 using namespace sf;
 using namespace std;
 
-const float wallOffSetX = 30;
-const float wallOffSetY = 66;
+const float WALL_OFFSET_X = 30;
+const float WALL_OFFSET_Y = 66;
 const float revOffSetX = 11;
 const float revOffSetY = 10;
 
@@ -59,7 +59,7 @@ void Floor2::Init(Engine* game)
 	mainChar.setScale(1.4f, 1.4f);
 	mainChar.dontIntersect(sf::FloatRect(393,0,1000, 320));
 	//mainChar.setPosition(game->width / 2.f, game->height / 2.f);
-	mainChar.setPosition(0, 0);
+	mainChar.setPosition(50, 820);
 	mainChar.dontIntersect(&balcony.getPoly());
 	///mainChar.setPosition(0, 0);
 
@@ -92,8 +92,8 @@ void Floor2::Init(Engine* game)
 		balconyBottom,
 		balconyUnder,
 		Vector2f(
-			game->width / 2.f + wallOffSetX + 20.f,
-			game->height / 2.f + wallOffSetY + 250.f
+			game->width / 2.f + WALL_OFFSET_X + 20.f,
+			game->height / 2.f + WALL_OFFSET_Y + 250.f
 		)
 	);
 	balcony.setScale(1.f);
@@ -188,8 +188,8 @@ void Floor2::Update(Engine * game, double dt)
 
 		// so that the character sprite cannot go out of bounds
 		// when the player tries to go out of bounds setPosition s to the boundary point
-		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < wallOffSetX - 10)
-			mainChar.setPosition(wallOffSetX - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
+		if (mainChar.getPosition().x - mainChar.getSize().x / 2 < WALL_OFFSET_X - 10)
+			mainChar.setPosition(WALL_OFFSET_X - 10 + mainChar.getSize().x / 2, mainChar.getPosition().y);
 		if (mainChar.getPosition().x > background.getGlobalBounds().width - revOffSetX)
 			mainChar.setPosition(background.getGlobalBounds().width - revOffSetX, mainChar.getPosition().y);
 		if (mainChar.getPosition().y > background.getGlobalBounds().height - revOffSetY)
@@ -206,8 +206,8 @@ void Floor2::Update(Engine * game, double dt)
 		{
 			if (door.DoorState == Door::state::CLOSED)
 			{
-				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-					mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+				if (mainChar.getPosition().y + mainChar.getSize().y / 2 < WALL_OFFSET_Y + 40)
+					mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y + 40 - mainChar.getSize().y / 2);
 				// 40 so that the character can partially enter the wall for a pseudo 3d effect
 			}
 			if (mainChar.getPosition().y < 50)
@@ -216,7 +216,7 @@ void Floor2::Update(Engine * game, double dt)
 				pushScene(game, Boss1::getInstance());
 				enteringdoor = true;
 				//sets position outside Door to prevent instant re-entry
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY);
+				mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y);
 				//changes the direction downward for when the player returns to scene
 				mainChar.setDirec(Direction::DOWN);
 			}
@@ -224,8 +224,8 @@ void Floor2::Update(Engine * game, double dt)
 
 		else
 		{
-			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < wallOffSetY + 40)
-				mainChar.setPosition(mainChar.getPosition().x, wallOffSetY + 40 - mainChar.getSize().y / 2);
+			if (mainChar.getPosition().y + mainChar.getSize().y / 2 < WALL_OFFSET_Y + 40)
+				mainChar.setPosition(mainChar.getPosition().x, WALL_OFFSET_Y + 40 - mainChar.getSize().y / 2);
 			// 40 so that the character can partially enter the wall for a pseudo 3d effect
 		}
 
