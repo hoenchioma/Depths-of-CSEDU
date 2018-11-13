@@ -71,4 +71,4 @@ sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-network.lib;sfml-audio.li
     -	Mini-map
     
 ### Gameplay
-Youtube video: [link] (https://youtu.be/coCe4rCoKEU)
+Youtube video: [link](https://youtu.be/coCe4rCoKEU)
