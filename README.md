@@ -10,7 +10,7 @@ This is an academic group project of the course CSE-1211 for 1st year 2nd semest
 
 ## Abstract/Summary
 The project is an adventure based top view role playing game.
-The game is a slightly different take on the classic adventure role playing games. The premise, the main character played as a university student gets trapped within the compounds of his university. While trying to escape, he soon discovers that his department isn’t the same at night. There are locked rooms and unknown stairways which lead to the depths of the building. Now, he must cross it all and escape. The player would have to wander and find "keys". Often, in order to unlock keys there will be puzzles and enemies to defeat. Each key unlocks a new region. Coins are scattered around the map which can be used to gain special abilities and discover hidden secrets. If all the keys are collected and the final level is completed, the player can leave the department premises. Or, he can replay all the levels again. This report discusses the game overview, including the project features, how the game is implemented by the developers and the programming functions and libraries used in the process.
+The game is a slightly different take on the classic adventure role playing games. The premise, the main character played as a university student gets trapped within the compounds of his university. While trying to escape, he soon discovers that his department isn’t the same at night. There are locked rooms and unknown stairways which lead to the depths of the building. Now, he must cross it all and escape. The player would have to wander and find "keys". Often, in order to unlock keys there will be puzzles and enemies to defeat. Each key unlocks a new region. Coins are scattered around the map which can be used to gain special abilities and discover hidden secrets. If all the keys are collected and the final level is completed, the player can leave the department premises. Or, he can replay all the levels again.
 
 ### Prerequisites
 1. SFML 2.5.0 (for Visual Studio 2017, 32 bit) [link](https://www.sfml-dev.org/download/sfml/2.5.0/)
@@ -61,7 +61,7 @@ sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-network.lib;sfml-audio.li
         -	Walls
         -	Maze
 4.	Menus
-   -	Main menu
+    -	Main menu
     -	Options menu
     -	Pause menu
 5.	Side
@@ -69,3 +69,6 @@ sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-network.lib;sfml-audio.li
     -	Restart menu
     -	Inventory (interface)
     -	Mini-map
+    
+### Gameplay
+Youtube video: [link] (https://youtu.be/coCe4rCoKEU)
