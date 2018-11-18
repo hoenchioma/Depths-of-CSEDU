@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "TimeText.h"
 
+#include "EngineX/CompResolve.h"
+
 
 TimeText::TimeText()
 {
