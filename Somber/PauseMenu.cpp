@@ -21,7 +21,7 @@ void PauseMenu::LoadRes()
 	loadFromFile(QuitButton,"res/Main Menu/QuitButton.png");
 	loadFromFile(QuitButtonAc,"res/Main Menu/QuitButtonAc.png");
 	loadFromFile(Background,"res/Main Menu/Background.png");
-	PauseMenuSound.openFromFile("res/Main Menu/Sounds/MainMenuAudio.wav");
+	PauseMenuSound.openFromFile("res/Main Menu/Sounds/mainMenuAudio.wav");
 	// load resources
 }
 

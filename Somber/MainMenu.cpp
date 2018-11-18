@@ -5,6 +5,8 @@
 #include "OptionMenu.h"
 #include "Boss3.h"
 
+#include <fstream>
+
 using namespace sf;
 using namespace std;
 

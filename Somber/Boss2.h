@@ -5,7 +5,7 @@
 #include <SFML/Audio.hpp>
 
 #include "EngineX/Scene.h"
-#include "EngineX/Anisprite.h"
+#include "EngineX/AniSprite.h"
 
 #include <vector>
 #include <cmath>

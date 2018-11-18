@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "EngineX/EngineX.h"
+
 class Undead
 {
 public:

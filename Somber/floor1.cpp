@@ -27,7 +27,7 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load main character sprite texture" << endl;
 	}
-	if (!backgroundImage.loadFromFile("res/Floor1_back_2.png"))
+	if (!backgroundImage.loadFromFile("res/floor1_back_2.png"))
 	{
 		cerr << "can't load background texture" << endl;
 	}
@@ -39,7 +39,7 @@ void Floor1::LoadRes()
 	{
 		cerr << "can't load coin sound" << endl;
 	}
-	if (!DoorImage.loadFromFile("res/Door.png"))
+	if (!DoorImage.loadFromFile("res/door.png"))
 	{
 		cerr << "can't load door texture" << endl;
 	}

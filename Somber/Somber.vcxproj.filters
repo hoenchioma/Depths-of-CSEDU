@@ -201,6 +201,9 @@
     <ClInclude Include="Floor2.h">
       <Filter>Header Files\Floor2</Filter>
     </ClInclude>
+    <ClInclude Include="EngineX\CompResolve.h">
+      <Filter>Header Files\EngineX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -226,9 +229,6 @@
     </ClCompile>
     <ClCompile Include="Floor1.cpp">
       <Filter>Source Files\Floor1</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss1.cpp">
-      <Filter>Source Files\Boss1</Filter>
     </ClCompile>
     <ClCompile Include="Boss2.cpp">
       <Filter>Source Files\Boss2</Filter>
@@ -283,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="Floor2.cpp">
       <Filter>Source Files\Floor2</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss1.cpp">
+      <Filter>Source Files\Boss1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

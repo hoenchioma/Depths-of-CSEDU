@@ -178,6 +178,7 @@
     <ClInclude Include="DefaultInv.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EngineX\AniSprite.h" />
+    <ClInclude Include="EngineX\CompResolve.h" />
     <ClInclude Include="EngineX\eClock.h" />
     <ClInclude Include="EngineX\Engine.h" />
     <ClInclude Include="EngineX\EngineX.h" />

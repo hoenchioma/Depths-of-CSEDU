@@ -32,7 +32,7 @@ void Floor2::LoadRes()
 	{
 		cerr << "can't load coin sound" << endl;
 	}
-	if (!DoorImage.loadFromFile("res/Door.png"))
+	if (!DoorImage.loadFromFile("res/door.png"))
 	{
 		cerr << "can't load door texture" << endl;
 	}
