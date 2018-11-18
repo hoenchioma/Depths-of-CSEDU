@@ -1,5 +1,6 @@
 #include "Boss2.h"
 
+#include "EngineX/CompResolve.h"
 #include "EngineX/Utility.h"
 
 #include <iostream>
@@ -454,8 +455,7 @@ void Boss2::Update(Engine * game, double dt)
 				else topScoreText.setPosition(400, 300);																		//if score is not high score then shows highest score on screen
 				fileClose = 1;
 
-				if (Keyboard::isKeyPressed(Keyboard::Enter))
-					popScene(game);
+				if (Keyboard::isKeyPressed(ENTER_KEY)) popScene(game);
 
 				if (!oonce)
 				{

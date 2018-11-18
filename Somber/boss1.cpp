@@ -1,5 +1,6 @@
 #include "Boss1.h"
 
+#include "EngineX/CompResolve.h"
 #include "EngineX/Utility.h"
 
 #include <iostream>
@@ -539,7 +540,7 @@ void Boss1::Update(Engine * game, double dt)
 					INVI("keys")++;
 					once = true;
 				}
-				if(Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
+				if(Keyboard::isKeyPressed(ENTER_KEY)) popScene(game);
 			}
 		}
 

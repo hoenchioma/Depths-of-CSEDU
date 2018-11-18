@@ -1,6 +1,9 @@
 #include "Boss3.h"
 
 #include "DefaultInv.h"
+#include "EngineX/CompResolve.h"
+
+#include <fstream>
 
 using namespace std;
 using namespace sf;
@@ -402,7 +405,7 @@ void Boss3::Update(Engine * game, double dt)
 			snakehiss.play();
 		}
 	}
-	if (GameOver && Keyboard::isKeyPressed(Keyboard::Enter)) popScene(game);
+	if (GameOver && Keyboard::isKeyPressed(ENTER_KEY)) popScene(game);
 }
 
 void Boss3::Draw(sf::RenderWindow * app)
