@@ -1,6 +1,7 @@
 #ifndef PCH_H
 #define PCH_H
 
+
 // only include if the compiler is GCC
 #if (defined(__GNUC__) || defined(__GNUG__)) && !(defined(__clang__) || defined(__INTEL_COMPILER))
 	#include <bits/stdc++.h>
@@ -11,6 +12,5 @@
 
 #include "EngineX/EngineX.h"
 
-// TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H
