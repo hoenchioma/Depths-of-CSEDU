@@ -43,7 +43,7 @@ void TimeText::update()
 	int mins = totalSecs / 60;
 	int secs = totalSecs % 60;
 
-	sprintf_s(str, "TIME: %02d:%02d", mins, secs);
+	sprintf(str, "TIME: %02d:%02d", mins, secs);
 	text.setString(str);
 }
 

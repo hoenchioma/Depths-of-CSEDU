@@ -13,7 +13,7 @@
 #define ENTER_KEY sf::Keyboard::Return
 #endif
 
-// support for not MSVC compilers
-#ifndef WIN32
-#define sprintf_s sprintf
+// changes sprintf for MSVC compiler
+#ifdef _MSC_VER
+#define sprintf sprintf_s
 #endif

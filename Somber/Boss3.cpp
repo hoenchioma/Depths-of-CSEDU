@@ -302,7 +302,7 @@ void Boss3::Update(Engine * game, double dt)
 				if (!newHighScore)
 				{
 					char strrr[50];
-					sprintf_s(strrr, "TOP TIME: %02d:%02d", savedScoreTime / 60, savedScoreTime % 60);
+					sprintf(strrr, "TOP TIME: %02d:%02d", savedScoreTime / 60, savedScoreTime % 60);
 					topScoreText.setString(strrr);
 				}
 
