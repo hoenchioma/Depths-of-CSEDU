@@ -52,7 +52,7 @@ For installing SFML and TGUI execute the following commands on a terminal
 ```
 sudo apt-get install libsfml-dev
 ```
-(Ubuntu 15.10 or higher)
+(Ubuntu 15.10 or lower)
 ```
 sudo add-apt-repository ppa:texus/tgui-0.7
 sudo apt-get update
