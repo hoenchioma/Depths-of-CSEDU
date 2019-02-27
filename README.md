@@ -89,36 +89,36 @@ Alternatively you can copy the resource folders (`res`, `save` & `extra`) to the
 
 ## Modules
 1.	Engine (game engine)
-    -	Core (state manager)
-    -	Animated sprite (animation class)
-    -	Polygon (for SAT collision detection)
-    -	Inventory (storing and saving inventory)
-    -	Utility (miscellaneous functions)
+    -	[Core](Somber/EngineX/Engine.h) (state manager)
+    -	[Animated sprite](Somber/EngineX/AniSprite.h) (animation class)
+    -	[Polygon](Somber/EngineX/Polygon.h) (for SAT collision detection)
+    -	[Inventory](Somber/EngineX/Inventory.h) (storing and saving inventory)
+    -	[Utility](Somber/EngineX/Utility.h) (miscellaneous functions)
 2.	Floor 1
-    -	Balcony
-    -	Coin
-    -	Door
+    -	[Balcony](Somber/Balcony.h)
+    -	[Coin](Somber/Coin.h)
+    -	[Door](Somber/Door.h)
 3.	Levels
     -	Boss 1
-        -	Spotlight
-        -	Fuses
+        -	[Spotlight](Somber/Spotlight.h)
+        -	[Fuses](Somber/FuseInfo.h)
     -	Boss 2
-        -	Bullet
-        -	Player
-        -	Undead
+        -	[Bullet](Somber/Bullet.h)
+        -	[Player](Somber/Player.h)
+        -	[Undead](Somber/Undead.h)
     -	Boss 3
-        -	Grid
-        -	Snake
-        -	Walls
-        -	Maze
+        -	[Grid](Somber/Undead.h)
+        -	[Snake](Somber/Snake.h)
+        -	[Walls](Somber/Walls.h)
+        -	[Maze](Somber/Maze.h)
 4.	Menus
-    -	Main menu
-    -	Options menu
-    -	Pause menu
+    -	[Main menu](Somber/MainMenu.h)
+    -	[Options menu](Somber/OptionMenu.h)
+    -	[Pause menu](Somber/PauseMenu.h)
 5.	Side
-    -	Text box
-    -	Restart menu
-    -	Inventory (interface)
+    -	[Text box](Somber/TextBox.h)
+    -	[Restart menu](Somber/RestartMenu.h)
+    -	[Inventory (interface)](Somber/InvShow.h)
     -	Mini-map
     
 ### Gameplay
